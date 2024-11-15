@@ -69,3 +69,19 @@ Answer:
 ```
 const doubleChar = (str) => str.split("").map(c => c + c).join("");
 ```
+
+# Remove exclamation marks
+Write function RemoveExclamationMarks which removes all exclamation marks from a given string.
+
+Answer:
+```
+function removeExclamationMarks(s) {
+  return s.split('!').join('');
+}
+```
+Another solution:
+```
+function removeExclamationMarks(s) {
+  return s.replace(/!/g, '');
+}
+```
