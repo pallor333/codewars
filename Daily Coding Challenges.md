@@ -104,3 +104,17 @@ function reverseWords(str) {
 - str.split(' ') creates an array based on splitting based on each space. "The quick brown fox jumped over the moon." turns into ["The", "quick", "brown", "fox", "jumped", "over", "the", "moon."]
 
 - Map allows us to call a function on each element of the newly formed array. Then on each word in the array, we split by letter, with split(''), reverse the order in the arrays with reverse() and then join the letters back into words with join(''). Finally we add a .join(' ') method after the map() to combine every word in the array into a string, adding a space after each word.
+
+# Convert String to Array
+Write a function to split a string and convert it into an array of words.
+### Examples (Input ==> Output):
+
+```
+"Robin Singh" ==> ["Robin", "Singh"]
+
+"I love arrays they are my favorite" ==> ["I", "love", "arrays", "they", "are", "my", "favorite"]
+```
+Answer:
+```
+const stringToArray = string => string.split(" ");
+```
