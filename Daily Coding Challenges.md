@@ -137,3 +137,77 @@ function findNextSquare(sq){
 }
 ```
 Math(sq)%1 is truthy/falsy. When it's not an integer it equals some number (e.g. 32.4893), which is truthy. When it is an integer the remainder is 0 which is falsy. Overall an elegant way to solve this problem. The only issue is that we're calling math.sqrt() twice. Is it more efficient to declare a variable to use?
+# Count the smiley faces!
+Given an array (arr) as an argument complete the function countSmileys that should return the total number of smiling faces.
+
+Rules for a smiling face:
+- Each smiley face must contain a valid pair of eyes. Eyes can be marked as : or ;
+- A smiley face can have a nose but it does not have to. Valid characters for a nose are - or ~
+- Every smiling face must have a smiling mouth that should be marked with either ) or D
+No additional characters are allowed except for those mentioned.
+
+Valid smiley face examples: :) :D ;-D :~)
+Invalid smiley faces: ;( :> :} :]
+
+Example:
+countSmileys([':)', ';(', ';}', ':-D']);       // should return 2;
+countSmileys([';D', ':-(', ':-)', ';~)']);     // should return 3;
+countSmileys([';]', ':[', ';*', ':$', ';-D']); // should return 1;
+
+Note:
+In case of an empty array return 0. You will not be tested with invalid input (input will always be an array). Order of the face (eyes, nose, mouth) elements will always be the same.
+
+Answer:
+```
+function countSmileys(arr) { 
+  let countSmiles = 0;
+  
+  arr.forEach(smile =>{
+    if(smile[0]  === ':' || smile[0]  === ';'){ //check eyes
+      if(smile.length === 2){ //No nose, check mouth only
+        smile[1] === ')' || smile[1] === 'D' ? countSmiles++ : null;
+       }else{ //Check nose and mouth
+          smile[1] === '-' || smile[1] === '~' ? 
+          smile[2] === ')' || smile[2] === 'D' ? countSmiles++ : null : null;
+       }
+    }      
+  })
+  return countSmiles;
+}
+```
+Program logic: Define counter to return later. Iterate over array looking at valid eyes. If valid eyes found, then check for length to determine if there is a nose. If no nose, check for mouth and if there is a mouth then increment the counter. Else statement is reached when there is a nose. Check for valid nose AND mouth and if this is true then increment counter. 
+Ternary conditional operator can be chained to nest if statements to ensure readability and write more concise code. 
+
+Another Answer:
+```
+
+const smileyIsValid = smiley => 
+  smiley.length === 3 || smiley.length === 2
+
+const smileyHasValidEye = smiley => {
+  const maybeEye = smiley.charAt(0)
+  return maybeEye === ':' || maybeEye === ';'
+}
+
+const smileyHasNose = smiley =>
+  smiley.length === 3
+
+const smileyHasValidNose = smiley => {
+  const maybeNose = smiley.charAt(1)
+  return smileyHasNose(smiley) ? maybeNose === '-' || maybeNose === '~' : true
+}
+
+const smileyHasValidMouth = smiley => {
+  const maybeMouth = smileyHasNose(smiley) ? smiley.charAt(2) : smiley.charAt(1)
+  return maybeMouth === ')' || maybeMouth === 'D'
+}
+
+//return the total number of smiling faces in the array
+const countSmileys = smileys => 
+  smileys.filter(smiley => 
+    smileyIsValid(smiley) &&
+    smileyHasValidEye(smiley) &&
+    smileyHasValidNose(smiley) &&
+    smileyHasValidMouth(smiley)
+  ).length
+```
