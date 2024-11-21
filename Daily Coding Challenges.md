@@ -242,3 +242,53 @@ function numberToString(num) {
   return num.toString();
 }
 ```
+# Beginner Series #3 Sum of Numbers
+Given two integers `a` and `b`, which can be positive or negative, find the sum of all the integers between and including them and return it. If the two numbers are equal return `a` or `b`.
+**Note:** `a` and `b` are not ordered!
+## Examples (a, b) --> output (explanation)
+
+```
+(1, 0) --> 1 (1 + 0 = 1)
+(1, 2) --> 3 (1 + 2 = 3)
+(0, 1) --> 1 (0 + 1 = 1)
+(1, 1) --> 1 (1 since both are same)
+(-1, 0) --> -1 (-1 + 0 = -1)
+(-1, 2) --> 2 (-1 + 0 + 1 + 2 = 2)
+```
+Your function should only return a number, not the explanation about how you get that number.
+
+My answer:
+```
+function getSum(a, b){
+  if(a===b){
+    return a;
+  }
+  //Sort a,b and place into new array
+  let arr = [a, b].sort((a, b) => a - b);
+  //Using array, run a for loop to add all numbers between a,b
+  for(let i = arr[0]+1; i < arr[1]; i++){
+     arr.push(i);
+   }
+  //Return the sum of all values
+  return arr.reduce((accumulator, item) => accumulator + item, 0);
+}
+```
+
+Better answer:
+```
+const GetSum = (a, b) => {
+  let min = Math.min(a, b),
+      max = Math.max(a, b);
+  return (max - min + 1) * (min + max) / 2;
+}
+```
+Uses Gauss Summation: n(n+1)/2 where n is the largest number of the values you want to sum. 
+
+Even better answer:
+```
+function GetSum(a,b)
+{
+  return (Math.abs(a - b) + 1) * (a+b) / 2;
+}
+```
+This gets around having to figure out the min/max by using Math.abs(). 
