@@ -224,3 +224,21 @@ function isPangram(string){
 }
 ```
 A set data structure is created. A set can only have one of each character in it at a time. First the string is set to lower case and then it is filtered with regex - /[a-z]/ specifies only lowercase a to z while the 'g' after ensures the string is checked globally. Once all the alphabetical chars are added, the size of the set is compared to 26. If it's 26 then every letter of the alphabet is used and it is a Pangram and will return true.
+# Convert num to string
+We need a function that can transform a number (integer) into a string.
+
+What ways of achieving this do you know?
+
+#### Examples (input --> output):
+
+```
+123  --> "123"
+999  --> "999"
+-100 --> "-100"
+```
+Answer:
+```
+function numberToString(num) {
+  return num.toString();
+}
+```
