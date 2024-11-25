@@ -331,3 +331,28 @@ function rentalCarCost(d) {
   d >= 7 ? d*dailyFee - sevenOrMoreDiscount : d*dailyFee
 }
 ```
+# Removing Elements
+Take an array and remove every second element from the array. Always keep the first element and start removing with the next element.
+### Example:
+
+`["Keep", "Remove", "Keep", "Remove", "Keep", ...]` --> `["Keep", "Keep", "Keep", ...]`
+
+None of the arrays will be empty, so you don't have to worry about that!
+
+Answer:
+```
+function removeEveryOther(arr){
+  return arr.filter(function(elem, index) {
+    return index % 2 === 0;
+  });
+}
+```
+
+Filter will iterate over the array and return values that make it true. We include the index as a way to check for every other element to return.
+
+Refactored answer:
+```
+function removeEveryOther(arr){
+  return arr.filter((element, index) => index % 2 === 0);
+}
+```
