@@ -389,3 +389,68 @@ function duplicateCount(text){
   return dupesArr.length;
 }
 ```
+
+# Two Sum
+Write a function that takes an array of numbers (integers for the tests) and a target number. It should find two different items in the array that, when added together, give the target value. The indices of these items should then be returned in a tuple / list (depending on your language) like so: `(index1, index2)`.
+
+For the purposes of this kata, some tests may have multiple answers; any valid solutions will be accepted.
+
+The input will always be valid (numbers will be an array of length 2 or greater, and all of the items will be numbers; target will always be the sum of two different items from that array).
+
+Based on: [https://leetcode.com/problems/two-sum/](https://leetcode.com/problems/two-sum/)
+
+```javascript
+twoSum([1, 2, 3], 4) // returns [0, 2] or [2, 0]
+twoSum([3, 2, 4], 6) // returns [1, 2] or [2, 1]
+```
+
+My Answer:
+```
+function twoSum(numbers, target) {
+    for(let i = 0; i < numbers.length-1; i++){
+      for(let j = i+1; j < numbers.length; j++){
+        if(numbers[i] + numbers[j] === target){
+          return [i, j];
+        }
+      }
+    }
+}
+```
+Not very efficient. O(n^2) run time.
+
+**A better answer using Map():**
+```
+function twoSum(numbers, target) {
+  let seen = new Map();
+  for (let i = 0; i < numbers.length; i++) {
+    let x = numbers[i], y = target - x;
+    if (seen.has(y))
+      return [seen.get(y), i];
+    seen.set(x, i);
+  }
+}
+```
+A Map allows for faster lookups and insertions. We can check if a number has been seen before in constant time, O(1). We loop over the number array, defining the current element as x and the target - current element as y. That complement, y, is checked for in the Map() data structure. If it's not found then we add the current element, along with it's index into the Map(). If it's found, then we return current index along with the stored index in the Map().
+
+The genius lies in the searching for a complement. For example, given [3, 2, 4] with 6 being the target. The first element 3 is added to the map. Then we move onto 2. Quick maffs: 6 - 2 = 4, which is not found in the map. Then we move onto 4. Subtracting 4 from 6 yields two, which we look for in the map. It's there, along with the correct index which is promptly returned with the current index: [2, 1]. This solution is O(n) runtime, a much more efficient solution than my double loop O(n^2 solution.)
+
+A better answer using Hashing:
+```
+function twoSum(numbers, target) {
+  var tmp, hash = {};
+  numbers.forEach(function(a, i){ hash[a] = i; })
+  
+  for (var i = 0; i < numbers.length; i++){
+    tmp = target - numbers[i];
+    if (typeof hash[tmp] !== 'undefined') return [i, hash[tmp]]
+  }
+}
+```
+A hashtable object is created to hold key-pair values of 'element: index'. This looks something like:  
+```
+{ 2: 0, // index 0, value 2 
+7: 1, // index 1, value 7 
+11: 2, // index 2, value 11 
+15: 3 // index 3, value 15 }
+```
+Once that's out of the way, we loop over the number array, defining the complement - the total sum minus the current element - as 'tmp'. We look for tmp in the hashtable, returning the index of the current element and the index in the hashtable if a match is found. 
