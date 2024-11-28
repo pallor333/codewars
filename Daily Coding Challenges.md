@@ -476,3 +476,43 @@ String.prototype.toJadenCase = function () {
 };
 ```
 The keyword 'this' is required to call the string. It is first split by space, each word being an element in an array. Then the map method is called to create a new array populated with the capitalized first letter as well as the rest of the string. str.charAt(0) is not completely necessary as strings are indexed and str[0] would suffice. We must use str.slice(1) - slice is inclusive at the start but exclusive at the end - to append the rest of the string into each element of our new array. Then the array elements are joined together in a single string which is returned back.
+
+# Exes and Ohs
+Check to see if a string has the same amount of 'x's and 'o's. The method must return a boolean and be case insensitive. The string can contain any char.
+
+Examples input/output:
+
+```
+XO("ooxx") => true
+XO("xooxx") => false
+XO("ooxXm") => true
+XO("zpzpzpp") => true // when no 'x' and 'o' is present should return true
+XO("zzoo") => false
+```
+
+My answer:
+```
+function XO(str) {
+  let xoCounter = 0;
+  let str = str.toLowerCase();
+  for(let i = 0; i < str.length; i++){
+    str[i] === 'x' ? xoCounter++ : 
+    str[i] === 'o' ? xoCounter-- : xoCounter + 0;
+  }
+  return xoCounter === 0;
+}
+```
+Time complexity is O(n), space complexity is O(n) + 2. 
+
+Another answer:
+```
+const XO = str => {
+  str = str.toLowerCase().split('');
+  //DRY
+  const filter_len = (ch) => str.filter(x => x === ch).length
+  return filter_len('x') ===  filter_len('o');
+} 
+```
+This one is less efficient in terms of memory (creating a new array) as well as iterating over the array twice. 
+This solution converts everything to lowercase and then puts it all into an array. A function is defined based on the parameter 'ch' and using the filter() array method to return the length of the array found via filter(). Finally we call the filter_len function to compare the 'x' and 'o'. 
+It's a solution worth keeping in mind, even if it's not best practice.
