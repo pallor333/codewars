@@ -516,3 +516,57 @@ const XO = str => {
 This one is less efficient in terms of memory (creating a new array) as well as iterating over the array twice. 
 This solution converts everything to lowercase and then puts it all into an array. A function is defined based on the parameter 'ch' and using the filter() array method to return the length of the array found via filter(). Finally we call the filter_len function to compare the 'x' and 'o'. 
 It's a solution worth keeping in mind, even if it's not best practice.
+# Square(n) Sum
+Complete the square sum function so that it squares each number passed into it and then sums the results together.
+
+For example, for `[1, 2, 2]` it should return `9` because 12+22+22=91^2 + 2^2 + 2^2 = 912+22+22=9.
+
+Arrays
+
+Lists
+
+Fundamentals
+
+Answer: 
+```
+function squareSum(numbers){
+  return numbers.reduce((sum, n) => sum + n*n, 0);
+}
+```
+# Sum of the first nth term of Series
+## Task
+
+Your task is to write a function which returns the `n`-th term of the following series, which is the sum of the first `n` terms of the sequence (`n` is the input parameter).
+
+Series:1+14+17+110+113+116+…\mathrm{Series:}\quad 1 + \frac14 + \frac17 + \frac1{10} + \frac1{13} + \frac1{16} + \dotsSeries:1+41​+71​+101​+131​+161​+…
+
+You will need to figure out the rule of the series to complete this.
+
+## Rules
+
+- You need to round the answer to 2 decimal places and return it as String.
+    
+- If the given value is `0` then it should return `"0.00"`.
+    
+- You will only be given Natural Numbers as arguments.
+    
+
+## Examples (Input --> Output)
+
+```
+n
+1 --> 1 --> "1.00"
+2 --> 1 + 1/4 --> "1.25"
+5 --> 1 + 1/4 + 1/7 + 1/10 + 1/13 --> "1.57"
+```
+
+Answer:
+```
+function SeriesSum(n) {
+  let sum = 0;
+  for(let i = 0; i < n; i++) {
+    sum += 1 / (3 * i + 1);
+  }
+  return sum.toFixed(2);
+}
+```
