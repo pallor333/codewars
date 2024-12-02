@@ -628,3 +628,50 @@ Time Complexity: The Math.min(...w) and indexOf() operations both involve scanni
 Therefore, the time complexity of this solution is O(m * n), where m is the number of customers and n is the number of tills. For smaller numbers of tills and customers, this approach works fine, but for larger values, optimizations like using a priority queue or min-heap could improve the performance.
 
 Overall this solution uses an array of tills to hold values, not bothering to subtract but to add.
+
+# Switch It Up (8kyu)
+When provided with a number between `0-9`, return it in words. Note that the input is guaranteed to be within the range of `0-9`.
+
+Input: `1`
+
+Output: `"One"`.
+
+If your language supports it, try using a [switch statement](https://en.wikipedia.org/wiki/Switch_statement).
+
+Answer:
+```
+switchItUp=n=>["Zero","One","Two","Three","Four","Five","Six","Seven","Eight","Nine"][n]
+```
+A more readable version:
+```
+function switchItUp (n) {
+	const numbersAsWords = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'];
+	return numbersAsWords[n];
+```
+Uses the indexing of an array to call the corresponding number in the array. "If I were going to bring something like this into everyday use, I’d add a `Number.isInteger(n)` check and I’d probably make sure the array contains the index being passed so there’s no question that we’ll get the number we want."
+# All Star Coding Challenge #18 (8kyu)
+Create a function that accepts a string and a single character, and returns an integer of the count of occurrences the 2nd argument is found in the first one.
+
+If no occurrences can be found, a count of `0` should be returned.
+
+```js
+("Hello", 'o')  =>  1
+("Hello", 'l')  =>  2
+("", 'z')       =>  0
+```
+
+### Notes
+
+- The first argument can be an empty string
+- In languages with no distinct character data type, the second argument will be a string of length `1`
+
+Answer:
+```
+function strCount(str, letter){  
+  return str.split(letter).length-1
+}
+```
+We split the string based on the letter into separate elements in an array.  
+("Hello", 'o')  =>  ['Hell' , ''] = 2 -1 => 1
+("Hello", 'l')  =>  ['He', '', 'o] = 3 - 1 => 2
+("", 'z')       =>  [''] =1 -1 => 0 
