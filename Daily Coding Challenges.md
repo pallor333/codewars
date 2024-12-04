@@ -675,3 +675,58 @@ We split the string based on the letter into separate elements in an array.
 ("Hello", 'o')  =>  ['Hell' , ''] = 2 -1 => 1
 ("Hello", 'l')  =>  ['He', '', 'o] = 3 - 1 => 2
 ("", 'z')       =>  [''] =1 -1 => 0 
+# Minimize Sum Of Array (Array Series #1) (7kyu)
+
+Task:
+**_Given_** an **_array of integers_** , **_Find the minimum sum_** which is obtained _from summing each Two integers product_ .
+
+ Notes:
+
+- **_Array/list_** _will contain_ **_positives only_** .
+- **_Array/list_** _will always have_ **_even size_**
+- ---
+ Input >> Output Examples
+
+```
+minSum({5,4,2,3}) ==> return (22) 
+```
+
+**_Explanation_**:
+
+- **_The minimum sum_** _obtained from summing each two integers product_ , `5*2 + 3*4 = 22`
+
+```
+minSum({12,6,10,26,3,24}) ==> return (342)
+```
+
+**_Explanation_**:
+
+- **_The minimum sum_** _obtained from summing each two integers product_ , `26*3 + 24*6 + 12*10 = 342`
+
+```
+minSum({9,2,8,7,5,4,0,6}) ==> return (74)
+```
+
+**_Explanation_**:
+
+- **_The minimum sum_** _obtained from summing each two integers product_ , `9*0 + 8*2 +7*4 +6*5 = 74`
+
+---
+My answer:
+```
+function minSum(arr) {
+  arr = arr.sort((a, b) => a - b);
+  let value = 0;
+  while(arr.length !== 0){
+  	value += ( arr.pop() * arr.shift() );
+  }
+  return value;
+}
+```
+
+Another answer:
+```
+const minSum = arr =>
+  arr.sort((a, b) => a - b).reduce((pre, val) => pre + val * arr.pop(), 0);
+```
+This is what I initially conceived of but inclusion of shift() rendered the reduce() function worthless as it would skip elements. This is a good execution of it. 
