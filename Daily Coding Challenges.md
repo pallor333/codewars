@@ -784,3 +784,86 @@ maxProduct ({10, 3, -1, -27} , 3)  return (-30)
 
 - **_Since_** _the size (k) equal 3_ , then **_the subsequence of size 3_** _whose gives_ **_product of maxima_** is `10 * 3 * -1 = -30` .
 Answer:
+```
+function maxProduct(numbers, size){
+  return numbers
+  .sort((a, b) => b - a)
+  .slice(0, size)
+  .reduce((product, x) => product * x, 1);
+}
+```
+Sort from greatest to least. Slice into the array size elements where size is the number of maximal numbers wanted. Call reduce to multiply all the numbers and return a produt.
+# Array Leaders (Array Series #3) (7kyu)
+ Definition/Task:
+
+An **_element is leader_** _if it is greater than The Sum all the elements to its right side_.
+**_Given_** an _array/list [] of integers_ , **_Find_** _all the **_LEADERS_** in the array_.
+
+---
+Notes
+
+- **_Array/list_** size is _at least 3_ .
+- **_Array/list's numbers_** Will be **_mixture of positives , negatives and zeros_**
+- **_Repetition_** of numbers in _the array/list could occur_.
+- **_Returned Array/list_** _should store the leading numbers **_in the same order_** in the original array/list
+
+ Input >> Output Examples
+```
+arrayLeaders ({1, 2, 3, 4, 0}) ==> return {4}
+```
+
+ **_Explanation_**:
+- `4` _is greater than the sum all the elements to its right side_
+- **_Note_** : **_The last element_** `0` _is equal to right sum of its elements (abstract zero)_.
+```
+arrayLeaders ({16, 17, 4, 3, 5, 2}) ==> return {17, 5, 2}
+```
+
+**_Explanation_**:
+- `17` _is greater than the sum all the elements to its right side_
+- `5` _is greater than the sum all the elements to its right side_
+- **_Note_** : **_The last element_** `2` _is greater than the sum of its right elements (abstract zero)_.
+```
+arrayLeaders ({5, 2, -1}) ==> return {5, 2}
+```
+
+ **_Explanation_**:
+- `5` _is greater than the sum all the elements to its right side_
+- `2` _is greater than the sum all the elements to its right side
+- **_Note_** : **_The last element_** `-1` _is less than the sum of its right elements (abstract zero)_.
+```
+arrayLeaders ({0, -1, -29, 3, 2}) ==> return {0, -1, 3, 2}
+```
+
+**_Explanation_**:
+- `0` _is greater than the sum all the elements to its right side_
+- `-1` _is greater than the sum all the elements to its right side
+- `3` _is greater than the sum all the elements to its right side_
+- **_Note_** : **_The last element_** `2` _is greater than the sum of its right elements (abstract zero)_.
+
+My Answer:
+```
+function arrayLeaders(numbers){
+  let total = numbers.reduce((sum, n) => sum + n, 0);
+  return numbers.filter(num =>{
+    total -= num;
+    return num > total
+  });
+}
+```
+Sum up the entire array and then go from left to right, subtracting current element from the total and then checking if the current value is greater than the sum. O(n^2) run time.
+
+Better answer:
+```
+var arrayLeaders = numbers => {
+
+  let total = 0, res = []
+  for (let i = numbers.length - 1; i >= 0; i--) {
+    if (numbers[i] > total) res.unshift(numbers[i]);
+    total += numbers[i];
+  }
+
+  return res;
+}
+```
+This solution goes from right to left, decrementing in index. This approach is a bit more intuitive, checking if the current element is greater than the total and adding to the front of the new array if so. After it then adds the current element to the new total. O(n) run time.
