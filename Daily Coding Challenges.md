@@ -867,3 +867,193 @@ var arrayLeaders = numbers => {
 }
 ```
 This solution goes from right to left, decrementing in index. This approach is a bit more intuitive, checking if the current element is greater than the total and adding to the front of the new array if so. After it then adds the current element to the new total. O(n) run time.
+
+# Maximum Gap (Array Series #4) (7kyu)
+## Task
+
+**_Given_** an _array/list [] of integers_ , **_Find_** **_The maximum difference_** _between the successive elements in its sorted form_.
+## Notes
+
+- **_Array/list_** size is _at least 3_ .
+- **_Array/list's numbers_** Will be **mixture of positives and negatives also zeros_**
+- **_Repetition_** of numbers in _the array/list could occur_.
+- **_The Maximum Gap_** is _computed Regardless the sign_.
+---
+## Input >> Output Examples
+
+```
+maxGap ({13,10,5,2,9}) ==> return (4)
+```
+
+## **_Explanation_**:
+
+- **_The Maximum Gap_** _after sorting the array is_ `4` , _The difference between_ `9 - 5 = 4` .
+```
+maxGap ({-3,-27,-4,-2}) ==> return (23)
+```
+
+## **_Explanation_**:
+
+- **_The Maximum Gap_** _after sorting the array is_ `23` , _The difference between_ `|-4- (-27) | = 23` .
+- **_Note_** : _Regardless the sign of negativity_ .
+```
+maxGap ({-7,-42,-809,-14,-12}) ==> return (767)  
+```
+
+## **_Explanation_**:
+
+- **_The Maximum Gap_** _after sorting the array is_ `767` , _The difference between_ `| -809- (-42) | = 767` .
+- **_Note_** : _Regardless the sign of negativity_ .
+
+```
+maxGap ({-54,37,0,64,640,0,-15}) //return (576)
+```
+
+## **_Explanation_**:
+
+- **_The Maximum Gap_** _after sorting the array is_ `576` , _The difference between_ `| 64 - 640 | = 576` .
+- **_Note_** : _Regardless the sign of negativity_ .
+
+Answer:
+```
+function maxGap (numbers){
+  numbers.sort((a, b) => a - b);
+  let max = numbers[1] - numbers[0];
+  for(let i = 2; i < numbers.length; i++){
+    if(numbers[i] - numbers[i-1] > max) max = numbers[i] - numbers[i-1];
+  }
+  return max;
+}
+```
+Sort array and then compare each pair's difference, returning the largest number, max. Sorting is O(n log n) while iterating over the array is O(n) therefore the time complexity is O(n log n).
+
+Answer with methods:
+```
+function maxGap(numbers) {
+  return numbers
+    .sort((a, b) => a - b) // Sort the array
+    .reduce((max, n, i, arr) => { // Include 'arr' for the array reference
+      if (i < arr.length - 1) { // Only access arr[i + 1] if we're not at the last index
+        let gap = arr[i + 1] - n;
+        if (max < gap) {
+          max = gap;
+        }
+      }
+      return max;
+    }, 0);
+}
+
+```
+Time complexity is same as above, O(n log n).
+
+# Product Array (Array Series #5) (7kyu)
+## Task
+
+**_Given_** an _array/list [] of integers_ , **_Construct_** a _product array **_Of same size_** Such That prod[i] is equal to The Product of all the elements of Arr[] except Arr[i]_.
+## Notes
+
+- **_Array/list_** size is _at least 2_ .
+- **_Array/list's numbers_** Will be **_only Positives
+- **_Repetition_** of numbers in _the array/list could occur_.
+---
+## Input >> Output Examples
+
+```
+productArray ({12,20}) ==>  return {20,12}
+```
+## **_Explanation_**:
+
+- **_The first element_** _in prod [] array_ **_20_** _is the product of all array's elements except the first element
+- **_The second element_** **_12_** _is the product of all array's elements except the second element_ .
+
+```
+productArray ({1,5,2}) ==> return {10,2,5}
+```
+## **_Explanation_**:
+
+- **_The first element_** **_10_** _is the product of all array's elements_ **_except_** _the first element **_1_**
+- **_The second element_** **_2_** _is the product of all array's elements_ **_except_** _the second element_ **_5
+- **_The Third element_** **_5_** _is the product of all array's elements_ **_except_** _the Third element_ **_2_**.
+
+```
+productArray ({10,3,5,6,2}) return ==> {180,600,360,300,900}
+```
+## **_Explanation_**:
+
+- **_The first element_** **_180_** _is the product of all array's elements_ **_except_** _the first element_ **_10
+- **_The second element_** **_600_** _is the product of all array's elements_ **_except_** _the second element_ **_3
+- **_The Third element_** **_360_** _is the product of all array's elements_ **_except_** _the third element_ **_5
+- **_The Fourth element_** **_300_** _is the product of all array's elements_ **_except_** _the fourth element_ **_6
+- _Finally_ ,**_The Fifth element_** **_900_** _is the product of all array's elements_ **_except_** _the fifth element_ **_2_**
+
+My Answer:
+```
+function productArray(numbers){
+  let maxProd = numbers.reduce((product, num) => product * num, 1);
+  return numbers.map(num => maxProd / num);
+}
+```
+O(n) is spent on calculating the total product with reduce(). O(n) is spent on the map() method to compute the final array. O(n) + O(n) = O(2n). Since O(2n) simplifies to O(n) - constant factors are dropped when expressing time complexity - the overall time complexity is O(n). 
+
+A more unclear answer: 
+```
+const mul = (v, w) => v * w;
+const product = a => a.reduce(mul, 1);
+
+function productArray(a) {
+  const p = product(a); //Get the product of all elements in the array
+  return a.map(v => p / v); //Return new array where each element is p/v
+}
+```
+This solution uses two helper functions with runtime as O(n).
+
+# Maximum Triplet Sum (Array Series #7) (7kyu)
+## Task
+
+**_Given_** an _array/list [] of n integers_ , _find maximum triplet sum in the array_ **_Without duplications_** .
+## Notes :
+
+- **_Array/list_** size is _at least 3_ .
+- **_Array/list_** numbers could be a _mixture of positives , negatives and zeros_ .
+- **_Repetition_** of numbers in _the array/list could occur_ , So **_(duplications are not included when summing)_**.
+## Input >> Output Examples
+```cpp
+maxTriSum ({3,2,6,8,2,3}) ==> return (17)
+```
+## **_Explanation_**:
+
+- As the **_triplet_** that _maximize the sum_ **_{6,8,3}_** in order , **_their sum is (17)
+- _Note_ : **_duplications_** _are not included when summing_ , **(i.e) the numbers added only once** .
+```
+maxTriSum ({2,1,8,0,6,4,8,6,2,4}) ==> return (18)
+```
+
+## **_Explanation_**:
+- As the **_triplet_** that _maximize the sum_ **_{8, 6, 4}_** in order , **_their sum is (18)_** ,
+- _Note_ : **_duplications_** _are not included when summing_ , **(i.e) the numbers added only once** .
+    ```cpp
+maxTriSum ({-7,12,-7,29,-5,0,-7,0,0,29}) ==> return (41)
+    ```
+## **_Explanation_**:
+- As the **_triplet_** that _maximize the sum_ **_{12 , 29 , 0}_** in order , **_their sum is (41)_** ,
+- _Note_ : **_duplications_** _are not included when summing_ , **(i.e) the numbers added only once** .
+
+Answer:
+```
+function maxTriSum(numbers){
+  numbers.sort((a, b) => b - a)
+  return Array.from(new Set(numbers)).slice(0, 3).reduce((sum,n) => sum + n, 0);
+}
+```
+Sort the array from greatest to least. Then use a set to remove duplicate elements, convert it back to an array so we can use array methods on it. Slice into the array, returning only the first three (greatest) elements and then sum them with reduce before returning the total sum. Time complexity is O(n).
+
+Another answer, similar but cleaner:
+```
+function maxTriSum(numbers){
+  return [...new Set(numbers)]
+    .sort( (a,b) => a - b)
+    .slice(-3)
+    .reduce( (acc, n) => acc + n, 0);
+}
+```
+Using brackets and the spread operator (...) avoids having to use the .from() method and removing duplicates before sorting makes the code slightly more efficient. This sorts from least to greatest and slice(-3) returns the 3 elements at the end.
