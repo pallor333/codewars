@@ -1067,4 +1067,36 @@ Given an **array of positive integers** (the weights of the people), return a ne
 - `[13, 27, 49]` returns `[62, 27]` or `(62, 27)` (depending on your language) because the total weight of team 1 is 13+49=62 13 + 49 = 62 13+49=62 and the total weight of team 2 is 27 27 27.
 - `[50, 60, 70, 80]` returns `[120, 140]` or `(120, 140)` (depending on your language) because the total weight of team 1 is 50+70=120 50 + 70 = 120 50+70=120 and the total weight of team 2 is 60+80=140 60 + 80 = 140 60+80=140.
 - `[80]` returns `[80, 0]` or `(80, 0)` (depending on your language) because the total weight of team 1 is 80 80 80 and the total weight of team 2 is 0 0 0.
-Answer:
+
+My answer:
+```
+function rowWeights(array){
+  let teamWeights = [0, 0]
+  array.filter((person, idx) =>{
+    idx % 2 ? teamWeights[1] += person: teamWeights[0] += person;
+  })
+  return teamWeights;
+}
+```
+
+One liner using .reduce():
+```
+// rowWeights=arr=>arr.reduce((a,b,i)=>(a[i%2]+=b,a),[0,0])
+
+rowWeights= arr =>
+	arr.reduce((sum, person, idx) => (sum[idx % 2] += person, sum) ,[0,0])
+```
+The code sum[idx % 2] will always return 0 or 1, adding the value of person to the correct array index. The comma operator (,) returns the value of the last operand. Equivalent to 
+```
+a[i%2]+=b; return a;
+```
+or a return statement. Great way to use .reduce() to return a two length array.
+
+A refactored answer based on what I learned above:
+```
+function rowWeights(array){
+  let teamWeights = [0, 0]
+  array.filter((person, idx) => teamWeights[idx % 2] += person)
+  return teamWeights;
+}
+```
