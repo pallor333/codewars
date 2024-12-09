@@ -1057,7 +1057,7 @@ function maxTriSum(numbers){
 }
 ```
 Using brackets and the spread operator (...) avoids having to use the .from() method and removing duplicates before sorting makes the code slightly more efficient. This sorts from least to greatest and slice(-3) returns the 3 elements at the end.
-# Row Weights
+# Row Weights (7kyu)
 Several people are standing in a row divided into two teams. The first person goes into team 1, the second goes into team 2, the third goes into team 1, and so on.
 ### Task
 
@@ -1088,9 +1088,9 @@ rowWeights= arr =>
 ```
 The code sum[idx % 2] will always return 0 or 1, adding the value of person to the correct array index. The comma operator (,) returns the value of the last operand. Equivalent to 
 ```
-a[i%2]+=b; return a;
+sum[idx%2]+=person; return sum;
 ```
-or a return statement. Great way to use .reduce() to return a two length array.
+or a return statement. If there is no return statement then the values are not updated in the array and we get a 'NaN'. Great way to use .reduce() to return a two length array.
 
 A refactored answer based on what I learned above:
 ```
@@ -1100,3 +1100,156 @@ function rowWeights(array){
   return teamWeights;
 }
 ```
+# Form the Minimum (7kyu)
+### Task
+
+Given a list of digits, return the **smallest number** that could be formed from these digits, using the digits only once (ignore duplicates). **Only positive integers** in the range of 1 to 9 will be passed to the function.
+
+### Examples
+
+```
+[1, 3, 1] ==> 13
+[5, 7, 5, 9, 7] ==> 579
+[1, 9, 3, 1, 7, 4, 6, 6, 7]  ==> 134679
+```
+My Answer:
+```
+function minValue(values){
+  //Convert to set to get rid of duplicate values
+  //Convert back to array to sort from min -> max
+  //Convert to String to create a single number from digits
+  //Convert back to number to return value
+  return Number([...new Set(values)].sort((a, b) => a - b).join(""))
+}
+```
+
+Another answer without Set:
+```
+function minValue(values){
+  const n = values
+    .filter((e, i, arr) => arr.indexOf(e) === i)
+    .sort()
+    .join('');
+  return Number(n);
+}
+```
+Not only is it formatting cleanly, making it easy to read but it avoids creating a Set, and thus saving us from having to convert to a set and then back to an array. arr.indexOf(e) returns the first occurrence of e and thus filter will not add duplicates to the filtered array. From there we sort -default is by string-equivalent and min->max but since we are only using values 1-9 we do not have to bother with (a,b) => a-b saving us keystrokes. Join converts an array into a string, and then we return the string converted to a integer.
+
+# Minimum Steps (Array Series #6)
+## Task
+
+**_Given_** _an array of N integers, you have to find_ **_how many times_** _you have to_ **_add up the smallest numbers_** _in the array until_ **_their Sum_** _becomes greater or equal to_ **_K_**.
+## Notes:
+
+- **_List size_** is _at least 3_.
+- **_All numbers_** _will be_ **_positive_**.
+- **_Numbers_** could _occur more than once_ , **_(Duplications may exist)_**.
+- Threshold **_K_** will _always be reachable_.
+    ## Input >> Output Examples
+
+```
+minimumSteps({1, 10, 12, 9, 2, 3}, 6)  ==>  return (2)
+```
+## **_Explanation_**:
+
+- We _add two smallest elements_ **_(1 + 2)_**, _their sum is 3_ .
+- **_Then_** we **_add the next smallest number to it (3 + 3)_** , so _the sum becomes 6_ .
+- **_Now_** the result is greater or equal to **_6_** , _Hence the output is (2) i.e (2) operations are required to do this_ .
+    ```
+    minimumSteps({8, 9, 4, 2}, 23)  ==> return (3)
+    ```
+    ## **_Explanation_**:
+- We _add two smallest elements_ **_(4 + 2)_**, _their sum is 6_ .
+- **_Then_** we **_add the next smallest number to it (6 + 8)_** , so _the sum becomes 14_ .
+- **_Now_** we **_add the next smallest number (14 + 9)_** , so _the sum becomes 23_ 
+- **_Now_** the result is greater or equal to **_23_** , _Hence the output is (3) i.e (3) operations are required to do this_ .
+    ```
+    minimumSteps({19,98,69,28,75,45,17,98,67}, 464)  ==>  return (8)
+    ```
+    ## **_Explanation_**:
+- We _add two smallest elements_ **_(19 + 17)_**, _their sum is 36_ .
+- **_Then_** we **_add the next smallest number to it (36 + 28)_** , so _the sum becomes 64_ .
+- We need to **_keep doing this_** _until **_the sum_** becomes greater or equal to **_K_** (464 in this case)_, which will require **8_** Steps .
+
+My Answer:
+```
+function minimumSteps(numbers, value){
+  //Sort numbers array ascending
+  numbers.sort((a, b) => a - b);
+  
+  //Special case for first num bigger than value. 
+  if(numbers[0] > value) return 0;
+  
+  //Count steps and keep track of sum
+  let counter = 1, sum = numbers[0] + numbers[1];
+  
+  //Pop numbers out of array as we use them
+  numbers.shift();
+  numbers.shift();
+  
+  //Stop adding when sum >= value
+  while(sum < value){
+    sum += numbers[0];
+    counter++;
+    numbers.shift();
+  }
+  return counter;
+}
+```
+Very scuffed. Not at all optimal.
+
+A better answer:
+```
+function minimumSteps(numbers, value){
+   return numbers.sort((a, b) => a - b).filter(e => (value -= e) > 0).length;
+}
+```
+Sort array ascending and then call filter. The conditional subtracts the current element from the value and checks if it is greater than zero. Covers the edge case where smallest element is greater than the value while checking to see if the sum of the added elements are greater or equal to the desired target value. Once a shallow copy of the array ft. those elements are found, we return the length as the minimum steps. 
+# Maximum Product (7kyu)
+### Task
+Given an array of integers , Find **the maximum product** obtained from multiplying 2 adjacent numbers in the array. Note that the array size is at least 2 and consists a mixture of positive, negative integers and also zeroes.
+
+### Examples
+- `[1, 2, 3]` returns `6` because the maximum product is obtained from multiplying  2∗3=6\ 2 * 3 = 6  2∗3=6
+- `[9, 5, 10, 2, 24, -1, -48]` returns `50` because the maximum product is obtained from multiplying  5∗10=50\ 5 * 10 = 50  5∗10=50
+- `[-23, 4, -5, 99, -27, 329, -2, 7, -921]` returns `-14` because the maximum product is obtained from multiplying  −2∗7=−14\ -2 * 7 = -14  −2∗7=−14
+
+Answer: 
+```
+function adjacentElementsProduct(array) {
+  return array.reduce((product, element, idx)=> {
+  if(array[idx+1] != undefined){
+    let localProduct = element * array[idx+1] 
+    if(localProduct > product){
+      product = localProduct;
+      }
+    }
+    return product;
+  },-Infinity)
+}
+```
+Iterate over the array, comparing each element with the next one. We do an 'undefined' comparison with the next element to avoid going out of bounds. If the current product is greater than the max product then we reassign. Time complexity O(n), space complexity O(1). 
+
+Another answer using a for loop instead:
+```
+function adjacentElementsProduct(array) {
+  let maxProduct = -Infinity;
+
+  for (let i = 0; i < array.length - 1; i++) {
+    let currentProduct = array[i] * array[i + 1];
+    if (currentProduct > maxProduct) {
+      maxProduct = currentProduct;
+    }
+  }
+
+  return maxProduct;
+}
+```
+
+Another answer:
+```
+const adjacentElementsProduct = (array) => array.slice(1).reduce(
+  (max, cur, i) => Math.max(array[i] * cur, max), -Infinity
+);
+```
+Slice(1) skips the first element. During the reduce function call, we multiply the previous element (array[i]) with the current element (cur). Math.max then compares the product with the current value of max - which starts out as -Infinity. 
