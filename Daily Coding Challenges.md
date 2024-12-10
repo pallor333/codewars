@@ -1253,3 +1253,45 @@ const adjacentElementsProduct = (array) => array.slice(1).reduce(
 );
 ```
 Slice(1) skips the first element. During the reduce function call, we multiply the previous element (array[i]) with the current element (cur). Math.max then compares the product with the current value of max - which starts out as -Infinity. 
+
+My answer using reduce() the next day:
+```
+function adjacentElementsProduct(array) {
+  return array.slice(1).reduce((maxProduct, n, idx) =>{
+    let localProduct = n * array[idx];
+    if(localProduct > maxProduct) maxProduct = localProduct;
+    return maxProduct;
+  }, -Infinity);
+}
+```
+
+# Nth Smallest Element (Array Series #4) (7kyu)
+### Task
+Given an array/list of integers, find the Nth smallest element in the array.
+### Notes
+- Array/list size is at least 3.
+- Array/list's numbers could be a mixture of positives , negatives and zeros.
+- Repetition in array/list's numbers could occur, so don't remove duplications.
+
+### Input >> Output Examples
+```
+arr=[3,1,2]            n=2    ==> return 2 
+arr=[15,20,7,10,4,3]   n=3    ==> return 7 
+arr=[2,169,13,-5,0,-1] n=4    ==> return 2 
+arr=[2,1,3,3,1,2],     n=3    ==> return 2 
+```
+
+My answer:
+```
+function nthSmallest(arr, pos){
+  return arr.sort((a,b)=>a-b)[pos-1]
+}
+```
+Sort the array and then use position variable (minus one) to give the smallest nth element in the array. It modifies the original array so it is not the best practice.
+
+Another answer:
+```
+const prepend = (v,a) => [v].concat(a) ;
+const insert = (a,v) => a.length ? v<=a[0] ? prepend(v,a.slice(0,-1)) : prepend(a[0],insert(a.slice(1),v)) : [] ;
+const nthSmallest = (a,n) => a.reduce(insert,Array.from( { length: n }, () => Infinity ))[n-1] ;
+```
