@@ -1289,9 +1289,97 @@ function nthSmallest(arr, pos){
 ```
 Sort the array and then use position variable (minus one) to give the smallest nth element in the array. It modifies the original array so it is not the best practice.
 
-Another answer:
+Another answer using recursion but O(n) runtime:
 ```
 const prepend = (v,a) => [v].concat(a) ;
 const insert = (a,v) => a.length ? v<=a[0] ? prepend(v,a.slice(0,-1)) : prepend(a[0],insert(a.slice(1),v)) : [] ;
 const nthSmallest = (a,n) => a.reduce(insert,Array.from( { length: n }, () => Infinity ))[n-1] ;
+```
+The `prepend` function adds a value to the beginning of an array, while the `insert` function recursively inserts a value into a sorted array to maintain order. The `nthSmallest` function uses `reduce` to accumulate the smallest `n` elements from the input array, inserting each element in sorted order, starting with an array of `n` `Infinity` values. After processing all elements, it returns the nth smallest element by accessing the `n-1` index of the sorted array. This approach efficiently finds the nth smallest element without fully sorting the entire array.
+
+Insert:
+a.length ? ... : []; -> Check if array is empty, if empty then return empty array []. This is the base case of the recursive function.
+
+
+# Transform to Prime (6kyu)
+## Task :
+
+**_Given_** _a List [] of n integers_, **_find minimum number_** to be **inserted** in a _list_, so that **_sum of all elements of list_** should _equal the closest prime number_ .
+
+---
+
+## Notes
+
+- **_List size_** is _at least 2_ .
+- **_List's numbers_** will only **_positives_** (n > 0) .
+- **_Repetition_** of numbers in the list **_could occur_** .
+- **_The newer list's sum_** should _equal the closest prime number_ .
+## Input >> Output Examples
+
+```cpp
+minimumNumber ({3,1,2}) ==> return (1)
+```
+## **_Explanation_**:
+
+- **_Since_** **the sum** of the list's elements equal to **_(6)_** , _the minimum number to be inserted to transform the sum to prime number_ is **_(1)_** , _which will make **_the sum of the List_** equal the closest prime number **_(7)_** .
+
+
+```cpp
+minimumNumber ({2,12,8,4,6}) ==> return (5)
+```
+## **_Explanation_**:
+
+- **_Since_** **the sum** of the list's elements equal to **_(32)_** , _the minimum number to be inserted to transform the sum to prime number_ is **_(5)_** , _which will make **_the sum of the List_** equal the closest prime number **_(37)_** .
+
+
+```cpp
+minimumNumber ({50,39,49,6,17,28}) ==> return (2)
+```
+## **_Explanation_**:
+
+- **_Since_** , **the sum** of the list's elements equal to **_(189)_** , _the minimum number to be inserted to transform the sum to prime number_ is **_(2)_** , _which will make **_the sum of the List_** equal the closest prime number **_(191)_** .
+
+My Answer:
+```
+function minimumNumber(numbers){
+  // Sum the array
+  let total = numbers.reduce((total, n) => total + n, 0);
+  // Check total for prime number, incrementing by one until found
+  for(let i = total; ; i++){
+    if(prime(i)) return i - total;
+  }
+}
+
+// Helper function to check for primes
+function prime(num){
+  if(num <= 1) return false;
+  if(num <= 3) return true;
+  if(num % 2 === 0 || num % 3 === 0) return false;
+    
+  // Check for factors from 5 to sqrt(num)
+  for (let i = 5; i * i <= num; i += 6) {
+    if (num % i === 0 || num % (i + 2) === 0) {
+      return false;
+    }
+  }
+  return true;
+}
+```
+
+Another answer:
+```
+function minimumNumber(numbers){
+  let sum = numbers.reduce((a,b) => a + b)
+  for(let i = sum; ; i++) {
+    if(prime(i)) return i - sum
+  }
+  function prime(a) {
+    if(a < 2) return false
+    if(a % 2 === 0) return a === 2
+    for(let i = 3; i * i <= a; i += 2) {
+      if(a % i === 0) return false
+    }
+    return true
+  }
+}
 ```
