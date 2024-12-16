@@ -1598,3 +1598,82 @@ const binaryArrayToNumber = arr => {
 ```
 The **`parseInt()`** function parses a string argument and returns an integer of the specified [radix](https://en.wikipedia.org/wiki/Radix) (the base in mathematical numeral systems). Arr.join("") creates a string from the array. By calling parseInt and 2, we convert the string into a number using binary. 
 
+# Asterisk counting (7kyu)
+You receive the name of a city as a string, and you need to return a string that shows how many times each letter shows up in the string by using asterisks (`*`).
+
+For example:
+
+```
+"Chicago"  -->  "c:**,h:*,i:*,a:*,g:*,o:*"
+```
+
+As you can see, the letter `c` is shown only once, but with 2 asterisks.
+
+The return string should include **only the letters** (not the dashes, spaces, apostrophes, etc). There should be no spaces in the output, and the different letters are separated by a comma (`,`) as seen in the example above.
+
+Note that the return string must list the letters in order of their first appearance in the original string.
+
+More examples:
+
+```
+"Bangkok"    -->  "b:*,a:*,n:*,g:*,k:**,o:*"
+"Las Vegas"  -->  "l:*,a:**,s:**,v:*,e:*,g:*"
+```
+
+My answer:
+```
+function isLetter(char){ //Helper function to determine letter
+  return char.toUpperCase() != char.toLowerCase();
+}
+
+function getStrings(city){
+  let strCount = {};
+  let cityStr = [];
+  
+  //Loop over string to populate Object
+  for(let i = 0; i < city.length; i++){
+    let char = city[i].toLowerCase();
+    if(isLetter(city[i])){
+      if(strCount.hasOwnProperty(char)){
+      	strCount[char] += 1;
+      }else{
+      	strCount[char] = 1;
+      }
+    }
+  }
+  //Loop over Object to fill an array for return
+  for(let key in strCount){
+  	cityStr.push(`${key}:${"*".repeat(strCount[key])}`)
+  }
+  
+  return cityStr.join(',');
+}
+```
+Helper function is a solution stolen from stackoverflow. The logic is that only a letter will morph when comparing it's uppercase value to lowercase. A number or punctuation will remain the same. We iterate through the string, incrementing the object if it's there or setting the object to one if it's not. Then we use another loop to push the value of "key:value" to the array where value is asterisks repeated with the repeat() string function. The join() method is called upon to add commas between each array value and returned as a string.
+
+```
+function getStrings(city) {
+    city = city.toLowerCase();
+    let obj = {};
+    let str = '';
+
+    for (let elem of city) {
+	    if(elem.toUpperCase() != elem.toLowerCase()){
+	        if (!(elem in obj)) {
+	            obj[elem] = '*';
+	        } else {
+	            obj[elem] += '*';
+	        }
+	    }
+    }
+
+    for (let key in obj) {
+        if (key !== ' ') {
+            str += key + ':' + obj[key] + ',';
+        }
+    }
+
+    return str.substring(0, str.length - 1);
+}
+```
+This solution is slightly modified, using my code to check for letter. It is slightly more efficient
