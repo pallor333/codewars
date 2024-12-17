@@ -1676,4 +1676,18 @@ function getStrings(city) {
     return str.substring(0, str.length - 1);
 }
 ```
-This solution is slightly modified, using my code to check for letter. It is slightly more efficient
+This solution is slightly modified, using my code to check for letter. It has the same blueprint but is slightly more efficient. For one the object is incremented with asterisks directly, circumventing any need for the repeat() method. In the second loop, hasOwnProperty() is not called either, instead just checking if there exists another key. And instead of an array, a string is used, manually adding commas to the end. When we finally return the string, we cut off the very last character of the string using a substring() method call. 
+# The Office III - Broken Photocopier (7kyu)
+The bloody photocopier is broken... Just as you were sneaking around the office to print off your favourite binary code!
+
+Instead of copying the original, it reverses it: '1' becomes '0' and vice versa.
+
+Given a string of binary, return the version the photocopier gives you as a string.
+
+My answer:
+```
+function broken(x){
+  return x.split('').map(ch => ch === "1" ? "0" : "1").join(''); 
+}
+```
+
