@@ -1677,6 +1677,39 @@ function getStrings(city) {
 }
 ```
 This solution is slightly modified, using my code to check for letter. It has the same blueprint but is slightly more efficient. For one the object is incremented with asterisks directly, circumventing any need for the repeat() method. In the second loop, hasOwnProperty() is not called either, instead just checking if there exists another key. And instead of an array, a string is used, manually adding commas to the end. When we finally return the string, we cut off the very last character of the string using a substring() method call. 
+# The Office I - Outed (7kyu)
+Your colleagues have been looking over your shoulder. When you should have been doing your boring real job, you've been using the work computers to smash in endless hours of codewars.
+
+In a team meeting, a terrible, awful person declares to the group that you aren't working. You're in trouble. You quickly have to gauge the feeling in the room to decide whether or not you should gather your things and leave.
+
+Given an object ( `meet` ) containing team member names as keys, and their happiness rating out of 10 as the value, you need to assess the overall happiness rating of the group. If <= 5, return 'Get Out Now!'. Else return 'Nice Work Champ!'.
+
+Happiness rating will be total score / number of people in the room.
+
+Note that your boss is in the room ( `boss` ). Their score is worth double its face value (but they are still just one person!).
+
+My Answer:
+```
+function outed(meet, boss){
+  let happiness = 0;
+  let totalCoworkers = 0;
+  for (const [human, value] of Object.entries(meet)) {
+    totalCoworkers++;
+    human === boss ? happiness += value*2 : happiness += value;
+  }
+  return (happiness/totalCoworkers) <= 5 ? 'Get Out Now!' : 'Nice Work Champ!'
+}
+```
+Another answer:
+```
+function outed(meet, boss) {
+  let names = Object.keys(meet)
+  let score = names.reduce((s,v) => s + meet[v], 0) + meet[boss]
+  return score / names.length > 5 ? 'Nice Work Champ!' : 'Get Out Now!'
+}
+```
+Save keys in an array and use that array to call the reduce() method. We don't need to do a comparison for boss, just add it on as extra after. meet[v] calls the value. Then we return the score divided by number of employees and return the corresponding string.
+
 # The Office III - Broken Photocopier (7kyu)
 The bloody photocopier is broken... Just as you were sneaking around the office to print off your favourite binary code!
 
