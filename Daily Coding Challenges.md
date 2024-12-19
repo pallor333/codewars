@@ -1709,6 +1709,67 @@ function outed(meet, boss) {
 }
 ```
 Save keys in an array and use that array to call the reduce() method. We don't need to do a comparison for boss, just add it on as extra after. meet[v] calls the value. Then we return the score divided by number of employees and return the corresponding string.
+# The Office II - Boredom Score (7kyu)
+Every now and then people in the office moves teams or departments. Depending what people are doing with their time they can become more or less boring. Time to assess the current team.
+
+You will be provided with an object(staff) containing the staff names as keys, and the department they work in as values.
+
+Each department has a different boredom assessment score, as follows:
+
+accounts = 1  
+finance = 2  
+canteen = 10  
+regulation = 3  
+trading = 6  
+change = 6  
+IS = 8  
+retail = 5  
+cleaning = 4  
+pissing about = 25  
+
+Depending on the cumulative score of the team, return the appropriate sentiment:
+
+<=80: 'kill me now'  
+< 100 & > 80: 'i can handle this'  
+100 or over: 'party time!!'
+
+My Answer:
+```
+let boredomScores = {
+  'accounts': 1,
+  'finance': 2, 
+  'canteen': 10,
+  'regulation': 3,
+  'trading': 6,
+  'change': 6,
+  'IS': 8,
+  'retail': 5,
+  'cleaning': 4,
+  'pissing about': 25,
+}
+
+function boredom(staff){
+  let people = Object.keys(staff);
+  let score = people.reduce((sum, n) => sum + boredomScores[staff[n]], 0);
+  return score > 80 && score < 100 ? 'i can handle this' :
+         score <= 80 ? 'kill me now' : 'party time!!'
+}
+```
+Define values in boredomScore. Place names in people array. Call reduce() method on people array, using each current value go into staff for the corresponding thing and then using the boredeomScore obj to return a numerical value. Once everything is added up, we return a different string based on the score. 
+
+Another ans:
+```
+function boredom(staff){
+   var map = {...}; //same as my boredomScores
+   var score = Object.keys(staff).reduce(
+     function(a,b){       
+       return a+map[staff[b]]
+    },0); 
+   
+   return score <= 80 ? 'kill me now': score < 100 && score > 80 ? 'i can handle this' : 'party time!!';
+}
+```
+This answer differs slightly. Instead of having a separate variable for the Object.keys(staff), instead reduce is called directly upon it. I rate this solution as slightly more efficient.
 
 # The Office III - Broken Photocopier (7kyu)
 The bloody photocopier is broken... Just as you were sneaking around the office to print off your favourite binary code!
@@ -1724,3 +1785,17 @@ function broken(x){
 }
 ```
 
+
+# The Office IV - Find a Meeting Room (7kyu)
+Your job at E-Corp is both boring and difficult. It isn't made any easier by the fact that everyone constantly wants to have a meeting with you, and that the meeting rooms are always taken!
+
+In this kata, you will be given an array. Each value represents a meeting room. Your job? Find the **first** empty one and return its index (N.B. There may be more than one empty room in some test cases).
+
+```
+'X' --> busy
+'O' --> empty
+```
+
+If all rooms are busy, return `"None available!"`
+
+My Answer:
