@@ -1772,7 +1772,7 @@ function boredom(staff){
 This answer differs slightly. Instead of having a separate variable for the Object.keys(staff), instead reduce is called directly upon it. I rate this solution as slightly more efficient.
 
 # The Office III - Broken Photocopier (7kyu)
-The bloody photocopier is broken... Just as you were sneaking around the office to print off your favourite binary code!
+The bloody photocopier is broken... Just as you were sneaking around the office to print off your favorite binary code!
 
 Instead of copying the original, it reverses it: '1' becomes '0' and vice versa.
 
@@ -1784,8 +1784,6 @@ function broken(x){
   return x.split('').map(ch => ch === "1" ? "0" : "1").join(''); 
 }
 ```
-
-
 # The Office IV - Find a Meeting Room (7kyu)
 Your job at E-Corp is both boring and difficult. It isn't made any easier by the fact that everyone constantly wants to have a meeting with you, and that the meeting rooms are always taken!
 
@@ -1799,3 +1797,77 @@ In this kata, you will be given an array. Each value represents a meeting room. 
 If all rooms are busy, return `"None available!"`
 
 My Answer:
+```
+function meeting(x){
+  let room = x.findIndex(n => n ==='O');
+  return room !== -1 ? room : 'None available!';
+}
+```
+
+# The Office V - Find a Chair
+So you've found a meeting room - phew! You arrive there ready to present, and find that someone has taken one or more of the chairs!! You need to find some quick.... check all the other meeting rooms to see if all of the chairs are in use.
+
+Your meeting room can take up to `8` chairs. `need` will tell you how many have been taken. You need to find that many.
+
+Find the spare chairs from the array of meeting rooms. Each meeting room tuple will have the number of occupants as a string. Each occupant is represented by `'X'`. The room tuple will also have an integer telling you how many chairs there are in the room.
+
+You should return an array of integers that shows how many chairs you take from each room in order, up until you have the required amount.
+
+example:
+
+`[['XXX', 3], ['XXXXX', 6], ['XXXXXX', 9], ['XXX',2]]` when you need `4` chairs:
+
+`result -> [0, 1, 3]` no chairs free in room 0, take `1` from room 1, take `3` from room 2. no need to consider room 3 as you have your `4` chairs already.
+
+If you need no chairs, return `"Game On"`. If there aren't enough spare chairs available, return `"Not enough!"`.
+
+My answer:
+```
+function meeting(x, need){
+  if(need === 0){
+    return "Game On";
+  }
+  
+  let chairsTaken = [];
+  
+  for(let i = 0; i < x.length; i++){
+    let openChairs = x[i][1] - x[i][0].length;
+    if(openChairs <= 0){
+      chairsTaken.push(0);
+    }else{
+      need -= openChairs;
+      chairsTaken.push(openChairs);    
+      if(need < 0){
+        chairsTaken[chairsTaken.length-1] += need;
+        break;
+      }else if(need === 0){
+        break;
+      }
+    }
+  }
+  
+  
+  return need > 0 ? "Not enough!" : chairsTaken;
+}
+```
+Start off by checking if we need any chairs. If we don't we can end the function and return 'Game On' immediately. We have a counter variable to keep track of all the chairs taken from each room.  We loop over each room. If open chairs is <= 0, we push 0 to the array. Else we subtract the number of free chairs from the need variable given to the function and push the value to the array. Within this statement we also check if need is < 0. If it is we do some correction, adding the value of need to last element of the array and then ending the loop. Another check after for need equaling exactly zero to break out of the loop. Kind of poor solution imho. Finally we return the chairsTaken array or a string if a solution could not be found
+
+A better soln:
+```
+function meeting(rooms, need) {
+  if (need <= 0) {
+    return 'Game On';
+  }
+  const taken = [];
+  for (const [{ length: chairs }, people] of rooms) {
+    const take = Math.min(Math.max(people - chairs, 0), need);
+    taken.push(take)
+    need -= take;
+    if (need <= 0) {
+      return taken;
+    }
+  }
+  return 'Not enough!';
+}
+```
+Much better solution. Starts out the same as mine with the quick return statement if no need of chairs and a variable to hold the array of chairs. Uses destructuring assignment -> [{ length: chairs }, people] <- where we are unpacking values from arrays into distinct variables.  Object destructuring is used to yield the length of chairs as a variable. Once we have these two values, iterating is far easier. Math.min and and Math.max are used to find the max chairs we can take and Math.min to return 0 or how many chairs we need. Need is appropriately decremented and then there is one check to see if we have met our need - returning the taken array. If by the end the need array is not 0, we return the string. 
