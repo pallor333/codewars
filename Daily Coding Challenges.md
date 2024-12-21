@@ -1871,3 +1871,70 @@ function meeting(rooms, need) {
 }
 ```
 Much better solution. Starts out the same as mine with the quick return statement if no need of chairs and a variable to hold the array of chairs. Uses destructuring assignment -> [{ length: chairs }, people] <- where we are unpacking values from arrays into distinct variables.  Object destructuring is used to yield the length of chairs as a variable. Once we have these two values, iterating is far easier. Math.min and and Math.max are used to find the max chairs we can take and Math.min to return 0 or how many chairs we need. Need is appropriately decremented and then there is one check to see if we have met our need - returning the taken array. If by the end the need array is not 0, we return the string. 
+
+# Next Palindromic Number
+There were and still are many problem in CW about palindrome numbers and palindrome strings. We suposse that you know which kind of numbers they are. If not, you may search about them using your favourite search engine.
+
+In this kata you will be given a positive integer, `val` and you have to create the function `next_pal()`(`nextPal` Javascript) that will output the smallest palindrome number higher than `val`.
+
+Let's see:
+
+```javascript
+For Javascript
+nextPal(11) == 22
+
+nextPal(188) == 191
+
+nextPal(191) == 202
+
+nextPal(2541) == 2552
+```
+
+You will be receiving values higher than 10, all valid.
+
+My answer:
+```
+function nextPal(val) {
+    for(let i = val + 1; i < Infinity; i++){
+        let str = i.toString();
+        if(checkPalindrome(str)) return i;
+    }
+}
+
+// Helper function to check palindrome
+function checkPalindrome(str){
+    for(let i = 0; i < str.length/2; i++){
+        if(str.charAt(i) !== str.charAt(str.length - 1 - i)) return false;
+    }
+    return true;
+}
+```
+Converts num to string, and then throws it to helper function. The funcction checkPalindrome() loops over half the string, comparing the first letter to the last letter. If they are ever not the same then it throws a false. If it's done looping and it never returns false then it must be a palindrome and it returns true.
+
+Another ans:
+```
+function nextPal(val) {
+  do {
+    val++;
+  } while(!isPalindrome(val))
+  return val;
+}
+
+function isPalindrome(num) {
+  return num === reverseNum(num);
+}
+
+function reverseNum(num) {
+  return parseInt(num.toString().split('').reverse().join(''));
+}
+```
+Uses two helper functions. The real meat is reverseNum() which converts to a string, splits it to an array, reverses the array, joins the array and then converts it back to a number to return. The number is then compared to the original number in isPalindrome() which returns a true/false to the main function.
+
+Another ans, refactored
+```
+const nextPal = val => {
+  while (++val != [...`${val}`].reverse().join(``)) ;
+  return val;
+};
+```
+This solution is the same one as above but far more concise. ++val increments by one, starting it at the number greater than val. First, it converts the number val to a string using template literal syntax (`${val}`). The string is then converted into an array of its characters using [...]. Then the array methods reverse() and join() are called to turn it back into a string. We don't have to convert it back to a number because JS attempts to convert the string to a number.
