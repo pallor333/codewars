@@ -118,7 +118,7 @@ Answer:
 ```
 const stringToArray = string => string.split(" ");
 ```
-# Find the next integral perfect square
+# Find the next integral perfect square****
 You might know some pretty large perfect squares. But what about the NEXT one?
 
 Complete the findNextSquare method that finds the next integral perfect square after the one passed as a parameter. Recall that an integral perfect square is an integer n such that sqrt(n) is also an integer.
@@ -1937,4 +1937,75 @@ const nextPal = val => {
   return val;
 };
 ```
-This solution is the same one as above but far more concise. ++val increments by one, starting it at the number greater than val. First, it converts the number val to a string using template literal syntax (`${val}`). The string is then converted into an array of its characters using [...]. Then the array methods reverse() and join() are called to turn it back into a string. We don't have to convert it back to a number because JS attempts to convert the string to a number.
+This solution is the same one as above but far more concise. `++val` is a pre-increment, adding one, evaluating and then storing the value. ++val increments by one, starting it at the number greater than val. First, it converts the number val to a string using template literal syntax (`${val}`). The string is then converted into an array of its characters using [...]. Then the array methods reverse() and join() are called to turn it back into a string. We don't have to convert it back to a number because JS attempts to convert the string to a number.
+
+# Invalid Input - Error Handling #1 (7kyu)
+Error Handling is very important in coding and seems to be overlooked or not implemented properly.
+
+## Task
+
+Your task is to implement a function which takes a string as input and return an object containing the properties vowels and consonants. The vowels property must contain the total count of vowels {a,e,i,o,u}, and the total count of consonants {a,..,z} - {a,e,i,o,u}. Handle invalid input and don't forget to return valid ones.
+
+## Input
+
+The input is any random string. You must then discern what are vowels and what are consonants and sum for each category their total occurrences in an object. However you could also receive inputs that are not strings. If this happens then you must return an object with a vowels and consonants total of 0 because the input was NOT a string. Refer to the Example section for a more visual representation of which inputs you could receive and the outputs expected. :)
+
+## Example:
+
+```javascript
+Input: getCount('test')
+Output: {vowels:1,consonants:3}
+
+Input: getCount('tEst')
+Output: {vowels:1,consonants:3}
+
+Input getCount('    ')
+Output: {vowels:0,consonants:0}
+
+Input getCount()
+Output: {vowels:0,consonants:0}
+```
+My answer:
+```
+function getCount(words) {
+  let vowelConsonants = {
+    'vowels': 0, 
+    'consonants' : 0,
+  }
+  if(typeof words !== 'string') return vowelConsonants
+  
+  //97 - 122 = a-z in ASCII
+  words.toLowerCase().split('').forEach(ch => {
+    //check for aeiou
+    'aeiou'.includes(ch) ? vowelConsonants['vowels']++ :
+    //check for any letter
+    ch.charCodeAt() >= 97 && ch.charCodeAt() <= 122 ?  vowelConsonants['consonants']++ : null;
+  })
+  
+  return vowelConsonants;
+}
+```
+Define object to hold variables, then a line to ensure we are only checking strings. Once we are sure that we are dealing with a string, it is then okay to convert everything to lowercase, split into an array and then iterate over with forEach(). The logic if/if else/else structure is leveraged here, first checking for a vowel. If a vowel is found then the second if statement is not reached, allowing us to check for any letter (a consonant). The object is incremented accordingly. 
+
+Another ans:
+```
+function getCount(words) {
+  let f = typeof words === 'string';
+  return {
+    vowels: f ? words.replace(/[^aeiou]/gi,'').length : 0,
+    consonants: f ? words.replace(/[^bcdfghjklmnpqrstvwxyz]/gi,'').length : 0
+  }
+}
+```
+f is a string check. We return an object with vowels and consonants, using the f to choose to return either 0 or the proper number of letters. The structure ensures that we are only calling string methods on a string. 
+words.replace(/[^aeiou]/gi,'') 
+- replace() returns a new string with one, some, or all matches of a `pattern` replaced by a `replacement`
+- `/[^aeiou]/` is a regular expression that matches any character that is **not** a lowercase or uppercase vowel (a, e, i, o, u).
+- The `^` inside the square brackets means "negate" the character class, so it matches any character **except** vowels.
+- The `gi` flags mean:
+	- `g`: Global search (replace all occurrences).
+	- `i`: Case-insensitive search.
+- `.replace(..., '')` replaces all matched characters (non-vowels) with an empty string, effectively removing them.
+Therefore, this replace() returns ONLY vowels. 
+
+The same is repeated for consonants, and by returning the length we get the proper num of vowels/consonants.
