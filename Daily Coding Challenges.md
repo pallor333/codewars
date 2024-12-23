@@ -1999,7 +1999,7 @@ function getCount(words) {
 ```
 f is a string check. We return an object with vowels and consonants, using the f to choose to return either 0 or the proper number of letters. The structure ensures that we are only calling string methods on a string. 
 words.replace(/[^aeiou]/gi,'') 
-- replace() returns a new string with one, some, or all matches of a `pattern` replaced by a `replacement`
+- replace(target, new) returns a new string with one, some, or all matches of a `pattern` replaced by a `replacement`
 - `/[^aeiou]/` is a regular expression that matches any character that is **not** a lowercase or uppercase vowel (a, e, i, o, u).
 - The `^` inside the square brackets means "negate" the character class, so it matches any character **except** vowels.
 - The `gi` flags mean:
@@ -2009,3 +2009,59 @@ words.replace(/[^aeiou]/gi,'')
 Therefore, this replace() returns ONLY vowels. 
 
 The same is repeated for consonants, and by returning the length we get the proper num of vowels/consonants.
+
+# Genetic Algorithm Series - #1 Generate (7kyu)
+A genetic algorithm is based in groups of chromosomes, called populations. To start our population of chromosomes we need to generate random binary strings with a specified length.
+
+In this kata you have to implement a function `generate` that receives a `length` and has to return a random binary string with `length` characters.
+# Example:
+
+Generate a chromosome with length of 4 `generate(4)` could return the chromosome `0010`, `1110`, `1111`... or any of `2^4` possibilities.
+
+_**Note:**_ _Some tests are random. If you think your algorithm is correct but the result fails, trying again should work._
+
+My ans:
+```
+const generate = length => {
+  let binaryStr = "";
+  for(let i = 0; i < length; i++){
+    binaryStr += Math.round(Math.random() * 1).toString();
+  }
+  return binaryStr;
+};
+```
+
+Another set of solutions:
+```
+const generate = length => {
+  return Array.from(Array(length) , x => Math.floor(Math.random() * 2)).join('');
+};
+```
+This one uses an array.from() -- method that creates a new shallow array from an iterable/array-like object -- defining a new object of 
+
+```
+const generate = length =>
+  [...Array(length)].map(val => Math.random() * 2 ^ 0).join(``);
+```
+Spreading the array turns otherwise empty slots into 'undefined', allowing map() to properly iterate over every element and fill them with the function expression. Generating the random 0/1 in this way also uses one less method call.
+
+# Genetic Algorithm Series - #2 Mutation (7kyu)
+Mutation is a genetic operator used to maintain genetic diversity from one generation of a population of genetic algorithm chromosomes to the next.
+
+![Mutation](http://i.imgur.com/HngmxNN.gif)
+
+A mutation here may happen on zero or more positions in a chromosome. It is going to check every position and by a given probability it will decide if a mutation will occur.
+
+A mutation is the change from `0` to `1` or from `1` to `0`.
+
+My answer:
+```
+const mutate = (chromosome, p) => {
+  return chromosome.split('').map(n => {
+    if(Math.random() <= p){
+      return n === '0' ? '1' : '0';
+    }
+    return n;
+  }).join('')
+};
+```
