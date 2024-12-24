@@ -2014,7 +2014,7 @@ The same is repeated for consonants, and by returning the length we get the prop
 A genetic algorithm is based in groups of chromosomes, called populations. To start our population of chromosomes we need to generate random binary strings with a specified length.
 
 In this kata you have to implement a function `generate` that receives a `length` and has to return a random binary string with `length` characters.
-# Example:
+## Example:
 
 Generate a chromosome with length of 4 `generate(4)` could return the chromosome `0010`, `1110`, `1111`... or any of `2^4` possibilities.
 
@@ -2065,3 +2065,88 @@ const mutate = (chromosome, p) => {
   }).join('')
 };
 ```
+
+Another solution:
+```
+const mutate = (chromosome,p) => Array.from( chromosome, bit => Math.random()<p ? bit^1 : bit ).join("") ;
+```
+- **`Array.from(chromosome)`**: This takes the string `chromosome` and converts it into an array of characters (or bits, in this case). For example, if `chromosome = '10101'`, it will become `['1', '0', '1', '0', '1']`.
+- **`bit => Math.random() < p ? bit ^ 1 : bit`**: This is a **mapping function** that will be applied to each `bit` in the array. The mapping function does the following:
+    - **`Math.random() < p`**: This generates a random number between 0 and 1. If the random number is **less than `p`**, the bit has a chance to be mutated.
+    - **`bit ^ 1`**: This operation is the **XOR** (exclusive OR) operation. The XOR of a bit and `1` will flip the bit:
+        - `0 ^ 1 = 1` (flip `0` to `1`)
+        - `1 ^ 1 = 0` (flip `1` to `0`)
+    - **`bit`**: If the random number is **greater than or equal to `p`**, the bit is **not mutated** and remains unchanged.
+
+# Error Throwing - Error Handling #2 (7kyu) 
+Error Handling is very important in coding. Most error handling seems to be overlooked or not implemented properly.
+
+## Task
+
+In this kata you are provided to evaluate a string, you must check for any HTML code (i.e. if any HTML tags are found), if any code is found you must return false, If the input is not a string you must throw a `TypeError`, if the string is over 255 characters long or contains 0 characters you must throw a `RangeError` and last of all if the string entered is null throw a `ReferenceError`.
+
+## Error Messages
+
+ReferenceError
+
+```javascript
+new ReferenceError('Message is null!')
+```
+
+TypeError
+
+```javascript
+new TypeError(`Message should be of type string but was of type ${typeof msg}!`)
+```
+
+RangeError
+
+```javascript
+new RangeError(`Message contains ${msg.length} characters!`)
+```
+
+My answer:
+```
+function validateMessage(msg) {
+  
+  if(msg === null){
+    throw new ReferenceError('Message is null!')
+  }else if(typeof(msg) !== 'string'){
+    throw new TypeError(`Message should be of type string but was of type ${typeof msg}!`)
+  }else if(msg.includes('<') && msg.includes('>')){
+    return false;
+  }else if(msg.length > 255 || msg.length === 0){
+    throw new RangeError(`Message contains ${msg.length} characters!`)
+  }
+  
+  return true;
+  
+}
+```
+
+
+A soln involving regex:
+```
+const validateMessage = msg => {
+  if (msg === null) throw ReferenceError('Message is null!');
+  if (typeof msg != 'string') throw TypeError(`Message should be of type string but was of type ${typeof msg}!`);
+  if (!msg.length || msg.length > 255) throw RangeError(`Message contains ${msg.length} characters!`);
+  if (/<.*>/.test(msg)) return false;
+  return true;
+}
+```
+
+# Genetic Algorithm Series - #3 Crossover (7 kyu)
+In genetic algorithms, crossover is a genetic operator used to vary the programming of chromosomes from one generation to the next.
+
+The one-point crossover consists in swapping one's cromosome part with another in a specific given point. The image bellow shows the crossover being applied on chromosomes `1011011001111` and `1011100100110` with the cut point (index) `4`:
+
+![](http://i.imgur.com/nZ4hgnS.gif)
+
+In this kata you have to implement a function `crossover` that receives two chromosomes `chromosome1`, `chromosome2` and a zero-based `index` and it has to return an array with the crossover result on both chromosomes `[chromosome1, chromosome2]`.
+
+# Example:
+
+`crossover('111000', '000110', 3)` should return `['111110', 000000']`
+
+My answer:
