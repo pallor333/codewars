@@ -2150,3 +2150,24 @@ In this kata you have to implement a function `crossover` that receives two chro
 `crossover('111000', '000110', 3)` should return `['111110', 000000']`
 
 My answer:
+```
+const crossover = (chromosome1, chromosome2, index) => {
+  let strandOneFront = "", strandOneBack = "", strandTwoFront = "", strandTwoBack = "";
+  chromosome1.split('').filter((n, idx) => idx < index ? strandOneFront+= n : strandOneBack+= n);
+  chromosome2.split('').filter((n, idx) => idx < index ? strandTwoFront+= n : strandTwoBack+= n);
+  
+  return [strandOneFront.concat(strandTwoBack), strandTwoFront.concat(strandOneBack)];
+};
+```
+
+A more efficient answer:
+```
+const crossover = (chromosome1, chromosome2, index) => {
+  return [
+    chromosome1.substring(0, index) + chromosome2.substring(index),
+    chromosome2.substring(0, index) + chromosome1.substring(index)
+  ]
+};
+```
+
+substring(start, end) returns part of the string from the start (inclusive) to the end(exclusive). If no end is specified then it will return until the end of string.
