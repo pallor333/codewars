@@ -2145,7 +2145,7 @@ The one-point crossover consists in swapping one's cromosome part with another i
 
 In this kata you have to implement a function `crossover` that receives two chromosomes `chromosome1`, `chromosome2` and a zero-based `index` and it has to return an array with the crossover result on both chromosomes `[chromosome1, chromosome2]`.
 
-# Example:
+## Example:
 
 `crossover('111000', '000110', 3)` should return `['111110', 000000']`
 
@@ -2171,3 +2171,83 @@ const crossover = (chromosome1, chromosome2, index) => {
 ```
 
 substring(start, end) returns part of the string from the start (inclusive) to the end(exclusive). If no end is specified then it will return until the end of string.
+
+# Genetic Algorithm Series - #4 Get population and fitnesses (7kyu)
+In a genetic algorithm, a population is a collection of candidates that may evolve toward a better solution.
+
+We determine how close a chromosome is to a ideal solution by calculating its fitness. You are given two parameters, the `population` containing all individuals and a function `fitness` that determines how close to the solution a chromosome is.
+
+Your task is to return a collection containing an object with the chromosome and the calculated fitness.
+
+```
+[
+  { chromosome: c, fitness: f },
+  { chromosome: c, fitness: f },
+  ...
+]
+```
+
+Answer:
+```
+const mapPopulationFit = (population, fitness) => {
+  return population.map(chromosome => ({ chromosome, fitness: fitness(chromosome) }))
+}
+```
+Uses ES6 syntax shorthand. Instead of var test = 1; and {test: test}, you may instead just do {test}.
+
+Another answer, but without the shorthand:
+```
+const mapPopulationFit = (population, fitness) =>
+  population.map(chromosome => ({
+    fitness: fitness(chromosome),
+    chromosome,
+  }))
+```
+
+```
+const mapPopulationFit = (population, fitness) => population.map(chromosome => ({chromosome, fitness:fitness(chromosome)}))
+```
+
+# Pull your words together, man! (7kyu)
+Your friend Robbie has successfully created an AI that is capable of communicating in English!
+
+Robbie's almost done with the project, however the machine's output isn't working as expected. Here's a sample of a sentence that it outputs:
+
+```
+["this","is","a","sentence"]
+```
+
+Every time that it tries to say a sentence, instead of formatting it in normal English orthography, it just outputs a list of words.
+
+Robbie has pulled multiple all-nighters to get this project finished, and he needs some beauty sleep. So, he wants you to write the last part of his code, a `sentencify` function, which takes the output that the machine gives, and formats it into proper English orthography.
+
+Your function should:
+
+1. Capitalise the first letter of the first word.
+2. Add a period (`.`) to the end of the sentence.
+3. Join the words into a complete string, with spaces.
+4. Do _no other manipulation_ on the words.
+
+My answer:
+```
+function sentencify(words) {
+  let sentence = words.map((word, idx) =>{
+    if(idx === 0){
+      word = word[0].toUpperCase() + word.slice(1);
+    }
+    if (idx === words.length-1){
+      word += '.'
+    }
+    return word;
+  })
+  return sentence.join(' ');
+}
+
+```
+
+Better answer:
+```
+const sentencify = words =>
+  `${words[0][0].toUpperCase()}${words.join(` `).slice(1)}.`;
+```
+Getting the first letter (""words [0]  [0] ") of the first word ("words[0]") and turning that capital with toUpperCase(). The first word is called uponUsing the template string, we then combine it with the rest of the array using words.join(' ').slice(1) - this piece of code joins all elements past the first together with a space. We finally end it with a period through the use of template string. 
