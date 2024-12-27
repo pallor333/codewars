@@ -2251,3 +2251,54 @@ const sentencify = words =>
   `${words[0][0].toUpperCase()}${words.join(` `).slice(1)}.`;
 ```
 Getting the first letter (""words [0]  [0] ") of the first word ("words[0]") and turning that capital with toUpperCase(). The first word is called uponUsing the template string, we then combine it with the rest of the array using words.join(' ').slice(1) - this piece of code joins all elements past the first together with a space. We finally end it with a period through the use of template string. 
+# Bouncing Balls (6kyu)
+A child is playing with a ball on the nth floor of a tall building. The height of this floor above ground level, _h_, is known.
+
+He drops the ball out of the window. The ball bounces (for example), to two-thirds of its height (a bounce of 0.66).
+
+His mother looks out of a window 1.5 meters from the ground.
+
+How many times will the mother see the ball pass in front of her window (including when it's falling _and_ bouncing)?
+
+#### Three conditions must be met for a valid experiment:
+
+- Float parameter "h" in meters must be greater than 0
+- Float parameter "bounce" must be greater than 0 and less than 1
+- Float parameter "window" must be less than h.
+
+**If all three conditions above are fulfilled, return a positive integer, otherwise return -1.**
+
+#### Note:
+
+The ball can only be seen if the height of the rebounding ball is strictly _greater_ than the window parameter.
+
+#### Examples:
+
+```
+- h = 3, bounce = 0.66, window = 1.5, result is 3
+
+- h = 3, bounce = 1, window = 1.5, result is -1 
+
+(Condition 2) not fulfilled).
+```
+
+My answer:
+```
+function bouncingBall(h,  bounce,  window) {
+  if(h < 0 || bounce < 0 || bounce >= 1 || h <= window) return -1;
+  
+  let count = 0;
+  while(h > window){
+    count++; //falling down
+    h *= bounce;
+    if(h > window) count++; // bouncing up
+  }
+  return count;
+  
+} 
+```
+
+A recursive solution: 
+```
+const bouncingBall = (h, b, w) => (h <= 0 || b <= 0 || b >= 1 || w >= h) ? -1 : 2 + bouncingBall(h*b, b, w);
+```
