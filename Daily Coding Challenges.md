@@ -2302,3 +2302,42 @@ A recursive solution:
 ```
 const bouncingBall = (h, b, w) => (h <= 0 || b <= 0 || b >= 1 || w >= h) ? -1 : 2 + bouncingBall(h*b, b, w);
 ```
+
+Another soln in O(log(n)) time:
+```
+function bouncingBall(h,  bounce,  window) {
+  if (h <= 0 || bounce <= 0 || bounce >= 1 || window >= h) return -1
+
+  let bounces = (Math.log(window/h) / Math.log(bounce))
+  if (bounces - Math.floor(bounces) != 0) {
+    bounces *= 2
+  }
+  
+  bounces = Math.floor(bounces)
+  if (bounces % 2 == 0) return bounces + 1
+  
+  return bounces
+}
+```
+
+# Two to One
+Take 2 strings `s1` and `s2` including only letters from `a` to `z`. Return a new **sorted** string (alphabetical ascending), the longest possible, containing distinct letters - each taken only once - coming from s1 or s2.
+
+#### Examples:
+
+```
+a = "xyaabbbccccdefww"
+b = "xxxxyyyyabklmopq"
+longest(a, b) -> "abcdefklmopqwxy"
+
+a = "abcdefghijklmnopqrstuvwxyz"
+longest(a, a) -> "abcdefghijklmnopqrstuvwxyz"
+```
+
+My answer: 
+```
+function longest(s1, s2) {
+  return [...new Set(s1 + s2)].sort().join('');
+}
+```
+[...] or spreading a set will do the same as Array.from()
