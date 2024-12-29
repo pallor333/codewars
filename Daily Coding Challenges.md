@@ -2320,7 +2320,7 @@ function bouncingBall(h,  bounce,  window) {
 }
 ```
 
-# Two to One
+# Two to One (7 kyu)
 Take 2 strings `s1` and `s2` including only letters from `a` to `z`. Return a new **sorted** string (alphabetical ascending), the longest possible, containing distinct letters - each taken only once - coming from s1 or s2.
 
 #### Examples:
@@ -2341,3 +2341,38 @@ function longest(s1, s2) {
 }
 ```
 [...] or spreading a set will do the same as Array.from()
+# Sum without highest and lowest number (8kyu)
+Sum all the numbers of a given array ( cq. list ), except the highest and the lowest element ( by value, not by index! ).
+
+The highest or lowest element respectively is a single element at each edge, even if there are more than one with the same value.
+
+Mind the input validation.
+
+## Example
+
+```
+{ 6, 2, 1, 8, 10 } => 16
+{ 1, 1, 11, 2, 3 } => 6
+```
+
+## Input validation
+
+If an empty value ( `null`, `None`, `Nothing`, `nil` etc. ) is given instead of an array, or the given array is an empty list or a list with only `1` element, return `0`.
+
+My answer:
+```
+function sumArray(array) {
+ return array === null || array === undefined || array.length <= 2 ? 0 : 
+      array.sort((a,b) => a - b).slice(1, array.length-1).reduce((sum, n) => sum + n, 0);
+  
+}
+```
+
+A solution with a better runtime:
+```
+function sumArray(array) {
+  return Array.isArray(array) && array.length > 1
+    ? array.reduce((s, n) => s + n, 0) - Math.min(...array) - Math.max(...array)
+    : 0
+}
+```
