@@ -2376,3 +2376,170 @@ function sumArray(array) {
     : 0
 }
 ```
+
+# Calculating with Functions (5kyu)
+This time we want to write calculations using functions and get the results. Let's have a look at some examples:
+
+```javascript
+seven(times(five())); // must return 35
+four(plus(nine())); // must return 13
+eight(minus(three())); // must return 5
+six(dividedBy(two())); // must return 3
+```
+
+Requirements:
+
+- There must be a function for each number from 0 ("zero") to 9 ("nine")
+- There must be a function for each of the following mathematical operations: plus, minus, times, dividedBy
+- Each calculation consist of exactly one operation and two numbers
+- The most outer function represents the left operand, the most inner function represents the right operand
+- Division should be **integer division**. For example, this should return `2`, not `2.666666...`:
+
+```javascript
+eight(dividedBy(three()));
+```
+
+Answer:
+```
+const zero = a => a ? a(0) : 0
+const one = a => a ? a(1) : 1
+const two = a => a ? a(2) : 2
+const three = a => a ? a(3) : 3
+const four = a => a ? a(4) : 4
+const five = a => a ? a(5) : 5
+const six = a => a ? a(6) : 6
+const seven = a => a ? a(7) : 7
+const eight = a => a ? a(8) : 8
+const nine = a => a ? a(9) : 9
+
+const plus = a => b => a + b
+const minus = a => b => b - a
+const dividedBy = a => b => Math.floor(b / a)
+const times = a => b => a * b
+```
+The function checks if `a` is truthy using the conditional (ternary) operator: `a ? a(7) : 7`. If you pass a function as `a`, the expression `a(7)` is evaluated, which means the function `a` will be called with the argument `7`. In this case, `7` is the number passed into the function. If you do **not** provide an argument to `seven` (or you pass a falsy value like `null`, `undefined`, `false`, etc.), the expression `a ? a(7) : 7` will evaluate to `7` (the default value).
+
+`const plus = a => b => a + b` defines a **curried function** in JavaScript. `a => b => a + b` is an **arrow function** with two parts:
+
+- The outer function takes an argument `a` (the first operand).
+- The inner function takes an argument `b` (the second operand).
+- The result of the inner function is `a + b`, which is the sum of `a` and `b`.
+
+The `plus` function is a **curried** function, which means it returns another function. The curried pattern allows you to call the function in multiple stages:
+
+1. **First, you call `plus` with a value for `a`**.
+2. **Then, the returned function takes a second argument `b`**, and when you call that function, it returns the result of `a + b`.
+```
+seven(times(five())); // must return 35
+```
+
+
+ Using a generator to get rid of all the duplicate functions. (And with readable variable names):
+ ```
+const zero = a => a ? a(0) : 0
+const one = a => a ? a(1) : 1
+const two = a => a ? a(2) : 2
+const three = a => a ? a(3) : 3
+const four = a => a ? a(4) : 4
+const five = a => a ? a(5) : 5
+const six = a => a ? a(6) : 6
+const seven = a => a ? a(7) : 7
+const eight = a => a ? a(8) : 8
+const nine = a => a ? a(9) : 9
+
+const plus = a => b => a + b
+const minus = a => b => b - a
+const dividedBy = a => b => Math.floor(b / a)
+const times = a => b => a * b
+```
+
+A concise answer:
+```
+const [zero, one, two, three, four, five, six, seven, eight, nine] = [...Array(10)].map((_, idx) => fn => fn ? fn(idx) : idx);
+
+const [plus, minus, times, dividedBy] = [`+`, `-`, `*`, `/`].map(val => new Function(`b`, `return a => a ${val} b ^ 0`));
+```
+
+The first part creates an array of 10 elements, where each element represents a digit (0 through 9). Here's how it works:
+
+1. `Array(10)` creates an empty array of length 10, which looks like `[ <10 empty items> ]`.
+2. `[...Array(10)]` spreads this array into a new array, making it a fully instantiated array of length 10, but the values inside are still `undefined` (like `[undefined, undefined, ..., undefined]`).
+3. `.map((_, idx) => fn => fn ? fn(idx) : idx)` transforms this array into an array of functions. Each element in this array is now a function that takes another function `fn` as an argument:
+    - If `fn` is provided, the function calls `fn(idx)`, where `idx` is the current index of the digit (0 for `zero`, 1 for `one`, etc.).
+    - If `fn` is not provided, it simply returns `idx` itself (the digit).
+
+So, when you access an element like `zero`, it’s actually a function that will return `0` if you call it without any arguments, or you can pass a function to it, and it will apply that function to `0`.
+
+For example:```
+zero()  // Returns 0
+zero(x => x + 5)  // Returns 5 (because 0 + 5 = 5)```
+
+# Build Tower (6kyu)
+Build a pyramid-shaped tower, as an array/list of strings, given a positive integer `number of floors`. A tower block is represented with `"*"` character.
+
+For example, a tower with `3` floors looks like this:
+
+```
+[
+  "  *  ",
+  " *** ", 
+  "*****"
+]
+```
+
+And a tower with `6` floors looks like this:
+
+```
+[
+  "     *     ", // 5 space, 1 star, 5 space
+  "    ***    ", // 4 space, 3 star, 4 space
+  "   *****   ", // 3 space, 5 star, 3 space
+  "  *******  ", // 2 space, 7 star, 2 space
+  " ********* ", // 1 space, 9 star, 1 space
+  "***********"  // 0 space, 11 star, 0 space
+]
+```
+
+My answer:
+```
+function towerBuilder(nFloors) {
+  let totalStars = 2 * (nFloors - 1) + 1
+  return new Array(nFloors).fill("").map((element, idx) => {
+    let currentStars = 2 * idx + 1;
+    let currentSpace = (totalStars - currentStars) / 2
+    
+    return " ".repeat(currentSpace)+"*".repeat(currentStars)+" ".repeat(currentSpace);
+  });
+}
+```
+Refactored answer:
+```
+function towerBuilder(nFloors) {
+  return new Array(nFloors)
+    .fill("")
+    .map((element, idx) => 
+         " ".repeat(nFloors - idx - 1)+"*".repeat((idx * 2) + 1)+" ".repeat(nFloors - idx - 1));
+}
+```
+
+An answer without function calls:
+```
+function towerBuilder(nFloors) {
+  let tower = [];
+  for (let i = 0; i < nFloors; i++) {
+    tower.push(" ".repeat(nFloors - i - 1)
+             + "*".repeat((i * 2)+ 1)
+             + " ".repeat(nFloors - i - 1));
+  }
+  return tower;
+}
+```
+
+A concise answer:
+```
+const towerBuilder = nFloors =>
+  [...Array(nFloors)]
+  .map((_, idx) => `${`*`.repeat(2 * idx + 1)}`
+  .padStart(nFloors + idx, ` `)
+  .padEnd(2 * nFloors - 1, ` `));
+```
