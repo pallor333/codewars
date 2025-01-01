@@ -2544,7 +2544,7 @@ const towerBuilder = nFloors =>
   .padEnd(2 * nFloors - 1, ` `));
 ```
 
-# I need more speed!
+# I need more speed! (6kyu)
 Write a function that will take in any `array` and reverse it.  
 
 Sounds simple doesn't it?  
@@ -2556,3 +2556,67 @@ Sounds simple doesn't it?
 - You'll have to do it fast enough, so think about performances
 
 My answer:
+```
+function reverse(arr) {
+  let temp, length = arr.length;
+  for(let i = 0; i < length/2; i++){
+    temp = arr[i];
+    arr[i] = arr[length - 1 - i];
+    arr[length - 1 - i] = temp;
+   }
+}
+```
+Picture a mirror set on the middle element, we swap values in the array based on that midpoint. Iterate over half of the array, using a temp variable to store the current value. Then set the current element to the corresponding array value on the other side of the array and then set that element to temp. 
+
+Another answer:
+```
+const reverse = (arr, l = arr.length - 1) => {
+  for (let i = 0; i < l; i++, l--) {
+    const tmp = arr[i];
+    arr[i] = arr[l];
+    arr[l] = tmp;
+  }
+  return arr;
+};
+```
+
+# Fake Binary
+Given a string of digits, you should replace any digit below 5 with '0' and any digit 5 and above with '1'. Return the resulting string.
+
+**Note: input will never be an empty string**
+
+My answer:
+```
+function fakeBin(x){
+  return x.replaceAll(/[1234]/g, '0')
+          .replaceAll(/[56789]/g, '1');
+}
+```
+Using regex, we specify using a character class [] inside the expression call to replace the values of 1, 2, 3, and 4 with 0 and also 5, 6, 7, 8, 9 with 1. The g specifies it to be a global replacement. This is perhaps not the most efficient code.
+
+Alternate answer that's a bit more concise:
+```
+function fakeBin(x){
+  return x.replace( /[0-4]/g, "0" ).replace( /[5-9]/g, "1" )
+}
+```
+Instead of writing out all the numbers, we use a range to specify.
+
+An answer using regex and logic:
+```
+function fakeBin(x) {
+  return x.replace(/\d/g, d => d < 5 ? 0 : 1);
+}
+```
+/\d/g matches all digit characters (0-9), syntactic sugar same as `/[0-9]/g`. In JavaScript, `String.prototype.replace()` allows a **replacement string** or a **replacement function** as the second argument:
+
+- If you provide a string, it will be used directly as the replacement.
+- If you provide a function, that function is invoked for each match, and the return value of the function will be used as the replacement.
+
+Another answer using arrays:
+```
+function fakeBin(x) {
+    return x.split('').map(n => n < 5 ? 0 : 1).join('');
+}
+```
+Split the string into an array of each character and then create a new one, replacing each character with a 1 or 0 based on the element being less than 5. 
