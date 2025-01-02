@@ -2250,7 +2250,7 @@ Better answer:
 const sentencify = words =>
   `${words[0][0].toUpperCase()}${words.join(` `).slice(1)}.`;
 ```
-Getting the first letter (""words [0]  [0] ") of the first word ("words[0]") and turning that capital with toUpperCase(). The first word is called uponUsing the template string, we then combine it with the rest of the array using words.join(' ').slice(1) - this piece of code joins all elements past the first together with a space. We finally end it with a period through the use of template string. 
+The first letter (""words [0]  [0] ") of the first word ("words[0]")  is capitalized using toUpperCase(). Using the template string, we then combine it with the rest of the array using words.  We call upon the words array again, joining them into a single string so we may slice into it, return everything but the first character. -- join(' ').slice(1). If we do it the opposite way, it will instead join all elements but the first one, and thus the return string will be missing the end characters of the first element.  Finally a period is placed at the end of the template string. 
 # Bouncing Balls (6kyu)
 A child is playing with a ball on the nth floor of a tall building. The height of this floor above ground level, _h_, is known.
 
@@ -2580,7 +2580,7 @@ const reverse = (arr, l = arr.length - 1) => {
 };
 ```
 
-# Fake Binary
+# Fake Binary (8 kyu)
 Given a string of digits, you should replace any digit below 5 with '0' and any digit 5 and above with '1'. Return the resulting string.
 
 **Note: input will never be an empty string**
@@ -2620,3 +2620,33 @@ function fakeBin(x) {
 }
 ```
 Split the string into an array of each character and then create a new one, replacing each character with a 1 or 0 based on the element being less than 5. 
+
+# Grasshopper - Check for factor (8kyu)
+This function should test if the `factor` is a factor of `base`.
+
+Return `true` if it is a factor or `false` if it is not.
+
+## About factors
+
+Factors are numbers you can multiply together to get another number.
+
+2 and 3 are factors of 6 because: `2 * 3 = 6`
+
+- You can find a factor by dividing numbers. If the remainder is 0 then the number is a factor.
+- You can use the mod operator (`%`) in most languages to check for a remainder
+
+For example 2 is not a factor of 7 because: `7 % 2 = 1`
+
+Note: `base` is a non-negative number, `factor` is a positive number.
+
+My answer:
+```
+function checkForFactor (base, factor) {
+  return base % factor === 0
+}
+```
+
+Another ans:
+```
+const checkForFactor = (base, factor) => !(base % factor);
+```
