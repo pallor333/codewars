@@ -46,7 +46,7 @@ function removeSmallest(numbers) {
 
 # Given a string, you have to return a string in which each character (case-sensitive) is repeated once.
 
-### Examples (Input -> Output):
+ Examples (Input -> Output):
 
 ```
 * "String"      -> "SSttrriinngg"
@@ -118,7 +118,7 @@ Answer:
 ```
 const stringToArray = string => string.split(" ");
 ```
-# Find the next integral perfect square****
+# Find the next integral perfect square
 You might know some pretty large perfect squares. But what about the NEXT one?
 
 Complete the findNextSquare method that finds the next integral perfect square after the one passed as a parameter. Recall that an integral perfect square is an integer n such that sqrt(n) is also an integer.
@@ -2649,4 +2649,22 @@ function checkForFactor (base, factor) {
 Another ans:
 ```
 const checkForFactor = (base, factor) => !(base % factor);
+```
+
+# Mumbling (7kyu)
+#### Examples:
+
+```
+accum("abcd") -> "A-Bb-Ccc-Dddd"
+accum("RqaEzty") -> "R-Qq-Aaa-Eeee-Zzzzz-Tttttt-Yyyyyyy"
+accum("cwAt") -> "C-Ww-Aaa-Tttt"
+```
+
+The parameter of accum is a string which includes only letters from `a..z` and `A..Z`.
+
+My answer:
+```
+function accum(s) {
+	return s.toLowerCase().split('').map((ch,idx) => ch.toUpperCase()+ch.repeat(idx)).join('-');
+}
 ```
