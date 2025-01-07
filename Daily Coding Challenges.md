@@ -2224,7 +2224,7 @@ Robbie has pulled multiple all-nighters to get this project finished, and he nee
 
 Your function should:
 
-1. Capitalise the first letter of the first word.
+1. Capitalize the first letter of the first word.
 2. Add a period (`.`) to the end of the sentence.
 3. Join the words into a complete string, with spaces.
 4. Do _no other manipulation_ on the words.
@@ -2672,3 +2672,50 @@ function accum(s) {
 ```
 
 =======
+# Get the Middle Character (7kyu)
+You are going to be given a **non-empty** string. Your job is to return the middle character(s) of the string.
+
+- If the string's length is odd, return the middle character.
+- If the string's length is even, return the middle 2 characters.
+
+### Examples:
+
+```javascript
+"test" --> "es"
+"testing" --> "t"
+"middle" --> "dd"
+"A" --> "A"
+```
+
+My answer:
+```
+function getMiddle(s) {
+  return s.length % 2 === 0 ? s[s.length/2 - 1] + s[s.length/2] :  s[Math.floor(s.length/2)];
+}
+```
+
+A more elegant answer:
+```
+function getMiddle(s){
+  return s.slice((s.length-1)/2, s.length/2+1);
+}
+```
+
+# Duplicate Encoder (6kyu)
+The goal of this exercise is to convert a string to a new string where each character in the new string is `"("` if that character appears only once in the original string, or `")"` if that character appears more than once in the original string. Ignore capitalization when determining if a character is a duplicate.
+
+### Examples
+
+```
+"din"      =>  "((("
+"recede"   =>  "()()()"
+"Success"  =>  ")())())"
+"(( @"     =>  "))((" 
+```
+
+### Notes
+
+Assertion messages may be unclear about what they display in some languages. If you read `"...It Should encode XXX"`, the `"XXX"` is the expected result, not the input!
+
+My answer:
+
