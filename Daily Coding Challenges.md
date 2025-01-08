@@ -2718,4 +2718,39 @@ The goal of this exercise is to convert a string to a new string where each char
 Assertion messages may be unclear about what they display in some languages. If you read `"...It Should encode XXX"`, the `"XXX"` is the expected result, not the input!
 
 My answer:
+```
+function duplicateEncode(word){
+    let dictionary = {}
+    //fill dictionary in or increment
+     word.toLowerCase().split('').forEach(ch => 
+		dictionary[ch] = (dictionary[ch]+1) || 1);
+  
+    return word
+      .toLowerCase()
+      .split('')
+      .map(ch => dictionary[ch] === 1 ? "(" : ")")
+      .join('');
+}
+```
 
+Big O notation of O(2n). Loops over the string once to populate the dictionary with 1 or increment value. Loops again to build the string for return, checking the dictionary and returning "(" if the value is 1 or ")" if the value is greater.
+
+Another answer:
+```
+function countCharacters(chars) {
+  return chars
+    .reduce( function(memo, char){
+      memo[char] = memo[char] ? memo[char] + 1 : 1;
+      return memo;
+    }, {});
+}
+
+function duplicateEncode(word){
+  const chars = word.toLowerCase().split('');
+  const charsCount = countCharacters(chars);
+  return chars
+    .map( ch => charsCount[ch] > 1 ? ')' : '(' )
+    .join('');
+}
+```
+Not necessarily better but uses a function to create the dictionary, similar in logic to mine.
