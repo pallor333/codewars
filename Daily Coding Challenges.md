@@ -2754,3 +2754,20 @@ function duplicateEncode(word){
 }
 ```
 Not necessarily better but uses a function to create the dictionary, similar in logic to mine.
+
+# You can't code under pressure #2
+You need to make a constructor function with two methods (and only these two methods) to return and increment a counter, but the counter should not be directly accessible from outside the function.
+
+Answer:
+```
+function Counter() {
+  let _count = 0;
+
+  this.check = function() {
+    return _count;
+  }
+  this.increment = function() {
+    _count++;
+  }
+};
+```
