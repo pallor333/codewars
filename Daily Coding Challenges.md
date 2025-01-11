@@ -2771,3 +2771,94 @@ function Counter() {
   }
 };
 ```
+# Welcome! (8 kyu)
+### The Task
+
+- Think of a way to store the languages as a database. The languages are listed below so you can copy and paste!
+- Write a 'welcome' function that takes a parameter 'language', with a type `String`, and returns a greeting - if you have it in your database. It should default to English if the language is not in the database, or in the event of an invalid input.
+
+### The Database
+
+Please modify this as appropriate for your language.
+
+```haskell
+[ ("english", "Welcome")
+, ("czech", "Vitejte")
+, ("danish", "Velkomst")
+, ("dutch", "Welkom")
+, ("estonian", "Tere tulemast")
+, ("finnish", "Tervetuloa")
+, ("flemish", "Welgekomen")
+, ("french", "Bienvenue")
+, ("german", "Willkommen")
+, ("irish", "Failte")
+, ("italian", "Benvenuto")
+, ("latvian", "Gaidits")
+, ("lithuanian", "Laukiamas")
+, ("polish", "Witamy")
+, ("spanish", "Bienvenido")
+, ("swedish", "Valkommen")
+, ("welsh", "Croeso")
+]
+```
+
+Possible invalid inputs include:
+
+```
+IP_ADDRESS_INVALID - not a valid ipv4 or ipv6 ip address
+IP_ADDRESS_NOT_FOUND - ip address not in the database
+IP_ADDRESS_REQUIRED - no ip address was supplied
+```
+
+My answer:
+```
+function greet(language) {
+  const database = {
+"english": 'Welcome',
+"czech": 'Vitejte',
+"danish": 'Velkomst',
+"dutch": 'Welkom',
+"estonian": 'Tere tulemast',
+"finnish": 'Tervetuloa',
+"flemish": 'Welgekomen',
+"french": 'Bienvenue',
+"german": 'Willkommen',
+"irish": 'Failte',
+"italian": 'Benvenuto',
+"latvian": 'Gaidits',
+"lithuanian": 'Laukiamas',
+"polish": 'Witamy',
+"spanish": 'Bienvenido',
+"swedish": 'Valkommen',
+"welsh": 'Croeso'
+    }
+  return database[language] ? database[language] : database["english"]
+}
+```
+
+Another ans:
+```
+function greet(language) {
+	var GreetingsDB = {
+    english: 'Welcome',
+    czech: 'Vitejte',
+    danish: 'Velkomst',
+    dutch: 'Welkom',
+    estonian: 'Tere tulemast',
+    finnish: 'Tervetuloa',
+    flemish: 'Welgekomen',
+    french: 'Bienvenue',
+    german: 'Willkommen',
+    irish: 'Failte',
+    italian: 'Benvenuto',
+    latvian: 'Gaidits',
+    lithuanian: 'Laukiamas',
+    polish: 'Witamy',
+    spanish: 'Bienvenido',
+    swedish: 'Valkommen',
+    welsh: 'Croeso'
+  }, 
+  defaultLanguage = 'english';
+  return GreetingsDB[language] || GreetingsDB[defaultLanguage];
+}
+```
