@@ -1,4 +1,4 @@
-
+//Last added # Beginner Series #4 Cockroach
 # The museum of incredibly dull things
 
 The museum of incredibly dull things wants to get rid of some exhibits. Miriam, the interior architect, comes up with a plan to remove the most boring exhibits. She gives them a rating, and then removes the one with the lowest rating.
@@ -181,7 +181,6 @@ Ternary conditional operator can be chained to nest if statements to ensure read
 
 Another Answer:
 ```
-
 const smileyIsValid = smiley => 
   smiley.length === 3 || smiley.length === 2
 
@@ -2862,3 +2861,63 @@ function greet(language) {
   return GreetingsDB[language] || GreetingsDB[defaultLanguage];
 }
 ```
+
+# Genetic Algorithm Series - #5 Roulette wheel selection (6kyu)
+The "Roulette wheel selection", also known as "Fitness proportionate selection", is a genetic operator used in genetic algorithms for selecting potentially useful solutions for recombination.
+
+Your task is to implement it.
+
+![roulette](http://i.imgur.com/K5VSzVT.png)
+
+You throw a coin in and has a chance to fall in one of the slots, the higher the fitness the higher the chance the element has to be selected.
+
+Given the `population` and `fitnesses`, your task is to run the roulette to return one element.
+
+_**Note:**_ _Some tests are random. If you think your algorithm is correct but the result fails, trying again should work.
+
+My answer:
+```
+const select = (population, fitnesses) => {
+  let totalSlots = 1/Math.min(...fitnesses), fitnessWheel = "";
+  
+  population.filter((gene, idx)=> fitnessWheel += gene
+                    .toString()
+                    .repeat(fitnesses[idx] * totalSlots)
+  );
+  return fitnessWheel[Math.floor(Math.random() * fitnessWheel.length)]
+};
+```
+It doesn't work on strings that are too large for the JavaScript engine to handle. Thus another answer is required.
+
+My solution using Cumulative Probability:
+```
+const select = (population, fitnesses) => {
+  let pick = Math.random(), cumulativeProbability = 0;
+  
+  for(let i = 0; i < population.length; i++){
+    cumulativeProbability += fitnesses[i];
+    if(pick <= cumulativeProbability){
+      return population[i];
+    }
+  }
+  
+};
+```
+
+Another soln using weighted random selection
+```
+const select = (population, fitnesses) => {
+    const wheel = fitnesses.reduce((a,b) => a + b);
+    let spin = Math.random() * wheel;
+    return population.find((e,i) => (spin-= fitnesses[i]) <= 0);
+};
+```
+First two lines reduce add up the probability generates a random value within the bounds of the total fitness. Then .find() is called on the population array, subtracting the corresponding fitness from the spin until the value is less than zero. 
+- The idea is that the larger the fitness value of an individual, the later the `spin` value will reach zero, giving the individual a higher chance of being selected.
+- For example, if `fitnesses = [10, 20, 30]` and `spin = 45`:
+    - For the first individual (fitness 10), `spin -= 10` gives `spin = 35`.
+    - For the second individual (fitness 20), `spin -= 20` gives `spin = 15`.
+    - For the third individual (fitness 30), `spin -= 30` gives `spin = -15`, which is less than 0, so this individual is selected.
+
+#
+
