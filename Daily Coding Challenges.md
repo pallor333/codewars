@@ -2919,7 +2919,7 @@ First two lines reduce add up the probability generates a random value within th
     - For the second individual (fitness 20), `spin -= 20` gives `spin = 15`.
     - For the third individual (fitness 30), `spin -= 30` gives `spin = -15`, which is less than 0, so this individual is selected.
 
-# List Filtering
+# List Filtering (7kyu)
 In this kata you will create a function that takes a list of non-negative integers and strings and returns a new list with the strings filtered out.
 
 ### Example
@@ -2949,8 +2949,40 @@ function filter_list(l) {
   return l.filter(e => Number.isInteger(e));
 }
 ```
-Another answer:```
+Another answer:
+```
 function filter_list(l) {
  return l.filter(v => typeof v == "number")
 }
+```
+
+# Rocks Paper Scissors (8kyu)
+Let's play! You have to return which player won! In case of a draw return `Draw!`.
+
+**Examples(Input1, Input2 --> Output):**
+
+```
+"scissors", "paper" --> "Player 1 won!"
+"scissors", "rock" --> "Player 2 won!"
+"paper", "paper" --> "Draw!"
+```
+
+My answer:
+```
+const rps = (p1, p2) => {
+  let chart = {
+    'rock': 'scissors',
+    'scissors': 'paper',
+    'paper': 'rock'
+  }
+  
+  return p1 === p2 ? "Draw!" :
+  chart[p1] === p2 ? "Player 1 won!" : "Player 2 won!"
+  
+};
+```
+Another answer:
+```
+const rps = (p1, p2) =>
+  p1 === p2 ? `Draw!` : `Player ${/ps|rp|sr/.test(p1[0] + p2[0]) + 1} won!`;
 ```
