@@ -2976,8 +2976,7 @@ const rps = (p1, p2) => {
     'paper': 'rock'
   }
   
-  return p1 === p2 ? "Draw!" :
-  chart[p1] === p2 ? "Player 1 won!" : "Player 2 won!"
+  return p1 === p2 ? "Draw!" : "Player " + (chart[p1] === p2 ? 1 : 2) + " won!"
   
 };
 ```
@@ -2986,3 +2985,74 @@ Another answer:
 const rps = (p1, p2) =>
   p1 === p2 ? `Draw!` : `Player ${/ps|rp|sr/.test(p1[0] + p2[0]) + 1} won!`;
 ```
+
+# Product of consecutive Fib numbers (5kyu)
+The Fibonacci numbers are the numbers in the following integer sequence (`Fn`): `0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, ...`
+
+such that:
+
+F(0)=1F(1)=1F(n)=F(n−1)+F(n−2)F(0) = 1\\F(1) = 1\\F(n) = F(n-1) + F(n-2)F(0)=1F(1)=1F(n)=F(n−1)+F(n−2)
+
+Given a number, say `prod` (for product), we search two Fibonacci numbers `F(n)` and `F(n+1)` verifying:
+
+F(n)∗F(n+1)=prodF(n) * F(n+1) = prodF(n)∗F(n+1)=prod
+
+---
+
+Your function takes an integer (`prod`) and returns an array/tuple (check the function signature/sample tests for the return type in your language):
+
+- if `F(n) * F(n+1) = prod`:
+    
+    ```
+    (F(n), F(n+1), true)
+    ```
+    
+- If you do not find two consecutive `F(n)` verifying `F(n) * F(n+1) = prod`:
+    
+    ```
+    (F(n), F(n+1), false)
+    ```
+    
+    where `F(n)` is the smallest one such as `F(n) * F(n+1) > prod`.
+
+#### Examples:
+
+```javascript
+714 ---> (21, 34, true)
+--> since F(8) = 21, F(9) = 34 and 714 = 21 * 34
+
+800 --->  (34, 55, false)
+--> since F(8) = 21, F(9) = 34, F(10) = 55 and 21 * 34 < 800 < 34 * 55
+```
+My answer:
+```
+function productFib(prod){
+  let arr = [1, 1, false], nextSum = arr[0] + arr[1], fiboProd = arr[0] * arr[1];
+  
+  while(fiboProd <= prod){
+    if(prod === fiboProd){
+      arr[2] = true;
+      return arr;
+    }else{
+      arr[0] = arr[1];
+      arr[1] = nextSum;
+      nextSum = arr[0] + arr[1];
+      fiboProd = arr[0] * arr[1];
+    }
+  }
+  
+  
+  return arr
+}
+```
+Variables to hold the array, the sum and product of the two numbers. While the fibonacci product is smaller or equal to that of the product given two steps occur. First a check is made to see if the product equals the fibonacci product. If so, declare the false to be true in the array and return the array. ELSE we move the value in the 2nd element to the 1st, the sum of the two elements into the 2nd element slot and re-multiply the value of the two array elements. If we get to a point where the fibonacci product is greater than the product given then we can return the array knowing that it's false
+
+A more concise answer:
+```
+function productFib(prod){
+  let [a, b] = [0, 1];
+  while(a * b < prod) [a, b] = [b, a + b];
+  return [a, b, a * b === prod];
+}
+```
+Similar to my code but far more concise. An array is used but only uses two elements. A while statement is used but very succinctly defines the code, using a very simple [a, b] = [b, a + b] if the fibonacci product is smaller than the given product. There's a lack of equals comparison, for that part is done in the return statement implicitly. If two numbers equal each other than one is NOT less than the other. The last part of the array - True/False is found via comparison a * b === prod.
