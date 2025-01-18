@@ -3056,3 +3056,46 @@ function productFib(prod){
 }
 ```
 Similar to my code but far more concise. An array is used but only uses two elements. A while statement is used but very succinctly defines the code, using a very simple [a, b] = [b, a + b] if the fibonacci product is smaller than the given product. There's a lack of equals comparison, for that part is done in the return statement implicitly. If two numbers equal each other than one is NOT less than the other. The last part of the array - True/False is found via comparison a * b === prod.
+
+# Count characters in your string (6kyu)
+The main idea is to count all the occurring characters in a string. If you have a string like `aba`, then the result should be `{'a': 2, 'b': 1}`.
+
+What if the string is empty? Then the result should be empty object literal, `{}`.
+
+My answer:
+```
+function count(string) {
+  let chars = {}
+  for(let i = 0; i < string.length; i++){
+    chars.hasOwnProperty(string[i]) ? chars[string[i]]++ : chars[string[i]] = 1;
+  }
+```
+x.hasOwnProperty(y) is the proper way to check if a key exists inside an object. 
+
+Answer using split() and forEach():
+```
+function count (string) {  
+  var count = {};
+  string.split('').forEach(function(s) {
+     count[s] ? count[s]++ : count[s] = 1;
+  });
+  return count;
+}
+```
+
+Another answer using reduce()
+```
+function count (string) {
+  return string.split('').reduce(function(counts,char){
+    counts[char] = (counts[char]||0) + 1;
+    return counts;
+  },{});
+}
+```
+
+Another answer:
+```
+const count = string =>
+  [...string].reduce((pre, val) => (pre[val] = -~pre[val], pre), {});
+```
+"Finally, it is worth noting that, although the spread operator is just three little dots in your code, it can represent a substantial amount of work to the JavaScript interpreter. If an object has n properties, the process of spreading those properties into another object is likely to be an O(n) operation. This means that if you find yourself using ... within a loop or recursive function as a way to accumulate data into one large object, you may be writing an inefficient O(n2) algorithm that will not scale well as n gets larger." - David Flanagan, JavaScript: The Definitive Guide, Seventh Edition
