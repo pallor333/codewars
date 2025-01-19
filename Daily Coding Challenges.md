@@ -3099,3 +3099,19 @@ const count = string =>
   [...string].reduce((pre, val) => (pre[val] = -~pre[val], pre), {});
 ```
 "Finally, it is worth noting that, although the spread operator is just three little dots in your code, it can represent a substantial amount of work to the JavaScript interpreter. If an object has n properties, the process of spreading those properties into another object is likely to be an O(n) operation. This means that if you find yourself using ... within a loop or recursive function as a way to accumulate data into one large object, you may be writing an inefficient O(n2) algorithm that will not scale well as n gets larger." - David Flanagan, JavaScript: The Definitive Guide, Seventh Edition
+
+# Testing 1-2-3(7kyu)
+Your team is writing a fancy new text editor and you've been tasked with implementing the line numbering.
+
+Write a function which takes a list of strings and returns each line prepended by the correct number.
+
+The numbering starts at 1. The format is `n: string`. Notice the colon and space in between.
+
+**Examples: (Input --> Output)**
+
+```
+[] --> []
+["a", "b", "c"] --> ["1: a", "2: b", "3: c"]
+```
+
+My answer:
