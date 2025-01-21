@@ -3115,3 +3115,30 @@ The numbering starts at 1. The format is `n: string`. Notice the colon and space
 ```
 
 My answer:
+```
+var number=function(array){
+  return array.map((n, idx) => `${idx+1}: ${n}`)
+}
+```
+
+# Covert number to reversed array of digits (8kyu)
+Given a random non-negative number, you have to return the digits of this number within an array in reverse order.
+
+## Example(Input => Output):
+
+```
+35231 => [1,3,2,5,3]
+0 => [0]
+```
+My answer:
+```
+function digitize(n) {
+  return n.toString().split('').map(n => Number(n)).reverse()
+}
+```
+
+Another answer:
+```
+const digitize = num =>
+  [...`${num}`].reverse().map(Number);
+```
