@@ -3204,3 +3204,75 @@ nb_year(1500000, 2.5, 10000, 2000000) -> 10
 - There are no fractions of people. At the end of each year, the population count is an integer: `252.8` people round down to `252` persons.
 
 My answer:
+```
+function nbYear(p0, percent, aug, p) {
+    let years = 0;
+    while(p0 < p){
+      p0 = Math.floor(p0 + (p0*percent/100) + aug);
+      years++;
+    }
+  return years
+}
+```
+Another answer using for loop:
+```
+function nbYear(p0, percent, aug, p) {
+  for (var years = 0; p0 < p; years++) {
+    p0 = Math.floor(p0 + p0 * percent / 100 + aug);
+  }
+  return years
+}
+```
+Recursive answer:
+```
+function nbYear(p0, percent, aug, p, years = 0) {
+  if (p0 < p) {
+    return nbYear(p0 + Math.floor(p0 * percent / 100) + aug, percent, aug, p, ++years);
+  }
+  return years;
+}
+```
+
+# Is the string uppercase? (8kyu)
+## Task
+
+Create a method to see whether the string is ALL CAPS.
+
+### Examples (input -> output)
+
+```
+"c" -> False
+"C" -> True
+"hello I AM DONALD" -> False
+"HELLO I AM DONALD" -> True
+"ACSKLDFJSgSKLDFJSKLDFJ" -> False
+"ACSKLDFJSGSKLDFJSKLDFJ" -> True
+```
+
+In this Kata, a string is said to be in ALL CAPS whenever it does not contain any lowercase letter so any string containing no letters at all is trivially considered to be in ALL CAPS.
+
+My answer:
+```
+String.prototype.isUpperCase = function() {
+  return String(this) === this.toUpperCase();
+}
+```
+
+Alternate ans:
+```
+String.prototype.isUpperCase = function() {
+  return this.toUpperCase() === this;
+}
+```
+
+More efficient for large strings:
+```
+String.prototype.isUpperCase = function() {
+  for (let ch of this) {
+    if (ch !== ch.toUpperCase()) {
+      return false;
+    }
+  }
+  return true;
+}
+```
