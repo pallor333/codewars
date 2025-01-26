@@ -3290,3 +3290,13 @@ For example if the input number is `2`, and the input list is `[1,2,3,1,2,1,2,3]
 With list `[20,37,20,21]` and number `1`, the result would be `[20,37,21]`.
 
 My answer:
+```
+function deleteNth(arr,n){
+  let obj = {};
+  return arr.filter(num => {
+    obj[num] = (obj[num] || 0) + 1;
+    return obj[num] <= n;
+  })
+}
+```
+The line obj[num] = (obj[num] || 0) + 1; initializes the property of num to 0 if it hasn't been seen before, otherwise it increments it by one. Then the value is checked against n, returning it as long as it's less than or equal to n. It's a clever way to make use of arr.filter()'s true/false keep the value/discard the value decision making. 
