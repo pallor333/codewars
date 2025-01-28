@@ -3394,3 +3394,40 @@ function setAlarm(employed, vacation){
   return employed > vacation
 }
 ```
+
+# Replace With Alphabet Position (6kyu)
+In this kata you are required to, given a string, replace every letter with its position in the alphabet.
+
+If anything in the text isn't a letter, ignore it and don't return it.
+
+`"a" = 1`, `"b" = 2`, etc.
+
+## Example
+
+```
+Input = "The sunset sets at twelve o' clock."
+Output = "20 8 5 19 21 14 19 5 20 19 5 20 19 1 20 20 23 5 12 22 5 15 3 12 15 3 11"
+```
+
+My answer:
+```
+function alphabetPosition(text) {
+  return text.toLowerCase().split('')
+    .reduce((arr, ch) => {
+      if(ch.charCodeAt(0) >= 97 && ch.charCodeAt(0) <= 122){
+        arr.push(ch.charCodeAt(0) - 96)
+      }
+      return arr
+    }, [])
+    .join(' ');
+}
+```
+
+Answer using regex:
+```
+function alphabetPosition(text) {
+  const matches = text.toLowerCase().match(/[a-z]/g);
+  return matches ? matches.map(ch => ch.charCodeAt(0) - 96).join(' ') : "";
+}
+```
+Answer filters for cases in which match returns null. The `match()` method returns `null` if no matches are found in the input string. When `null` is returned, calling `.map()` on it results in a `TypeError`. Therefore by using the ternary operator, we can check if matches is null and return an empty string if so. Else we can safely call .map() on it.
