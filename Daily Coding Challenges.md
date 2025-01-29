@@ -3431,3 +3431,83 @@ function alphabetPosition(text) {
 }
 ```
 Answer filters for cases in which match returns null. The `match()` method returns `null` if no matches are found in the input string. When `null` is returned, calling `.map()` on it results in a `TypeError`. Therefore by using the ternary operator, we can check if matches is null and return an empty string if so. Else we can safely call .map() on it.
+
+# Count the Digit
+Take an integer `n (n >= 0)` and a digit `d (0 <= d <= 9)` as an integer.
+
+Square all numbers `k (0 <= k <= n)` between 0 and n.
+
+Count the numbers of digits `d` used in the writing of all the `k**2`.
+
+Implement the function taking `n` and `d` as parameters and returning this count.
+
+#### Examples:
+
+```
+n = 10, d = 1 
+the k*k are 0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+We are using the digit 1 in: 1, 16, 81, 100. The total count is then 4.
+
+The function, when given n = 25 and d = 1 as argument, should return 11 since
+the k*k that contain the digit 1 are:
+1, 16, 81, 100, 121, 144, 169, 196, 361, 441.
+So there are 11 digits 1 for the squares of numbers between 0 and 25.
+```
+
+Note that `121` has twice the digit 1.
+
+My answer:
+```
+function nbDig(n, d) {
+  const arr = Array(n+1).fill(0);
+  d = d.toString();
+  return arr.reduce((sum, _, idx) =>{
+    let power = (idx**2).toString();
+    for(let i = 0; i < power.length; i++){
+      power[i] === d ? sum++ : null
+    }
+    return sum;
+  }, 0);
+}
+```
+Define a new array with size n+1 to iterate over (the range is 0 to n inclusive). We fill so reduce doesn't skip over elements but don't care too much about what value is inside of them. The variable 'd' is casted into a string before we use it for comparison. We use arr.reduce, using the current index to find the power of the current number and then loop over the string version of it. When we find matches to d we increment the sum and then we return the sum after every iteration. 
+
+A more efficient answer without methods:
+```
+function nbDig(n, d) {
+  let count = 0;
+  const digitStr = d.toString(); // Convert the digit `d` to a string for comparison
+
+  for (let k = 0; k <= n; k++) {
+    const square = (k * k).toString(); // Square the number and convert to string
+    for (let i = 0; i < square.length; i++) {
+      if (square[i] === digitStr) {
+        count++; // Increment count for each occurrence of `d`
+      }
+    }
+  }
+
+  return count;
+}
+```
+An answer with methods:
+```
+function nbDig(n, d) {
+  let count = 0;
+  const digitStr = d.toString();
+
+  for (let k = 0; k <= n; k++) {
+    const square = (k * k).toString();
+    count += square.split(digitStr).length - 1; // Count occurrences of `d`
+  }
+
+  return count;
+}
+```
+The length of this array minus 1 (`square.split(digitStr).length - 1`) gives the number of occurrences of `d`.
+One liner answer:
+```
+const nbDig = (n, d) =>
+  [...Array(++n)].map((_, idx) => idx ** 2).join(``).split(d).length - 1;
+```
+`Array(++n)` creates an array of length `n + 1` (since `n` was incremented). The spread operator (`...`) converts the sparse array created by `Array(++n)` into a dense array. This ensures that `map()` can iterate over all elements. The map() method iterates over every element in the array, calculating the square. Once done all the elements are joined into a string which is split based upon d and then the length of it is found by subtracting one. For example 0149, d = 1 => [0, 49]. Length === 2. Subtract 1 and we get the occurances of 1 which is 1. Or 121 and d=1 => ["". "2". "']. Length is 3, 3-1 = 2 which is how many times we see the number 1.
