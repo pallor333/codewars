@@ -3511,3 +3511,78 @@ const nbDig = (n, d) =>
   [...Array(++n)].map((_, idx) => idx ** 2).join(``).split(d).length - 1;
 ```
 `Array(++n)` creates an array of length `n + 1` (since `n` was incremented). The spread operator (`...`) converts the sparse array created by `Array(++n)` into a dense array. This ensures that `map()` can iterate over all elements. The map() method iterates over every element in the array, calculating the square. Once done all the elements are joined into a string which is split based upon d and then the length of it is found by subtracting one. For example 0149, d = 1 => [0, 49]. Length === 2. Subtract 1 and we get the occurances of 1 which is 1. Or 121 and d=1 => ["". "2". "']. Length is 3, 3-1 = 2 which is how many times we see the number 1.
+
+# Consecutive strings (6kyu)
+You are given an array(list) `strarr` of strings and an integer `k`. Your task is to return the **first** longest string consisting of k **consecutive** strings taken in the array.
+
+#### Examples:
+
+```
+strarr = ["tree", "foling", "trashy", "blue", "abcdef", "uvwxyz"], k = 2
+
+Concatenate the consecutive strings of strarr by 2, we get:
+
+treefoling   (length 10)  concatenation of strarr[0] and strarr[1]
+folingtrashy ("      12)  concatenation of strarr[1] and strarr[2]
+trashyblue   ("      10)  concatenation of strarr[2] and strarr[3]
+blueabcdef   ("      10)  concatenation of strarr[3] and strarr[4]
+abcdefuvwxyz ("      12)  concatenation of strarr[4] and strarr[5]
+
+Two strings are the longest: "folingtrashy" and "abcdefuvwxyz".
+The first that came is "folingtrashy" so 
+longest_consec(strarr, 2) should return "folingtrashy".
+
+In the same way:
+longest_consec(["zone", "abigail", "theta", "form", "libe", "zas", "theta", "abigail"], 2) --> "abigailtheta"
+```
+
+n being the length of the string array, if `n = 0` or `k > n` or `k <= 0` return "" (return `Nothing` in Elm, "nothing" in Erlang).
+
+#### Note
+
+consecutive strings : follow one after another without an interruption
+
+My answer:
+```function longestConsec(strArr, k) {
+  let longest= "";
+  
+  for(let i = 0; i <= strArr.length-k; i++){
+    let temp = "";
+    for(let j = i; j < i + k; j++){
+      temp += strArr[j]
+    }
+    if(temp.length > longest.length){
+      longest = temp
+    }
+  }
+
+  return longest;
+}
+```
+
+A more efficient answer:
+```function longestConsec(strarr, k) {
+  const n = strarr.length;
+
+  // Handle edge cases
+  if (n === 0 || k > n || k <= 0) {
+    return "";
+  }
+
+  let longest = "";
+
+  // Iterate through the array
+  for (let i = 0; i <= n - k; i++) {
+    // Concatenate k consecutive strings
+    const current = strarr.slice(i, i + k).join("");
+
+    // Update longest if the current concatenation is longer
+    if (current.length > longest.length) {
+      longest = current;
+    }
+  }
+
+  return longest;
+}
+```
+Differences from my code: adds edge cases where the array is empty, k is greater than the number of elements in the array or k is negative. There's iteration through the array but the slice() method is used to concat subsections i through i+k. In the same for loop, the length of the subslice is compared against the current longest string. This logic implicitly redefines the current/temp variable so I don't have to clear it before every single for loop. 
