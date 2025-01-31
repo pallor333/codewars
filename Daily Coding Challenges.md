@@ -3586,3 +3586,67 @@ A more efficient answer:
 }
 ```
 Differences from my code: adds edge cases where the array is empty, k is greater than the number of elements in the array or k is negative. There's iteration through the array but the slice() method is used to concat subsections i through i+k. In the same for loop, the length of the subslice is compared against the current longest string. This logic implicitly redefines the current/temp variable so I don't have to clear it before every single for loop. 
+
+# Return pyramids (7kyu)
+The task is very simple.
+
+You must to return pyramids. Given a number `n` you print a pyramid with `n` floors
+
+For example , given a `n=4` you must to print this pyramid:
+
+```
+   /\
+  /  \
+ /    \
+/______\ 
+   
+```
+
+Other example, given a `n=6` you must to print this pyramid:
+
+```
+     /\
+    /  \
+   /    \
+  /      \
+ /        \
+/__________\
+```
+
+Another example, given a `n=10`, you must to print this pyramid:
+
+```
+         /\
+        /  \
+       /    \
+      /      \
+     /        \
+    /          \
+   /            \
+  /              \
+ /                \
+/__________________\
+```
+
+Note: a line feed character is needed at the end of the string. Case `n=0` should so return `"\n"`.
+
+An answer:
+```
+function pyramid(n){
+  var r = '';
+  for(var i = 0; i<n; i++){
+    r += ' '.repeat(n-i-1);
+    r += '/';
+    r += (i<n-1)?' '.repeat(2*i):'_'.repeat(2*i);
+    r += '\\';
+    r += '\n';
+  }
+  return r;
+}
+```
+
+A more concise answer:
+```
+const pyramid = n =>
+  [...Array(n)].map((_, idx) => `${` `.repeat(n - idx - 1)}/${(n === idx + 1 ? `__` : `  `).repeat(idx)}\\\n`).join(``);
+```
