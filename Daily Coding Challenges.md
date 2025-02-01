@@ -3650,3 +3650,58 @@ A more concise answer:
 const pyramid = n =>
   [...Array(n)].map((_, idx) => `${` `.repeat(n - idx - 1)}/${(n === idx + 1 ? `__` : `  `).repeat(idx)}\\\n`).join(``);
 ```
+
+# Sort Numbers (7 kyu)
+Finish the solution so that it sorts the passed in array of numbers. If the function passes in an empty array or null/nil value then it should return an empty array.
+
+For example:
+
+```javascript
+solution([1, 2, 10, 50, 5]); // should return [1,2,5,10,50]
+solution(null); // should return []
+```
+
+My answer:
+```
+function solution(nums){
+  return nums ? nums.sort((a, b) => a - b) : []
+}
+```
+
+# Rot13 (5kyu)
+ROT13 is a simple letter substitution cipher that replaces a letter with the letter 13 letters after it in the alphabet. ROT13 is an example of the Caesar cipher.
+
+Create a function that takes a string and returns the string ciphered with Rot13. If there are numbers or special characters included in the string, they should be returned as they are. Only letters from the latin/english alphabet should be shifted, like in the original Rot13 "implementation".
+
+My answer:
+```function rot13(message){
+  const A = 65, Z = 90, a = 97, z = 122, ROT13 = 13;
+  return String.fromCharCode(...message
+    .split('')
+    .map(c => {
+      let char = c.charCodeAt(0);
+      // Return non-letter characters unchanged
+      if(char < A || (char > Z && char < a) || char > z) return char;
+      // Apply ROT13 cipher
+      let charCipher = char + ROT13 
+      return char <= Z 
+        ? charCipher > Z ? char = charCipher - 26 : charCipher  // Uppercase
+        : charCipher > z ? char = charCipher - 26 : charCipher; // lowercase
+      }) 
+  );
+}
+```
+The message is split into an array and then the map function is called on each element, checking first if it's a non-letter. If it is then it's returned unchanged. Apply the cipher on the character, using an intermediary cipher-applied char to check against if it's out of bounds. If the charCipher is, then we simply subtract 26 to get the proper value and return that. Finally we use the method String.fromCharCode() and the spread operator to return a string from our array of numbers. 
+
+Another answer using regex:
+```
+function rot13(message) {
+  var a = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  var b = "nopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM"
+  return message.replace(/[a-z]/gi, c => b[a.indexOf(c)])
+}
+```
+A second answer using regex:
+```
+const rot13 = str => str.replace(/[a-z]/gi, letter => String.fromCharCode(letter.charCodeAt(0) + (letter.toLowerCase() <= 'm' ? 13: -13)));
+```
