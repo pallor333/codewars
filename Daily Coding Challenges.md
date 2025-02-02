@@ -3705,3 +3705,14 @@ A second answer using regex:
 ```
 const rot13 = str => str.replace(/[a-z]/gi, letter => String.fromCharCode(letter.charCodeAt(0) + (letter.toLowerCase() <= 'm' ? 13: -13)));
 ```
+
+# Convert Boolean to a String (8kyu)
+Implement a function which convert the given boolean value into its string representation.
+
+Note: Only valid inputs will be given.
+
+Answer:
+```function booleanToString(b){
+  return b.toString()
+}
+```
