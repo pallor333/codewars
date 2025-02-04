@@ -3743,3 +3743,30 @@ Answer:
   return (h*3600000) + (m*60000) + (s*1000)
 }
 ```
+Clearer answers:
+```function past(h, m, s){
+  return (h*3600000) + (m*60000) + (s*1000)
+}
+```
+
+Best practice:
+```function past(h, m, s){
+  var hoursInMillseconds = h * 60 * 60 * 1000;
+  var minutesInMillseconds = m * 60 * 1000;
+  var secondsInMillseconds = s * 1000;
+  
+  return hoursInMillseconds + minutesInMillseconds + secondsInMillseconds;
+}
+```
+
+# Is it a palindrome? (8 kyu)
+Write a function that checks if a given string (case insensitive) is a [palindrome](https://en.wikipedia.org/wiki/Palindrome).
+
+A palindrome is a word, number, phrase, or other sequence of symbols that reads the same backwards as forwards, such as `madam` or `racecar`.
+
+Answer:
+```
+function isPalindrome(x) {
+  return x.toLowerCase() === x.toLowerCase().split('').reverse().join('')
+}
+```
