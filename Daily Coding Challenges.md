@@ -3803,3 +3803,45 @@ function openOrSenior(data){
   return data.map(([age, handicap]) => (age > 54 && handicap > 7) ? 'Senior' : 'Open');
 }
 ```
+
+# Count of positive/sum of negatives (8kyu)
+Given an array of integers.
+
+Return an array, where the first element is the count of positives numbers and the second element is sum of negative numbers. 0 is neither positive nor negative.
+
+If the input is an empty array or is null, return an empty array.
+
+## Example
+
+For input `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, -11, -12, -13, -14, -15]`, you should return `[10, -65]`.
+
+My answer:
+```
+function countPositivesSumNegatives(input) {
+  if(!Array.isArray(input) || !input.length) return [];
+  
+  let arr = [0, 0];
+  for(let i = 0; i < input.length; i++){
+    if(input[i] > 0) arr[0]++;
+    if(input[i] < 0) arr[1] += input[i];
+  }
+  
+  return arr;
+}
+```
+
+A more succinct answer:
+```function countPositivesSumNegatives(input) {
+  return !input || !input.length ? [] : input.reduce(([pos, neg], num) => [
+    pos + (num > 0 ? 1 : 0),
+    neg + (num < 0 ? num : 0)
+  ], [0, 0]);
+}
+```
+1. **Destructuring in the `reduce` function**: Instead of using `sum[0]` and `sum[1]`, we directly destructure the accumulator into `[pos, neg]` for better readability.
+
+2. **Inline conditional updates**: The positive count (`pos`) and negative sum (`neg`) are updated inline using ternary operators, making the code more concise.
+
+3. **Implicit return**: The `reduce` callback implicitly returns the updated `[pos, neg]` array.
+
+# 
