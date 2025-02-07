@@ -3844,4 +3844,26 @@ A more succinct answer:
 
 3. **Implicit return**: The `reduce` callback implicitly returns the updated `[pos, neg]` array.
 
-# 
+# Powers of 2 (8kyu)
+Complete the function that takes a non-negative integer `n` as input, and returns a list of all the powers of `2` with the exponent ranging from `0` to `n` ( inclusive ).
+
+## Examples
+
+```python
+n = 0  ==> [1]        # [2^0]
+n = 1  ==> [1, 2]     # [2^0, 2^1]
+n = 2  ==> [1, 2, 4]  # [2^0, 2^1, 2^2]
+```
+
+My answer:
+```function powersOfTwo(n){
+  return Array(n+1).fill(2).map((num,idx) => Math.pow(num,idx))
+}
+```
+
+Another answer:
+```
+function powersOfTwo(n) {
+  return Array.from({length: n + 1}, (v, k) => 2 ** k);
+}
+```
