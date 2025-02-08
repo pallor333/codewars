@@ -3867,3 +3867,37 @@ function powersOfTwo(n) {
   return Array.from({length: n + 1}, (v, k) => 2 ** k);
 }
 ```
+
+# Break camelCase (6 kyu)
+Complete the solution so that the function will break up camel casing, using a space between words.
+
+### Example
+
+```
+"camelCasing"  =>  "camel Casing"
+"identifier"   =>  "identifier"
+""             =>  ""
+```
+
+My answer:
+```function solution(string) {
+  let brokenStr = '';
+  
+  for (let i = 0; i < string.length; i++) {
+    if( string[i] === string[i].toUpperCase() ) brokenStr += ' '; 
+    brokenStr += string[i];
+  }
+  
+  return brokenStr;
+}
+```
+Iterate over the string, checking if it's uppercase via comparison to it's upperCase version. If one is found, add a space to the new string before adding the original character. 
+
+A solution using methods:
+```
+const solution = string => {
+  return [...string].map((char) => {
+    return (char === char.toUpperCase()) ? ` ${char}` : char;
+  }).join('');
+}
+```
