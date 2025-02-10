@@ -3920,3 +3920,49 @@ encrypt("01234", 3)  =>  "13024"  ->  "32104"  ->  "20314"
 Together with the encryption function, you should also implement a decryption function which reverses the process.
 
 If the string `S` is an empty value or the integer `N` is not positive, return the first argument without changes.
+
+My answer:
+```
+function encrypt(text, n) {
+  if(text === null) return null;
+  if(!text || n <= 0) return text;
+  
+  let secretTxt = text;
+  while(n > 0){
+    let even = "", odd = "";
+    for(let i = 0; i < secretTxt.length; i++){
+      i % 2 === 0 ? even += secretTxt[i] : odd += secretTxt[i];
+    }
+    secretTxt = odd+even;
+    n--;
+  }
+  
+  return secretTxt;
+}
+
+function decrypt(encryptedText, n) {
+  if(encryptedText === null) return null;
+  if(!encryptedText || n <= 0) return encryptedText;
+  
+  let secretTxt = encryptedText, txtLength = encryptedText.length;
+  while(n > 0){
+    let tmp = [], halfLength = Math.floor(txtLength/2), 
+    firstHalf = secretTxt.slice(halfLength), 
+    secondHalf = secretTxt.slice(0, halfLength);
+    
+    for (let i = 0, j = 0, k = 0; i < txtLength; i++) {
+      if (i % 2 === 0) {
+        tmp[i] = firstHalf[j++];
+      } else {
+        tmp[i] = secondHalf[k++];
+      }
+    }
+    secretTxt = tmp.join('');
+    n--;
+  }
+  
+  return secretTxt;
+}
+
+
+```
