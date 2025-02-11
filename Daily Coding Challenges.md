@@ -3963,6 +3963,108 @@ function decrypt(encryptedText, n) {
   
   return secretTxt;
 }
+```
 
+My code optimized/refactored:
+```
+function encrypt(text, n) {
+    if (text === null) return null;
+    if (!text || n <= 0) return text;
+
+    let secret = text;
+    for (let i = 0; i < n; i++) {
+        const [even, odd] = [[], []];
+        for (let j = 0; j < secret.length; j++) {
+            (j % 2 ? odd : even).push(secret[j]);
+        }
+        secret = odd.concat(even).join('');
+    }
+    return secret;
+}
+```
+For encrypt(), even and odd are set as an array for easier viewing as well as efficiency. Strings are immutable in JS causing O(n^2) time complexity whenever you append a string. `const [even, odd] = [[], []];` is a **destructuring assignment** - a concise way to define and initialize two arrays in a single line. It also removes the while loop, instead nesting a for loop inside another, allowing us to write less code. 
 
 ```
+function decrypt(encryptedText, n) {
+    if (encryptedText === null) return null;
+    if (!encryptedText || n <= 0) return encryptedText;
+
+    const length = encryptedText.length;
+    let secret = encryptedText;
+    
+    for (let i = 0; i < n; i++) {
+        const mid = Math.floor(length / 2);
+        const first = secret.slice(mid);
+        const second = secret.slice(0, mid);
+        
+        secret = Array.from({length}, (_, idx) => 
+            idx % 2 ? second[(idx - 1) >> 1] : first[idx >> 1]
+        ).join('');
+    }
+    return secret;
+}
+```
+While loop is replaced with a for() loop. Redundant counter variables eliminated and calculates indices directly using  bitwise operations (>> 1). The for() loop is replaced with Array.from(). The method array.from() creates a new, shallow-copied array instance from another array. 
+### Array.from() explanation
+**1. `Array.from({ length }, callback)`**
+
+- **Purpose:** Creates a new array of a specified length and populates it using a callback function.
+    
+- **`{ length }`:** This creates an array-like object with a `length` property. For example, if `length = 10`, it behaves like an array with 10 empty slots.
+    
+- **Callback Function:** The second argument is a mapping function that determines the value of each element in the new array.
+    
+
+---
+
+**2. Callback Function: `(_, idx) => ...`**
+
+- **Parameters:**
+    
+    - `_`: A placeholder for the current element (not used in this case).
+        
+    - `idx`: The index of the current element being processed.
+        
+- **Purpose:** For each index `idx` in the new array, the callback decides which character to place at that position.
+    
+
+---
+
+ **3. Ternary Operator: `idx % 2 ? ... : ...`**
+
+- **Purpose:** Determines whether the current index `idx` is odd or even.
+    
+    - If `idx` is **odd** (`idx % 2 === 1`), take a character from `second`.
+        
+    - If `idx` is **even** (`idx % 2 === 0`), take a character from `first`.
+        
+
+---
+
+ **4. Bitwise Operations: `>> 1`**
+
+- **Purpose:** Efficiently calculates the index in the `first` or `second` array.
+    
+    - `idx >> 1`: Equivalent to `Math.floor(idx / 2)`. Used for even indices.
+        
+    - `(idx - 1) >> 1`: Equivalent to `Math.floor((idx - 1) / 2)`. Used for odd indices.
+        
+- **Why Bitwise?** Bitwise operations are faster than division and floor operations.
+    
+
+---
+
+ **5. Accessing `first` and `second` Arrays**
+
+- **`first[idx >> 1]`:** For even indices, take the character from `first` at the calculated index.
+    
+- **`second[(idx - 1) >> 1]`:** For odd indices, take the character from `second` at the calculated index.
+    
+
+---
+
+ **6. `join('')`**
+
+- **Purpose:** Converts the array of characters into a single string.
+    
+- **Why?** After reconstructing the array, we need to join its elements into a string to get the final result.
