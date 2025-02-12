@@ -4068,3 +4068,59 @@ While loop is replaced with a for() loop. Redundant counter variables eliminated
 - **Purpose:** Converts the array of characters into a single string.
     
 - **Why?** After reconstructing the array, we need to join its elements into a string to get the final result.
+# What is between? (8kyu)
+Complete the function that takes two integers (`a, b`, where `a < b`) and return an array of all integers between the input parameters, **including** them.
+
+For example:
+
+```
+a = 1
+b = 4
+--> [1, 2, 3, 4]
+```
+
+My answer:
+```function between(a, b) {
+  let arr = []
+  for(i = a; i <= b; i++) arr.push(i);
+  return arr
+}
+```
+
+Answer using array.from()
+```
+const between = (a, b) => 
+	Array.from(new Array(b-a+1), (_, i) => a + i);
+```
+Create a new array of (b-a+1) size. The second parameter calls a map() function on the newly formed array, using the index + smallest number to populate the array with the proper values.
+
+Another answer:
+```
+const between = (a, b) =>
+  [...Array(b - a + 1)].map((_, idx) => idx + a);
+```
+Using the spread operator is required, else it will return an array of [undefined]
+
+# Grasshopper - personalized message (8 kyu)
+Create a function that gives a personalized greeting. This function takes two parameters: `name` and `owner`.
+
+Use conditionals to return the proper message:
+
+|case|return|
+|---|---|
+|name equals owner|'Hello boss'|
+|otherwise|'Hello guest'|
+My answer:
+```
+function greet (name, owner) {
+  return name === owner ? 'Hello boss' : 'Hello guest';
+}
+```
+
+Another answer:
+```
+function greet (name, owner) {
+  return `Hello ${name==owner?'boss':'guest'}`
+}
+```
+Use of string literals.
