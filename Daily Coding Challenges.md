@@ -4175,4 +4175,58 @@ const arithmetic = (a, b, operator) => ({
 }[operator]);
 ```
 
-#
+# Give me a Diamond (6kyu)
+## Task
+
+You need to return a string that looks like a diamond shape when printed on the screen, using asterisk (`*`) characters. Trailing spaces should be removed, and every line must be terminated with a newline character (`\n`).
+
+Return `null/nil/None/...` if the input is an even number or negative, as it is not possible to print a diamond of even or negative size.
+
+## Examples
+
+A size 3 diamond:
+
+```
+ *
+***
+ *
+```
+
+...which would appear as a string of `" *\n***\n *\n"`
+
+A size 5 diamond:
+
+```
+  *
+ ***
+*****
+ ***
+  *
+```
+
+...that is:
+
+```
+"  *\n ***\n*****\n ***\n  *\n"
+```
+
+My answer:
+```function diamond(n){
+  if(n < 0 || n % 2 === 0 || !n) return null;
+  
+  let arr = [], midpoint = Math.floor(n/2);
+  for(let i = 0; i < n; i++){
+    let spaces = Math.abs(midpoint - i);
+    let stars = n - 2 * spaces;
+    arr.push(" ".repeat(spaces) + "*".repeat(stars) + "\n");
+  }
+  
+  return arr.join('');
+}
+```
+
+Another answer:
+```
+const diamond = n =>
+  n < 0 || --n % 2 ? null : [...Array(n + 1)].map((_, idx) => ` `.repeat(Math.abs(n / 2 - idx)) + `*`.repeat(n + 1 - Math.abs(n - 2 * idx)) + `\n`).join(``);
+```
