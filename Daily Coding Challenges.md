@@ -4275,3 +4275,19 @@ function gooseFilter (birds) {
   return birds.filter(bird => !geese.includes(bird));
 };
 ```
+
+# Remove anchor from URL (7kyu)
+Complete the function/method so that it returns the url with anything after the anchor (`#`) removed.
+
+## Examples
+
+```
+"www.codewars.com#about" --> "www.codewars.com"
+"www.codewars.com?page=1" -->"www.codewars.com?page=1"
+```
+
+My answer:
+```function removeUrlAnchor(url){
+  return url.split('#')[0]
+}
+```
