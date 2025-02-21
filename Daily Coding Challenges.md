@@ -4291,3 +4291,31 @@ My answer:
   return url.split('#')[0]
 }
 ```
+
+# No zeros for heroes
+Numbers ending with zeros are boring.
+
+They might be fun in your world, but not here.
+
+Get rid of them. Only the ending ones.
+
+```
+1450   -> 145
+960000 -> 96
+1050   -> 105
+-1050  -> -105
+0      -> 0
+```
+
+**Note**: Zero should be left as it is.
+
+Answer:
+```
+function noBoringZeros(n) {
+  while (n % 10 === 0 && n !== 0) {
+    n = n / 10
+  }
+  return n
+}
+```
+Check if number is divisible by 10 and not zero. Keep dividing it until it is no longer divisible by ten.
