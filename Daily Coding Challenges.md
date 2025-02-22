@@ -4292,7 +4292,7 @@ My answer:
 }
 ```
 
-# No zeros for heroes
+# No zeros for heroes (8kyu)
 Numbers ending with zeros are boring.
 
 They might be fun in your world, but not here.
