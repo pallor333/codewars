@@ -4357,3 +4357,62 @@ function howMuchILoveYou(nbPetals) {
     return phrases[(nbPetals - 1) % phrases.length];
 }
 ```
+
+# Find the unique number (6kyu)
+There is an array with some numbers. All numbers are equal except for one. Try to find it!
+
+```javascript
+findUniq([ 1, 1, 1, 2, 1, 1 ]) === 2
+findUniq([ 0, 0, 0.55, 0, 0 ]) === 0.55
+```
+
+It’s guaranteed that array contains at least 3 numbers.
+
+The tests contain some very huge arrays, so think about performance.
+
+My answer:
+```function findUniq(arr) {
+  if(arr[0] !== arr[1]){
+    return arr[0] === arr[2] ? arr[1] : arr[0]
+  }
+  const same = arr[0]
+  for(let i = 2; i < arr.length; i++){
+    if(arr[i] !== same) return arr[i]
+  }
+}
+```
+
+Answer using objects:
+```
+function findUniq(arr) {
+  let uniq = {},
+      result;
+  arr.forEach(function(item) {
+    uniq[item] = uniq[item] + 1 || 1;
+  });
+  Object.keys(uniq).forEach(function(key) {
+    if (uniq[key] == 1) {
+      result = key;
+    }
+  });
+  
+  return parseFloat(result);
+}
+```
+
+Performant solution:
+```
+function findUniq(arr) {
+  let [a,b,c] = arr.slice(0,3);
+  if( a != b && a!=c ) return a;
+  for( let x of arr ) if( x!=a ) return x
+}
+```
+
+Clever but slow solution:
+```
+function findUniq(arr) {
+  return arr.find(n => arr.indexOf(n) === arr.lastIndexOf(n));
+}
+```
+Checks the the first time and an element occurs. A unique element will have these indexes be exactly the same. O(n^2) complexity.
