@@ -4416,3 +4416,20 @@ function findUniq(arr) {
 }
 ```
 Checks the the first time and an element occurs. A unique element will have these indexes be exactly the same. O(n^2) complexity.
+
+# Reverse List Order (8kyu)
+In this kata you will create a function that takes in a list and returns a list with the reverse order.
+
+### Examples (Input -> Output)
+
+```
+* [1, 2, 3, 4]  -> [4, 3, 2, 1]
+* [9, 2, 0, 7]  -> [7, 0, 2, 9]
+```
+
+Answer:
+```
+function reverseList(list) {
+  return list.reverse();
+}
+```
