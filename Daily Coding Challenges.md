@@ -4449,3 +4449,55 @@ Write a function `dirReduc` which will take an array of strings and returns an a
 - Not all paths can be made simpler. The path ["NORTH", "WEST", "SOUTH", "EAST"] is not reducible. "NORTH" and "WEST", "WEST" and "SOUTH", "SOUTH" and "EAST" are not _directly_ opposite of each other and can't become such. Hence the result path is itself : ["NORTH", "WEST", "SOUTH", "EAST"].
 
 My answer:
+```function dirReduc(arr){
+  //define a dictionary to compare values
+  const redundant = {
+    NORTH: "SOUTH",
+    SOUTH: "NORTH", 
+    WEST: "EAST",
+    EAST: "WEST"
+  }
+  //define the previous direction for comparison
+  let prev = ""
+  
+  //start at index 1
+  for(let i = 1; i < arr.length; i++){
+    prev = arr[i-1]
+    if(redundant[arr[i]] === prev){
+      arr.splice(i-1, 2) //remove two elements from arr
+      i -= 2 //move pointer back 2 indexes
+    }
+  }
+  
+  return arr;
+  
+```
+
+```
+["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"],
+```
+
+A more succinct answer using reduce:
+```
+function dirReduc(plan) {
+  const opposite = {
+    'NORTH': 'SOUTH', 'EAST': 'WEST', 'SOUTH': 'NORTH', 'WEST': 'EAST'};
+  return plan.reduce((dirs, dir){
+      dirs[dirs.length - 1] === opposite[dir] ? dirs.pop() : dirs.push(dir);
+      return dirs;
+    }, []);
+}
+```
+Compare the previous value to the current value for NORTH/SOUTH, EAST/WEST. If it matches then pop() the array else push the current value. 
+
+Another answer using reduce:
+```
+function dirReduc(arr){
+	const opposite = { "SOUTH":"NORTH", "NORTH":"SOUTH", "WEST":"EAST", "EAST":"WEST"}
+	return arr.reduce((a, b) {
+  	opposite[a.slice(-1)] === b ? a.pop() : a.push(b)
+  	return a
+  }, [])
+}
+```
+a is the array object, b is the current value. a.slice(-1) returns a shallow portion of the array into a new array object, specifically the last value of the new array... for comparison with the current value for NORTH/SOUTH, EAST/WEST.
