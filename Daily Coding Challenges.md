@@ -4541,3 +4541,47 @@ function tribonacci(signature,n){
   return signature.slice(0, n); //return trib - length of n
 }
 ```
+
+another ans:
+```
+function tribonacci(signature,n) {
+  const result = signature.slice(0, n);
+  while (result.length < n) {
+    result[result.length] = result.slice(-3).reduce((p,c) => p + c, 0);
+  }
+  return result;
+}
+```
+
+another ans one line:
+```
+const tribonacci = (signature, n) =>
+  [...Array(n)].reduce((pre, _, idx) => [...pre, pre[idx] + pre[++idx] + pre[++idx]], signature).slice(0, n);
+```
+
+# Are You Playing Banjo? (8kyu)
+Create a function which answers the question "Are you playing banjo?".  
+If your name starts with the letter "R" or lower case "r", you are playing banjo!
+
+The function takes a name as its only argument, and returns one of the following strings:
+
+```
+name + " plays banjo" 
+name + " does not play banjo"
+```
+
+Names given are always valid strings.
+
+My answer:
+```function areYouPlayingBanjo(name) {
+  return name[0].toLowerCase() === 'r' ? `${name} plays banjo` : `${name} does not play banjo`
+}
+
+```
+
+Better ans:
+```
+function areYouPlayingBanjo(name) {
+  return name + (name[0].toLowerCase() == 'r' ? ' plays' : ' does not play') + " banjo";
+}
+```
