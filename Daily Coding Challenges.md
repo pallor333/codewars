@@ -4626,3 +4626,29 @@ function rowSumOddNumbers(n)
   return n * n * n;
 }
 ```
+
+# Exclamation marks series #11: Replace all vowel to exclamation mark in the sentence (8kyu)
+Replace all vowel to exclamation mark in the sentence. `aeiouAEIOU` is vowel.
+
+### Examples
+
+```javascript
+"Hi!" --> "H!!"
+"!Hi! Hi!" --> "!H!! H!!"
+"aeiou" --> "!!!!!"
+"ABCDE" --> "!BCD!"
+```
+
+My answer:
+```
+function replace(s) {
+  return s.split('').map(letter => 'AEIOUaeiou'.includes(letter) ? '!' : letter ).join('')
+}
+```
+
+Slightly more efficient answer:
+```
+const replace = w => w.split('').map(e => new Set(['a', 'e', 'i', 'o', 'u']).has(e.toLowerCase()) ? '!' : e).join('');
+```
+
+#
