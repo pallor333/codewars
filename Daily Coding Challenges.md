@@ -4651,4 +4651,4 @@ Slightly more efficient answer:
 const replace = w => w.split('').map(e => new Set(['a', 'e', 'i', 'o', 'u']).has(e.toLowerCase()) ? '!' : e).join('');
 ```
 
-#
+# Title Case (6 kyu)
