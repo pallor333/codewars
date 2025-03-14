@@ -4807,6 +4807,18 @@ All letters will be lowercase and all inputs will be valid.
 My answer:
 ```
 function high(x){
-  return x[Math.max(...x.split(' ').map(letter => letter.split('').reduce((sum, letter) => letter.charCodeAt(0) - 96),0) )]
+  const scores = x.split(' ').map(word => word.split('').reduce((sum, letter) => (sum + letter.charCodeAt(0) - 96), 0))
+  return x.split(' ')[scores.indexOf(Math.max(...scores))]
 }
 ```
+Split string into array of strings ["man", "i", "need"]. Then call map to replace each string with a number. This is done through the use of reduce, first splitting each individual string into characters which are then converted to their ASCII value minus 96 - the value for a is 97 and the desired value of a is 1. 
+Once we have our array of words converted into numbers, we split the initial string again, using bracket notation to call the specific index of the highest scoring word. The highest scoring word is found via parsing the scores array again, using Math,max() to find the highest score and then calling indexOf() to return the index. 
+Big O notation = O(2n) = O(n)
+
+Concise and functional programming-style solution:
+```
+const high = x =>
+  (fn => x.split(` `).sort((a, b) => fn(b) - fn(a))[0])
+  (word => [...word].reduce((pre, val) => pre + val.charCodeAt() - 96, 0));
+```
+The first line is a helper function. fn is an **IIFE** (Immediately Invoked Function Expression) defined and immediately called, sorting the array from highest to lowest. The conversion from string -> number happens before the sorting happens.
