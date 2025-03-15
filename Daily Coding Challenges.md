@@ -4822,3 +4822,21 @@ const high = x =>
   (word => [...word].reduce((pre, val) => pre + val.charCodeAt() - 96, 0));
 ```
 The first line is a helper function. fn is an **IIFE** (Immediately Invoked Function Expression) defined and immediately called, sorting the array from highest to lowest. The conversion from string -> number happens before the sorting happens.
+
+# Are we alternate? (6kyu)
+Create a function that accepts a string as an argument and validates whether the vowels (a, e, i, o, u) and consonants are in alternate order.
+
+# Examples
+
+```
+"amazon" --> true
+"apple" --> false
+"banana" --> true
+```
+
+# Note
+
+- Arguments consist of only lowercase letters.
+My answer:
+```
+```
