@@ -4837,6 +4837,39 @@ Create a function that accepts a string as an argument and validates whether the
 # Note
 
 - Arguments consist of only lowercase letters.
-My answer:
+A answer:
 ```
+function isAlternating(str) {
+  // Define vowels
+  const vowels = new Set(['a', 'e', 'i', 'o', 'u']);
+
+  // Iterate through the string
+  for (let i = 0; i < str.length - 1; i++) {
+    const currentChar = str[i];
+    const nextChar = str[i + 1];
+
+    // Check if current and next characters are both vowels or both consonants
+    const currentIsVowel = vowels.has(currentChar);
+    const nextIsVowel = vowels.has(nextChar);
+
+    if (currentIsVowel === nextIsVowel) {
+      return false; // Two vowels or two consonants in a row
+    }
+  }
+
+  return true; // All characters alternate
+}
+```
+
+Another answer:
+```
+function isAlt(word) {
+  let isVowels = {'a':1,'e':1,'i':1,'o':1,'u':1}, prev, cur;
+  for (let i=0; i<word.length; i++) {
+    cur = word[i] in isVowels ? 'vowel' : 'consonant';
+    if (cur === prev) { return false; }
+    prev = cur;
+  }
+  return true;
+}
 ```
