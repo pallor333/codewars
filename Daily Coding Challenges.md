@@ -4873,3 +4873,16 @@ function isAlt(word) {
   return true;
 }
 ```
+
+My answer:
+```
+function isAlt(word){
+    const vowels = new Set(['a', 'e', 'i', 'o', 'u']), chars = word.split('') 
+    for(let i = 0; i < chars.length-1; i++){
+      if(vowels.has(chars[i]) === vowels.has(chars[i+1])){
+        return false
+      } 
+    }
+    return true
+} 
+```
