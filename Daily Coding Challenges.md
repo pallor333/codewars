@@ -4886,3 +4886,97 @@ function isAlt(word){
     return true
 } 
 ```
+
+# Find a Bunch of Common Elements of Two Lists in a Certain Range (6kyu)
+We are given two arrays of integers A and B and we have to output a sorted array with the integers that fulfill the following constraints:
+
+- they are present in both ones
+    
+- they occur more than once in A and more than once in B
+    
+- their values are within a given range (inclusive)
+    
+- they are odd or even according as it is requested
+    
+
+## Example
+
+Given two arrays, a range, and a wanted parity:
+
+```python
+arrA = [1, -2, 7, 2, 1, 3, 7, 1, 0, 2, 3]
+arrB = [2, -1, 1, 1, 1, 1, 2, 3, 3, 7, 7, 0]
+rng = [-4, 4] # is the range of the integers from -4 to 4 (inclusive)
+wanted = "odd"
+```
+
+Process to obtain the result:
+
+```
+0, 1, 2, 3, 7, are the numbers present in arrA and arrB
+1, 2, 3, 7,  occur twice or more in arrA and arrB
+1, 2, 3,  are in the range [-4, 4]
+1, 3, are odd
+output = [1, 3] 
+```
+
+For the case:
+
+```python
+arrA = [1, -2, 7, 2, 1, 3, 4, 7, 1, 0, 2, 3, 0, 4]
+arrB = [0, 4, 2, -1, 1, 1, 1, 1, 2, 3, 3, 7, 7, 0, 4]
+rng = [-4, 4]
+wanted = "even"
+output = [0, 2, 4] 
+```
+
+If there are no elements that fulfill the constraints given above, the result will be an empty array.
+
+Features of the tests:
+
+```
+Number of Random Tests = 300
+Length of the arrays A and B between 1000 and 10000
+```
+
+You may assume that you will always receive valid entries for all the tests.
+
+My answer using maps:
+```
+function findArr(arrA, arrB, rng, wanted) {
+  const countA = new Map(), countB = new Map()
+  
+  //get counts of each element in A
+  arrA.forEach(n => {countA.set(n, (countA.get(n) || 0) +1)}) 
+  //get counts of each element in B
+  arrB.forEach(n => {countB.set(n, (countB.get(n) || 0) +1)}) 
+  
+  //check A/B for same values that also occur > 1
+  let duplicates = []
+  for(let n of countA.keys()){
+    if (countA.get(n) > 1 && countB.get(n) > 1) {
+      duplicates.push(n);
+    }
+  }
+  
+  //filter for range and odd/even
+  return duplicates
+    .filter(n => n >= rng[0] && n <= rng[1] && (wanted === 'even' ? n % 2 === 0 : n % 2 !== 0))
+    .sort((a, b) => a - b);
+  
+}
+```
+
+Another much more elegant answer:
+```
+const findArr = (arrA, arrB, [min, max], wanted) =>
+  [... new Set(arrA.filter(val =>
+                 val >= min && val <= max
+                   &&
+                 (val & 1) === +(wanted === `odd`)
+                   &&
+                 arrA.indexOf(val) !== arrA.lastIndexOf(val)
+                   &&
+                 arrB.indexOf(val) !== arrB.lastIndexOf(val)))
+  ].sort((a, b) => a - b);
+```
