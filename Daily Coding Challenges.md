@@ -4826,7 +4826,7 @@ The first line is a helper function. fn is an **IIFE** (Immediately Invoked Func
 # Are we alternate? (6kyu)
 Create a function that accepts a string as an argument and validates whether the vowels (a, e, i, o, u) and consonants are in alternate order.
 
-# Examples
+## Examples
 
 ```
 "amazon" --> true
@@ -4834,7 +4834,7 @@ Create a function that accepts a string as an argument and validates whether the
 "banana" --> true
 ```
 
-# Note
+## Note
 
 - Arguments consist of only lowercase letters.
 A answer:
@@ -4994,5 +4994,69 @@ My answer:
 ```
 function mouthSize(animal) {
   return animal.toLowerCase() === 'alligator' ? 'small' : 'wide'
+}
+```
+# Mexican Wave (6kyu)
+# Task
+
+In this simple Kata your task is to create a function that turns a string into a Mexican Wave. You will be passed a string and you must return that string in an array where an uppercase letter is a person standing up. 
+
+# Rules
+
+ 1.  The input string will always be lower case but maybe empty.  
+ 2.  If the character in the string is whitespace then pass over it as if it was an empty seat
+
+# Example
+
+```javascript
+wave("hello") => ["Hello", "hEllo", "heLlo", "helLo", "hellO"]
+```
+
+My answer:
+```
+function wave(str){
+  let str2 = str.toLowerCase();
+  return Array(str2.length)
+    .fill(str2)
+    .map((n,idx) => {
+    	if (str[idx] === ' ') return null
+      let letters = n.split('')
+      letters[idx] = letters[idx].toUpperCase()
+      return letters.join('')
+    })
+    .filter(str => str !== null)
+}
+```
+
+Another answer using a for() loop
+```
+function wave(str) {
+  let str = str.toLowerCase(), result = [];
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] === ' ') continue; // Skip spaces
+    const waveStr = str.slice(0, i) + str[i].toUpperCase() + str.slice(i + 1);
+    result.push(waveStr);
+  }
+  return result;
+}
+```
+
+# Remove duplicates from list (8kyu)
+Define a function that removes duplicates from an array of non negative numbers and returns it as a result.
+
+The order of the sequence has to stay the same.
+
+Examples:
+
+```
+Input -> Output
+[1, 1, 2] -> [1, 2]
+[1, 2, 1, 1, 3, 2] -> [1, 2, 3]
+```
+
+My answer:
+```
+function distinct(a) {
+  return [...new Set(a)];
 }
 ```
