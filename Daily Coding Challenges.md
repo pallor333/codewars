@@ -5073,3 +5073,37 @@ Easy case is when the list is made up of only positive numbers and the maximum s
 
 Empty list is considered to have zero greatest sum. Note that the empty list or array is also a valid sublist/subarray.
 
+An answer:
+```
+function maxSequence(arr) {
+    // Edge cases: empty array or all negative numbers
+    if (!arr.length || arr.every(x => x < 0)) {
+        return 0;
+    }
+
+    let maxSum = 0;      // Tracks the maximum sum found so far
+    let currentSum = 0;  // Tracks the sum of the current subarray
+
+    for (let num of arr) {
+        // Update currentSum to be the maximum of the current number or the currentSum + current number
+        currentSum = Math.max(num, currentSum + num);
+        // Update maxSum if currentSum is greater
+        maxSum = Math.max(maxSum, currentSum);
+    }
+
+    return maxSum;
+}
+```
+
+Another answer:
+```
+var maxSequence = function(arr) {
+  let min = 0, ans = 0, i, sum = 0;
+  for (i = 0; i < arr.length; ++i) {
+    sum += arr[i];          // Calculate the prefix sum up to the current index
+    min = Math.min(sum, min); // Track the minimum prefix sum encountered so far
+    ans = Math.max(ans, sum - min); // Update the answer with the maximum subarray sum
+  }
+  return ans;
+};
+```
