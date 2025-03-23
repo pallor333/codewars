@@ -5135,3 +5135,4 @@ wantedWords(3, 7, ["a", "s" , "m", "y"]) == []
 
 Help our student to win this and the next challenges of the school. He needs to sure about a suspect that he has. That many times there are no solutions for what the principal is asking for. All words have its letters in lowercase format.
 
+My answer:
