@@ -4997,16 +4997,16 @@ function mouthSize(animal) {
 }
 ```
 # Mexican Wave (6kyu)
-# Task
+## Task
 
 In this simple Kata your task is to create a function that turns a string into a Mexican Wave. You will be passed a string and you must return that string in an array where an uppercase letter is a person standing up. 
 
-# Rules
+## Rules
 
  1.  The input string will always be lower case but maybe empty.  
  2.  If the character in the string is whitespace then pass over it as if it was an empty seat
 
-# Example
+## Example
 
 ```javascript
 wave("hello") => ["Hello", "hEllo", "heLlo", "helLo", "hellO"]
@@ -5136,3 +5136,67 @@ wantedWords(3, 7, ["a", "s" , "m", "y"]) == []
 Help our student to win this and the next challenges of the school. He needs to sure about a suspect that he has. That many times there are no solutions for what the principal is asking for. All words have its letters in lowercase format.
 
 My answer:
+```
+function wantedWords(n, m, forbid_let){
+    return wordList.filter(word => {
+      let chars = word.split(''), vowCount = 0, consCount = 0, forbidden = false
+      chars.forEach(letter => {
+        ['a', 'e', 'i', 'o', 'u'].includes(letter) ? vowCount++ : consCount++
+        if(forbid_let.includes(letter)) forbidden = true
+      })
+      
+      if(vowCount === n && consCount === m && forbidden === false){
+        return word
+        }
+    })
+}
+```
+Iterate over every word with filter(). Split each word into individual characters. Check each character if it's a vowel - updating a vowel/consonant count accordingly - AND checking if it includes forbidden letters. If the vowels/cons/forbidden = false match then add this word to the array to be returned.  Time complexity is O(N * W * (1 + F)) where W is word and F is the forbidden letters. 
+
+Another answer with optimized time complexity ( O(N  W))
+```
+function wantedWords(n, m, forbid_let) {
+  const vowels = new Set(['a', 'e', 'i', 'o', 'u']);
+  const forbiddenLetters = new Set(forbid_let);
+
+  return wordList.filter(word => {
+    let vowCount = 0, consCount = 0, forbidden = false;
+
+    for (const letter of word) {
+      if (forbiddenLetters.has(letter)) {
+        forbidden = true;
+        break; // Early exit if forbidden letter found
+      }
+      vowels.has(letter) ? vowCount++ : consCount++;
+    }
+
+    return vowCount === n && consCount === m && !forbidden;
+  });
+}
+```
+Optimizations here: using set guarantees a O(1) since .includes() will search through the array until it finds a match: best case O(1), worst case O(5). We use a for of loop instead of array.forEach() allowing for an early exit upon finding a forbidden letter and to avoid split('') and forEach(). This is faster/more efficient code.
+
+Modern JS engines (V8, spidermonkey, etc) are optimized for string iteration. Performance difference is negligible (less than 1% in benchmarks) Therefore string iteration is fine for 99% of cases, and the algo choice (set vs array) matters far more.
+
+Hyper-optimized version:
+```
+function wantedWords(n, m, forbid_let) {
+  const vowels = new Set(['a','e','i','o','u']);
+  const useSet = forbid_let.length > 3;
+  const forbidden = useSet ? new Set(forbid_let) : forbid_let;
+  
+  return wordList.filter(word => {
+    let v = 0, c = 0, bad = false;
+    for (let i = 0; i < word.length; i++) {
+      const letter = word[i];
+      if (useSet ? forbidden.has(letter) : forbidden.includes(letter)) {
+        bad = true;
+        break;
+      }
+      vowels.has(letter) ? v++ : c++;
+    }
+    return v === n && c === m && !bad;
+  });
+}
+```
+Does a check to check if the forbidden letters length is greater than 3. This is because using an array for a length <=3 is more efficient than using a Set, which has overhead. This method gets the best of both worlds, using an array or set when either one is more efficient. 
