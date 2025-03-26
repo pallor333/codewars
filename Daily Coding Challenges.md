@@ -5210,4 +5210,37 @@ Return the resulting `lamps` string. See example tests for more clarity.
 
 my answer:
 ```
+function flyBy(lamps, drone){
+  return "o".repeat(Math.min(drone.length, lamps.length) ) + "x".repeat(Math.max(0, (lamps.length - drone.length) ))
+}
+
+//o.repeat(drone.length) + x.repeat(lamps.length - drone.length)
 ```
+
+a more efficient answer: 
+```
+const flyBy = (lamps, drone) => [...lamps].fill(`o`, 0, drone.length).join(``)
+```
+1. **`[...lamps]`**
+    
+    - Converts the `lamps` string into an array of individual characters (e.g., `"xxxx"` becomes `['x', 'x', 'x', 'x']`).
+        
+2. **`.fill('o', 0, drone.length)`**
+    
+    - Replaces elements in the array from index `0` up to (but not including) `drone.length` with `'o'`.
+        
+    - Example: If `drone = "==="` (length 3), the first 3 `'x'`s become `'o'`s.
+        
+    - If `drone` is longer than `lamps`, it just replaces all `'x'`s with `'o'`s (no error).
+        
+3. **`.join('')`**
+    
+    - Combines the array back into a string (e.g., `['o', 'o', 'o', 'x']` becomes `"ooox"`).
+
+Another good answer:
+```
+const flyBy = (lamps, drone) =>
+  `${`o`.repeat(drone.length)}${lamps}`.slice(0, lamps.length);
+```
+Generate o's of drone length and combine it with the lamps string. "ooooxxxx"
+Then truncate the string based on the length of the original lamp string "oooox"
