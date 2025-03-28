@@ -5268,3 +5268,35 @@ function sortByLength (array) {
     return array.sort((a,b) => a.length - b.length)
 }
 ```
+
+# Numbers to Letters (7kyu)
+Given an array of numbers (in string format), you must return a string. The numbers correspond to the letters of the alphabet in reverse order: a=26, z=1 etc. You should also account for `'!'`, `'?'` and `' '` that are represented by '27', '28' and '29' respectively.
+
+All inputs will be valid.
+
+My answer:
+```
+function switcher(x){
+  return x.map(n => {
+    n = parseInt(n, 10)
+    return n === 27 ? '!' :
+      n === 28 ? '?' :
+      n === 29 ? ' ' :
+      String.fromCharCode(123 - n) 
+  }).join('')
+}
+```
+Loop over array. Cast string element into a number. Do a check for 27/28/29 special chars. Then takes 123, subtract the current number from it and convert it using ASCII table values. 
+
+Another answer:
+```
+const switcher = x =>
+  x.reduce((pre, val) => pre + `zyxwvutsrqponmlkjihgfedcba!? `[--val], ``);
+```
+Iterates over the array using .reduce(), adding a new value based on the lookup table. `[--val]` does two things: converts string to number due to preincrement operator and decrements the number by 1 to adjust for zero-based indexing. `--val` is equivalent to `val = val - 1`
+- Suppose `val` is `"26"` (a string).
+- `--val` is a pre-decrement operation.
+    - JavaScript first converts the string `"26"` to the number `26` (because the `--` operator coerces the string to a number).
+    - Then, it decrements `26` by `1`, resulting in `25`.
+- Now, `[25]` is used to index into the lookup string `'zyxwvutsrqponmlkjihgfedcba!? '`:
+    - The character at index `25` is `'a'`.
