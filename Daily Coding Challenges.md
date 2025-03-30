@@ -5323,5 +5323,28 @@ _Attention: If the number has leading zeros the amount of digits should be consi
 
 My answer:
 ```
+function incrementString (strng) {
+  //edge cases
+  if(!Number.isInteger(Number(strng[strng.length-1]))) return strng + "1";
+  
+  let numIdx = 0;
+  //loop over str from the end
+  for(let i = strng.length - 1; i > 0; i--){
+    let curr = strng[i].toLowerCase().charCodeAt(0);
+    if(curr >= 97 && curr <=122){
+      numIdx = i + 1; //add 1 since slicing is start inclusive
+      break; //exit loop once index is found
+    }
+  }
+  let numLen = strng.slice(numIdx).length //length of padded zeros
+  let num = (Number(strng.slice(numIdx))+ 1).toString() //increment number then cast to str
+  num = num.padStart(numLen, "0"); //pad zeros
+  return strng.slice(0, numIdx) + num;
+}
+```
 
+A really elegant solution using regex:
+```
+const incrementString = strng =>
+  strng.replace(/[0-8]?9*$/, val => ++val);
 ```
