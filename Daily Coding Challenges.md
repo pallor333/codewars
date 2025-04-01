@@ -5385,6 +5385,8 @@ Explanation:
 My answer: 
 ```
 function stockList(books, categories) {
+  if(books.length === 0 || categories.length === 0) return ""
+  
   //intialize object
   let obj = {}
   categories.forEach(ch => obj[ch] = 0)
@@ -5396,12 +5398,39 @@ function stockList(books, categories) {
   })
   
   //create string from obj and categories
-  const result = categories.map(letter => `(${letter} : ${obj[letter]})`)
-  return result.join(' - ')
+  return categories.map(letter => `(${letter} : ${obj[letter]})`).join(' - ')
 }
 
 //create obj using categories
 //loop over books, taking the first chr for book title and last chars for number
 //loop over obj using [first chr] and add num to it
 //loop over obj again using string literals to create formatting
+```
+
+Crazy one liner:
+```
+const stockList = (listOfArt, listOfCat) =>
+  listOfArt.length ? listOfCat.map(val => `(${val} : ${listOfArt.reduce((pre, v) => pre + (v[0] === val) * v.split(` `)[1], 0)})`).join(` - `) : ``;
+```
+
+# Template Strings (8kyu)
+### Task
+
+Your task is to return the correct string using the Template String Feature.
+
+### Input
+
+Two Strings, no validation is needed.
+
+### Output
+
+You must output a string containing the two strings with the word ```' are '```
+
+Reference: [https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/template_strings](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/template_strings)
+
+My answer:
+```
+var templateStrings = function(noun, adjective) {
+  return `${noun} are ${adjective}`
+}
 ```
