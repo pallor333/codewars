@@ -5502,7 +5502,34 @@ Shake the tree and count where the nuts land.
 101005000020000000040
 ```
 
-My answer: 
+An answer: 
+```
+var shakeTree = function(tree) {
+  const result = Array(tree[0].length).fill(0)
+  tree[0].forEach((nut,c) => {
+    if (nut === 'o') {
+      for (let r = 1; r < tree.length; r++) {
+        if (tree[r][c] === '/') c--
+        if (tree[r][c] === '\\') c++
+        if (tree[r][c] === '_') return
+      }
+      result[c]++
+    }
+  })
+  return result
+}
 ```
 
+Another answer: ```
+const nuts = a => [ a[0].map( c => Number(c==='o') ) ].concat( a.slice(1) ) ;
+
+function drop(z,v) {
+  let r = Array.from( z, () => 0 );
+  for ( let i=0; i in v; i++ )
+    if ( v[i]!=='_' )
+      r[ i + Number(v[i]==='\\') - Number(v[i]==='/') ] += z[i];
+  return r;
+}
+
+const shakeTree = tree => nuts(tree).reduce(drop) ;
 ```
