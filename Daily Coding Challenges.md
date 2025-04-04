@@ -5520,9 +5520,13 @@ var shakeTree = function(tree) {
 }
 ```
 
-Another answer: ```
+Another answer: 
+```
 const nuts = a => [ a[0].map( c => Number(c==='o') ) ].concat( a.slice(1) ) ;
+```
 
+Another answer:
+```
 function drop(z,v) {
   let r = Array.from( z, () => 0 );
   for ( let i=0; i in v; i++ )
@@ -5533,3 +5537,101 @@ function drop(z,v) {
 
 const shakeTree = tree => nuts(tree).reduce(drop) ;
 ```
+
+# Multiplication table (6kyu)
+Your task, is to create N×N multiplication table, of size provided in parameter.
+
+For example, when given `size` is 3:
+
+```
+1 2 3
+2 4 6
+3 6 9
+```
+
+For the given example, the return value should be:
+
+```js
+[[1,2,3],[2,4,6],[3,6,9]]
+```
+
+My answer:
+```
+function multiplicationTable(size) {
+  return [...Array(size)].map((_, idx) => { 
+	  const current = idx+1;
+    return [...Array(size)].map((_, innerIdx) => current * (innerIdx+1) )
+  })
+}
+
+//given int, return array of n x n size
+//1*1, 1*2, 1*3
+//2*1, 2*2, 2*3
+//3*1, 3*2, 3*3
+
+//declare new array of size n, using idx to iterate
+//[idx+1, idx+1, idx+1] = [1, 2, 3]
+//inside each element, i call map again
+//current idx+1 * idx+1
+//[1 * idx+1, 1 * idx+1, 1 * idx+1] = [1, 2, 3]
+```
+Spread operator is required because Array(size) creates a **sparse array** (no actual slots, just a `length` property) and .map() skips empty slots. (Tricks like `[...Array(n)]` or `Array(n).fill()` required to force iteration.)
+
+A more concise answer (same as mine):
+```
+const multiplicationTable = size =>
+  [...Array(size)].map((_, idx) => [...Array(size)].map((_, i) => ++i * (idx + 1)));
+```
+
+A differing answer using Array.from():
+```
+const multiplicationTable = size =>
+  Array.from({length: size}, (_1, m1) => 
+    Array.from({length: size}, (_2, m2) => 
+      (m1 + 1) * (m2 + 1)));
+```
+**`Array.from()`** pre-allocates the array and fills it in a single pass, giving a fully iterable source. 
+When you use Array.from(), it expects the first argument to be an array-like object or an iterable. An "array-like object" is specifically defined as an object with:
+- A length property that indicates how many elements it contains
+- Indexed elements (0, 1, 2, etc.)
+- 
+If you passed {size}, you'd be creating an object with a property named size instead of length. The Array.from() method wouldn't recognize this as indicating the desired array length.
+
+Another answer using Array.from():
+```
+const multiplicationTable = length => Array.from( { length }, (_,i) => Array.from( { length }, (_,j) => (i+1)*(j+1) ) ) ;
+```
+This code is using a shorthand property syntax in JavaScript called "property value shorthand." When you create an object and the variable name matches the property name you want to use, you can write it once instead of twice.
+
+- `{ length }` is equivalent to `{ length: length }`
+
+This works because:
+
+1. The parameter to the function is named `length`
+2. You're creating an object with a property that should also be named `length`
+3. You want the value of that property to be the value of the `length` parameter
+
+
+Fastest implementation using for loops:
+```
+function multiplicationTable(size) {
+  const table = new Array(size);
+  for (let row = 0; row < size; row++) {
+    const currentRow = new Array(size);
+    for (let col = 0; col < size; col++) {
+      currentRow[col] = (row + 1) * (col + 1);
+    }
+    table[row] = currentRow;
+  }
+  return table;
+}
+```
+### **Performance Comparison**
+
+| Method                 | Time Complexity | Notes                            |
+| ---------------------- | --------------- | -------------------------------- |
+| **Nested `for` loops** | **O(n²)**       | Fastest for large sizes          |
+| `Array.from` + `map`   | O(n²)           | Cleaner but slower               |
+| Chained `.map()`       | O(n²)           | Slowest due to callback overhead |
+
+# 
