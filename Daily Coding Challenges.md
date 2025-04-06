@@ -5559,7 +5559,7 @@ My answer:
 ```
 function multiplicationTable(size) {
   return [...Array(size)].map((_, idx) => { 
-	  const current = idx+1;
+	const current = idx+1;
     return [...Array(size)].map((_, innerIdx) => current * (innerIdx+1) )
   })
 }
@@ -5633,5 +5633,67 @@ function multiplicationTable(size) {
 | **Nested `for` loops** | **O(n²)**       | Fastest for large sizes          |
 | `Array.from` + `map`   | O(n²)           | Cleaner but slower               |
 | Chained `.map()`       | O(n²)           | Slowest due to callback overhead |
+
+# Maximum Length Difference (7kyu)
+You are given two arrays `a1` and `a2` of strings. Each string is composed with letters from `a` to `z`. Let `x` be any string in the first array and `y` be any string in the second array.
+
+`Find max(abs(length(x) − length(y)))`
+
+If `a1` and/or `a2` are empty return `-1` in each language except in Haskell (F#) where you will return `Nothing` (None).
+
+#### Example:
+
+```
+a1 = ["hoqq", "bbllkw", "oox", "ejjuyyy", "plmiis", "xxxzgpsssa", "xxwwkktt", "znnnnfqknaz", "qqquuhii", "dvvvwz"]
+a2 = ["cccooommaaqqoxii", "gggqaffhhh", "tttoowwwmmww"]
+mxdiflg(a1, a2) --> 13
+```
+
+My answer:
+```
+function mxdiflg(a1, a2) {
+    if (a1.length === 0 || a2.length === 0) return -1
+    
+    let a1Min = Infinity, a2Min = Infinity
+    let a1Max = 0, a2Max = 0
+    
+    for(str of a1){
+      if(str.length < a1Min) a1Min = str.length
+      if(str.length > a1Max) a1Max = str.length
+    }
+  
+    for(str of a2){
+      if(str.length < a2Min) a2Min = str.length
+      if(str.length > a2Max) a2Max = str.length
+    }
+  
+    return Math.max(Math.abs(a1Max - a2Min), Math.abs(a2Max - a1Min))
+}
+```
+
+Another answer:
+```
+const mxdiflg = (a1, a2) =>
+  a1.reduce((pre, val) => Math.max(pre, a2.reduce((p, v) => Math.max(p, Math.abs(val.length - v.length)), -1)), -1);
+```
+Brute force solution that compares the length of every string. Time complexity is O(n * m) where n is the length of array a1, and m is the length of array a2.
+
+A more readable version of the answer above:
+```
+function mxdiflg(a1, a2) {
+  if (a1.length === 0 || a2.length === 0) return -1;
+  
+  let maxDiff = -1;
+  
+  for (let str1 of a1) {
+    for (let str2 of a2) {
+      let diff = Math.abs(str1.length - str2.length);
+      if (diff > maxDiff) maxDiff = diff;
+    }
+  }
+  
+  return maxDiff;
+}
+```
 
 # 
