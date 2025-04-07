@@ -5713,5 +5713,9 @@ checkCoupon("123", "123", "July 9, 2015", "July 2, 2015")  ===  false
 
 My answer:
 ```
-
+function checkCoupon(enteredCode, correctCode, currentDate, expirationDate){
+  return enteredCode === correctCode 
+      && new Date(currentDate).getTime() <= new Date(expirationDate).getTime() 
+  
+}
 ```
