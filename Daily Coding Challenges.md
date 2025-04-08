@@ -5719,3 +5719,57 @@ function checkCoupon(enteredCode, correctCode, currentDate, expirationDate){
   
 }
 ```
+- This version explicitly converts the `Date` objects to their numeric timestamps (milliseconds since Unix epoch) using `.getTime()` before comparing them.
+- This is more explicit and avoids any potential ambiguity, though in practice it behaves the same way as the first version when using `<=`.
+
+Another answer: 
+```
+function checkCoupon(enteredCode, correctCode, currentDate, expirationDate) {
+  return enteredCode === correctCode && new Date(currentDate) <= new Date(expirationDate);
+}
+```
+When comparing `Date` objects with `<=`, JavaScript automatically coerces the `Date` objects to their numeric timestamp values (equivalent to `.getTime()`) and then performs the comparison.
+
+# My Language Skills (7kyu)
+### Task
+
+You are given a dictionary-like object (implementation may vary by language) containing languages as keys and your corresponding test results as values. Return the list of languages where your score is at least `60`, in descending order of the scores.
+
+Note: the scores will always be unique (so no duplicate values)
+
+### Examples
+
+```
+Input object with key-value pairs:
+"Java" -> 10, "Ruby" -> 80, "Python" -> 65
+Ouput:
+[ "Ruby", "Python" ]
+
+Input object with key-value pairs:
+"Hindi" -> 60, "Greek" -> 71, "Dutch" -> 93
+Output:
+[ "Dutch", "Greek", "Hindi" ]
+
+Input object with key-value pairs:
+"C++" -> 50, "ASM" -> 10, "Haskell" -> 20
+Output:
+[ ]
+```
+
+My answer: 
+```
+function myLanguages(results) {
+  let highScores = []
+  for (const key in results){
+    if(results[key] >=60) {
+        highScores.push([key, results[key]])
+      }
+    }
+  return highScores.sort((a, b) => b[1] - a[1]).map(lang => lang[0]) 
+}
+
+//for(... in) loop has no intermediate array and is therefore more efficient
+//add language and score to new array
+//sort arr using second value of each element
+//map new sorted arr based on the first value of each element
+```
