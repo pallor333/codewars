@@ -5773,3 +5773,13 @@ function myLanguages(results) {
 //sort arr using second value of each element
 //map new sorted arr based on the first value of each element
 ```
+
+Another answer:
+```
+function myLanguages(results) {
+  return Object.keys(results)
+  .filter(r => results[r] > 59)
+  .sort((a,b) => results[b] - results[a]);
+}
+```
+Get keys, filter them based on value > 59, then call sort, using the keys and results array. Why didn't I think of that? It's much more elegant than stuffing my array with two element arrays per element. Both my and this solution is O(n log n). O(n) looping over the initial array, and then O(log n) for sorting.
