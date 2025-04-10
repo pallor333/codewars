@@ -5436,7 +5436,7 @@ var templateStrings = function(noun, adjective) {
 ```
 
 # Nut Farm (6 kyu)
-# Story
+## Story
 
 It's a pretty relaxing life here at the nut farm.
 
@@ -5454,7 +5454,7 @@ As they fall down the nuts might hit branches:
 - Sometimes they bounce right.
 - Sometimes they get stuck in the tree and don't fall out at all.
 
-# Legend
+## Legend
 
 - `o` = a nut
 - `\` = branch. A nut hitting this branch bounces right
@@ -5464,7 +5464,7 @@ As they fall down the nuts might hit branches:
 - `|` = tree trunk, which has no effect on falling nuts
 - = empty space, which has no effect on falling nuts
 
-# Kata Task
+## Kata Task
 
 Shake the tree and count where the nuts land.
 
@@ -5472,14 +5472,14 @@ Shake the tree and count where the nuts land.
 
 ^ See the example tests
 
-# Notes
+## Notes
 
 - The nuts are always found at the top of the tree
 - Nuts do not affect the falling patterns of other nuts
 - There are always enough spaces for nuts to fall between branches
 - There are no branches at the extreme left/right edges of the tree matrix so it is not possible for a nut to fall "out of bounds"
 
-# Example
+## Example
 
 ```
 .o.oooooo.o.o.oooooo.
@@ -5697,7 +5697,7 @@ function mxdiflg(a1, a2) {
 ```
 
 # The Coupon Code (7kyu)
-# Task
+## Task
 
 Your mission:  
 Write a function called `checkCoupon` which verifies that a coupon code is valid and not expired.
@@ -5783,3 +5783,61 @@ function myLanguages(results) {
 }
 ```
 Get keys, filter them based on value > 59, then call sort, using the keys and results array. Why didn't I think of that? It's much more elegant than stuffing my array with two element arrays per element. Both my and this solution is O(n log n). O(n) looping over the initial array, and then O(log n) for sorting.
+
+# Dominant array elements (7kyu)
+An element in an array is dominant if it is greater than all elements to its right. You will be given an array and your task will be to return a list of all dominant elements. For example:
+
+```
+solve([1,21,4,7,5]) = [21,7,5] because 21, 7 and 5 are greater than elments to their right. 
+solve([5,4,3,2,1]) = [5,4,3,2,1]
+
+Notice that the last element is always included. All numbers will be greater than 0.
+```
+
+My answer:
+```javascript
+function solve(arr) {
+  const domArr = []
+  checkDominance: for(let i = 0; i < arr.length; i++){
+    const current = arr[i]
+    for(let j = i + 1; j < arr.length; j++){
+	  //skip to next iteration of outer loop
+      if(arr[j] >= current) continue checkDominance 
+    }
+    domArr.push(arr[i]) //only executes if no arr[j] > current is found
+  }
+  return domArr
+}
+```
+A labeled statement is any statement that is prefixed with an identifier. You can jump to this label using a break or continue statement nested within the labeled statement. checkDominance is a labeled statement intended to continue the loop once the invalid condition is found - a value to the right of the current value is greater or equal to it. This is an inefficient solution O(n^2) time efficiency.
+
+Another answer:
+```javascript
+const solve = arr =>
+  arr.filter((val, idx) => val > Math.max(...arr.slice(++idx)));
+```
+For each element, it slices into the next index till the end of the array. It's important to pre-increment as idx++ will increment **after** arr.slice() is called. Math.max() is called to find the largest value in this slice. If Math.max() finds a num larger than val, then the current value is not a dominant element and skips it. Otherwise it's added to the return array. 
+
+Claude answer:
+```javascript
+function solve(arr) {
+  if (!arr.length) return []; //empty arr = return empty arr
+
+  let max = arr[arr.length - 1];
+  const result = [max]; // Last element is always dominant
+  
+  // Traverse from right to left
+  for (let i = arr.length - 2; i >= 0; i--) {
+    if (arr[i] > max) {
+      result.unshift(arr[i]);
+      max = arr[i];
+    }
+  }
+  
+  return result;
+}
+```
+**Time complexity: O(n) and Space Complexity: O(k) where k is the number of dominant elements**
+1) Set max value, 'max' to the last element in the array and initialize the result array with aforementioned value. 
+2) Loop over the array from right to left, starting at the second to last value. We check if the current element is greater than the max value. If it is then we add the current element to the beginning of the result array and set max to arr[i]
+
