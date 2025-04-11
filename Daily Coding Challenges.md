@@ -5841,3 +5841,134 @@ function solve(arr) {
 1) Set max value, 'max' to the last element in the array and initialize the result array with aforementioned value. 
 2) Loop over the array from right to left, starting at the second to last value. We check if the current element is greater than the max value. If it is then we add the current element to the beginning of the result array and set max to arr[i]
 
+# Two fighters, one winner (7kyu)
+Create a function that returns the name of the winner in a fight between two fighters.
+
+Each fighter takes turns attacking the other and whoever kills the other first is victorious. Death is defined as having `health <= 0`.
+
+Each fighter will be a `Fighter` object/instance. See the Fighter class below in your chosen language.
+
+Both `health` and `damagePerAttack` (`damage_per_attack` for python) will be integers larger than `0`. You can mutate the `Fighter` objects.
+
+Your function also receives a third argument, a string, with the name of the fighter that attacks first.
+
+## Example:
+
+```
+  declare_winner(Fighter("Lew", 10, 2), Fighter("Harry", 5, 4), "Lew") => "Lew"
+  
+  Lew attacks Harry; Harry now has 3 health.
+  Harry attacks Lew; Lew now has 6 health.
+  Lew attacks Harry; Harry now has 1 health.
+  Harry attacks Lew; Lew now has 2 health.
+  Lew attacks Harry: Harry now has -1 health and is dead. Lew wins.
+```
+
+```javascript
+function Fighter(name, health, damagePerAttack) {
+        this.name = name;
+        this.health = health;
+        this.damagePerAttack = damagePerAttack;
+        this.toString = function() { return this.name; }
+}
+```
+
+My answer: 
+```javascript
+function declareWinner(fighter1, fighter2, firstAttacker) {
+  let firstPlayerMove = false
+  if(firstAttacker === fighter1.name) firstPlayerMove = true
+  //console.log(firstAttacker === fighter1.name)
+  //console.log(`${fighter1.name} has ${fighter1.health} and deals ${fighter1.damagePerAttack} dmg`)
+  //console.log(`${fighter2.name} has ${fighter2.health} and deals ${fighter2.damagePerAttack} dmg`)
+  
+  while(fighter1.health > 0 && fighter2.health > 0){
+    if(firstPlayerMove){
+      fighter2.health -= fighter1.damagePerAttack
+      console.log(`${fighter1} attacks ${fighter2} for ${fighter1.damagePerAttack}; ${fighter2} now has ${fighter2.health} health`)
+      firstPlayerMove = false
+    }else{
+      fighter1.health -= fighter2.damagePerAttack
+      console.log(`${fighter2} attacks ${fighter1} ${fighter2.damagePerAttack}; ${fighter2} now has ${fighter1.health} health`)
+      firstPlayerMove = true
+    }
+  }
+  
+  return fighter1.health > 0 ? fighter1.name : fighter2.name
+}
+```
+
+An optimized form of my answer:
+```javascript
+function declareWinner(fighter1, fighter2, firstAttacker) {
+  let attacker = fighter1.name === firstAttacker ? fighter1 : fighter2;
+  let defender = attacker === fighter1 ? fighter2 : fighter1;
+
+  while (fighter1.health > 0 && fighter2.health > 0) {
+    defender.health -= attacker.damagePerAttack;
+    console.log(`${attacker} attacks ${defender}; ${defender} now has ${defender.health} health.`);
+    [attacker, defender] = [defender, attacker]; // Swap roles
+  }
+
+  return fighter1.health > 0 ? fighter1.name : fighter2.name;
+}
+```
+Instead of using a boolean, attack and defender are declared first, allowing the code to be more readable and concise. We no longer have to write two different log statements or update an attacker flag. 
+
+A mathematically optimized answer:
+```javascript
+const declareWinner = (fighter1, fighter2, firstAttacker) =>
+  (val => val > 0 ? fighter1.name : val < 0 ? fighter2.name : firstAttacker)
+  (Math.ceil(fighter1.health / fighter2.damagePerAttack) - Math.ceil(fighter2.health / fighter1.damagePerAttack));
+```
+ O(1) runtime but does not output the steps. This style is functional programming a programming paradigm that treats computations as evaluation of math functions and avoids changing-state and mutable data -- ideally functions only take inputs and produce outputs, avoiding any internal state changes. 
+How the program works:
+- (val =>  ternary checks )( computed value passed as `val`) This is an **IIFE** (Immediately Invoked Function Expression). 
+- `Math.ceil(fighter1.health / fighter2.damagePerAttack)`= 10/4 = 2.5 = 3 = 3 hits to kill P1
+- `Math.ceil(fighter2.health / fighter1.damagePerAttack)`= 5/2 = 2.5 = 3 = 3 hits to kill P2
+- `val = (hitsToKillFighter1) - (hitsToKillFighter2)` Val > 0 = P1 wins; Val < 0 = P2 wins; Val === 0; first attacker wins 
+
+
+equivalent to: 
+```javascript
+const declareWinner = (fighter1, fighter2, firstAttacker) => {
+  const val = Math.ceil(fighter1.health / fighter2.damagePerAttack) - 
+              Math.ceil(fighter2.health / fighter1.damagePerAttack);
+  
+  if (val > 0) return fighter1.name;
+  else if (val < 0) return fighter2.name;
+  else return firstAttacker; // Tiebreaker
+};
+```
+
+What is an IIFE? An **IIFE** (Immediately Invoked Function Expression) is an idiom in which a [JavaScript](https://developer.mozilla.org/en-US/docs/Glossary/JavaScript) [function](https://developer.mozilla.org/en-US/docs/Glossary/Function) runs as soon as it is defined. It is also known as a _self-executing anonymous function_.
+```javascript
+// standard IIFE
+(function () {
+  // statements…
+})();
+
+// arrow function variant
+(() => {
+  // statements…
+})();
+
+// async IIFE
+(async () => {
+  // statements…
+})();
+
+```
+1. A [function _expression_](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/function). This usually needs to be [enclosed in parentheses](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Grouping) in order to be parsed correctly.
+2. Immediately _calling_ the function expression. Arguments may be provided, though IIFEs without arguments are more common.
+Example: 
+```
+f(x) = x + 1  
+f(2) → 3
+```
+```javascript
+(x => x + 1)(2)  // Returns 3
+
+```
+
+#
