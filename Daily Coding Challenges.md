@@ -6055,10 +6055,29 @@ function pendulum(values) {
 //5, 6, 6, 8, 10
 //0, 1, 2, 3, 4
 ```
-Time complexity: O(log(n)) to sort, then O(n) to create the pendulum array.
+Time complexity: O(log(n)) to sort, then O(n) to iterate over the array and O(n) to unshift(). Unshift() is O(n) because it must shift all existing elements one position to the right and insert the new element at index 0.
 
 Another answer using reduce():
 ```
 const pendulum = values =>
   values.sort((a, b) => a - b).reduce((pre, val) => pre.length % 2 ? [...pre, val] : [val, ...pre], []);
 ```
+Sort from least to greatest, then call reduce() using an empty array as the base. The array is built with modulo using the spread syntax to append the current element to the array  based on odd or even - evens go to the right while odds go to the left. Time complexity is O(n^2). Sort is O(nlogn), reduce is O(n) and [...pre, val]/[val, ...pre] is O(n) in the same way that unshift() is O(n). 
+
+A more efficient solution:
+```
+function pendulum(values) {
+  const sorted = [...values].sort((a, b) => a - b);
+  const result = Array(values.length);
+  let left = Math.floor((values.length - 1) / 2), right = left + 1;
+
+  values.forEach((n, i) => i%2 ? result[right++] = n : result[left--] = n)
+
+  return result;
+}
+```
+- [...values] copies the array to avoid mutating the original. 
+- Pre-allocating space for the array prevents dynamic resizing and is faster than push/unshift - it's O(1). 
+- Left and right are defined as index trackers in order to properly place elements.
+- The for loop relies on the index to place elements to the left or to the right, using truthy/falsy. 0 = falsy, placed left. 1 = truthy, placed right, and so on and so forth. 
+Time complexity: O(n logn). Space complexity: O(n) for results array.
