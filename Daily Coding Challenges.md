@@ -6161,22 +6161,31 @@ My answer:
 ```
 function translateWithFrame(dna, frames=[1,2,3,-1,-2,-3]){
   const complement = {"A" : "T", "T": "A", "C": "G", "G": "C"}
-  const frame = {}
-  const readingFrame = [], dnaArr = dna.split("")
-  for(let i = 0; i <= dnaArr.length - 3; i++){
-    readingFrame.push(codons[dnaArr[i] + dnaArr[i+1] + dnaArr[i+2]])
-  }
-  //console.log(readingFrame)
-  return [readingFrame.join()]
+  const translation = [], dnaArr = dna.split(""),
+        cDnaArr = dna.split("").map(c => complement[c]).reverse() 
   
+  for(let i = 0; i < frames.length; i++){
+    let readingFrame = [], start = Math.abs(frames[i]) - 1 
+    
+    // RF = 1 -> 3
+    if(frames[i] > 0){
+      for(let j = start; j <= dnaArr.length - 3; j+=3){
+        readingFrame.push(codons[dnaArr[j] + dnaArr[j+1] + dnaArr[j+2]])
+      }
+    }else{ // RF = -1 > -3
+      for(let j = start; j <= dnaArr.length - 3; j+=3){
+        readingFrame.push(codons[cDnaArr[j] + cDnaArr[j+1] + cDnaArr[j+2]])
+      }
+    }
+    
+    translation.push(readingFrame.join("") )
+  }
+  
+  return translation
 }
-
-//Convert string to array for iteration
-//For loop - i = 0; i < arr.length - 3; i++
-//call codon on arr[i], arr[i+1], arr[i+2]
-//push codon into codon array
-//join array into string and return
-
 ```
-Solved for the 1st frame. Need to update let i = 0 to the first three frames.
-Different logic for the reverse complements. 
+Problem solved by breaking it down into smaller steps. 
+- First solved translating a single reading frame: Convert str to arr. For() loop: i = 0; i < arr.length i+=3. Call codons on arr[i], arr[i+1], arr[i+2]. Using + is faster than any other method. Push the value given by codons into an array which is joined into a string and pushed into an array that is returned. 
+- Second step is to extend to three different reading frames: Add an outer for() that loops over frames parameter. Inside the outer loop and before inner loop, initialize temp arr to place codons in. Define start by calling math.abs() on current frames value and subtract one. (1, -1 correspond to 0; 2, -2 correspond to 1; 3, -3 correspond to 2). This value is used in our inner loop. After the inner loop is done (part 1), push the joined (arr -> str) codons return value to the translation arr to return later.
+- Last step is adding reverse complement functionality. Define a dictionary of DNA complement values to use later. While defining translation = empty array, turning the given dna str into an arr, we call map() on dnaArr, using the DNA complement dictionary to get the complement DNA string, and then we reverse it. This variable is called cDnaArr. Add control flow, checking frames[i] value to separate between frames[i] > 0 and <0. In frames[i] < 0, copy the inner loop, substituting dnaArr for the reversed complement. 
+Time complexity O(n) * 8 or something like that =>> O(n)
