@@ -6162,7 +6162,7 @@ My answer:
 function translateWithFrame(dna, frames=[1,2,3,-1,-2,-3]){
   const complement = {"A" : "T", "T": "A", "C": "G", "G": "C"}
   const translation = [], dnaArr = dna.split(""),
-        cDnaArr = dna.split("").map(c => complement[c]).reverse() 
+        cDnaArr = [...dna].map(c => complement[c]).reverse() 
   
   for(let i = 0; i < frames.length; i++){
     let readingFrame = [], start = Math.abs(frames[i]) - 1 
@@ -6189,3 +6189,29 @@ Problem solved by breaking it down into smaller steps.
 - Second step is to extend to three different reading frames: Add an outer for() that loops over frames parameter. Inside the outer loop and before inner loop, initialize temp arr to place codons in. Define start by calling math.abs() on current frames value and subtract one. (1, -1 correspond to 0; 2, -2 correspond to 1; 3, -3 correspond to 2). This value is used in our inner loop. After the inner loop is done (part 1), push the joined (arr -> str) codons return value to the translation arr to return later.
 - Last step is adding reverse complement functionality. Define a dictionary of DNA complement values to use later. While defining translation = empty array, turning the given dna str into an arr, we call map() on dnaArr, using the DNA complement dictionary to get the complement DNA string, and then we reverse it. This variable is called cDnaArr. Add control flow, checking frames[i] value to separate between frames[i] > 0 and <0. In frames[i] < 0, copy the inner loop, substituting dnaArr for the reversed complement. 
 Time complexity O(n) * 8 or something like that =>> O(n)
+
+A refactored solution: 
+```
+function translateWithFrame(dna, frames = [1, 2, 3, -1, -2, -3]) {
+  const COMPLEMENT = { "A": "T", "T": "A", "C": "G", "G": "C" };
+  const OFR = [], 
+        dnaArr = dna.split(""),
+        len = dna.length - 3;
+        cDnaArr = [...dnaArr].reverse().map(c => COMPLEMENT[c]); 
+
+  for (const frame of frames) {
+    const start = Math.abs(frames[i]) - 1,
+	      readingFrame = [],
+          currentDNA = frame > 0 ? dnaArr : cDnaArr;
+
+    for (let j = start; j <= len; j += 3) {
+      readingFrame.push(codons[currentDNA[j] + currentDNA[j+1] + currentDNA[j+2]]);
+    }
+
+    translation.push(readingFrame.join(""));
+  }
+
+  return OFR;
+}
+```
+The variable currentDNA has a ternary operator to decide which dna array to use in the for() loop, eliminating redundancy. Pre-defining length to avoid unnecessary calls during the loop. The outer loop is converted into a for... of loop to remove unnecessary verbiage and adds clarity at the cost of being slightly less efficient. 
