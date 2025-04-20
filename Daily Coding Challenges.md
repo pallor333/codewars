@@ -6241,3 +6241,8 @@ If there are no numbers of this kind in the range [a,b][a, b][a,b] the function 
 ```
 90, 100 --> []
 ```
+
+My answer:
+```
+
+```
