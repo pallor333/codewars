@@ -6225,3 +6225,65 @@ function include(arr, item){
   return arr.includes(item)
 }
 ```
+
+# L1: Bartender, drinks! (8kyu)
+Complete the function that receives as input a string, and produces outputs according to the following table:
+
+|Input|Output|
+|---|---|
+|"Jabroni"|"Patron Tequila"|
+|"School Counselor"|"Anything with Alcohol"|
+|"Programmer"|"Hipster Craft Beer"|
+|"Bike Gang Member"|"Moonshine"|
+|"Politician"|"Your tax dollars"|
+|"Rapper"|"Cristal"|
+|_anything else_|"Beer"|
+
+**Note:** _anything else_ is the default case: if the input to the function is not any of the values in the table, then the return value should be `"Beer"`.
+
+Make sure you cover the cases where certain words do not show up with correct capitalization. For example, the input `"pOLitiCIaN"` should still return `"Your tax dollars"`.
+
+My answer:
+```
+function getDrinkByProfession(param){
+  const lwrcsParam = param.toLowerCase(), 
+  obj = {
+    "jabroni": "Patron Tequila", 
+    "school counselor": "Anything with Alcohol",
+    "programmer":  	"Hipster Craft Beer",
+    "bike gang member": "Moonshine",
+    "politician": "Your tax dollars",
+    "rapper": "Cristal",
+  }
+  return obj[lwrcsParam] ? obj[lwrcsParam] : "Beer"
+}
+```
+
+A bit more elegant answer:
+```
+const drinks = {
+  "jabroni": "Patron Tequila",
+  "school counselor": "Anything with Alcohol",
+  "programmer": "Hipster Craft Beer",
+  "bike gang member": "Moonshine",
+  "politician": "Your tax dollars",
+  "rapper": "Cristal"
+}
+
+const getDrinkByProfession = profession => drinks[profession.toLowerCase()] || "Beer"
+```
+Logical OR (||) operator evaluates left side first. If it's undefined then it's falsy, therefore rightside. 
+
+Probably best practice:
+```
+const getDrinkByProfession = param =>
+  ({
+    jabroni: `Patron Tequila`,
+    'school counselor': `Anything with Alcohol`,
+    programmer: `Hipster Craft Beer`,
+    'bike gang member': `Moonshine`,
+    politician: `Your tax dollars`,
+    rapper: `Cristal`,
+  })[param.toLowerCase()] || `Beer`;
+```
+No need to define other variables. Just return the entire thing and call param.lowerCase() on it. If it's falsy, add an OR to call beer. 
