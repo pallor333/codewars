@@ -6467,3 +6467,13 @@ function scrollingText(text){
 ```
 Create an array from the text length and then fill it with the doubled string (hi -> hihi).
 Call map onto the new array of doubled strings, taking a substring of the index to the length of the original text (2), not to be confused with the length of the doubled string (4). 
+
+# If you can't sleep, just count sheep!! (8kyu)
+## Task:
+
+Given a non-negative integer, `3` for example, return a string with a murmur: `"1 sheep...2 sheep...3 sheep..."`. Input will always be valid, i.e. no negative integers.
+
+My answer:
+```
+
+```
