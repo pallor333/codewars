@@ -6287,3 +6287,183 @@ const getDrinkByProfession = param =>
   })[param.toLowerCase()] || `Beer`;
 ```
 No need to define other variables. Just return the entire thing and call param.lowerCase() on it. If it's falsy, add an OR to call beer. 
+
+# 80's Kids #5: You Can't Do That on Television (7kyu)
+If you say any of the following words a large bucket of "water" will be dumped on you: "water", "wet", "wash" This is true for any form of those words, like "washing", "watered", etc.
+
+If you say any of the following phrases you will be doused in "slime": "I don't know", "slime"
+
+If you say both in one sentence, a combination of water and slime, "sludge", will be dumped on you.
+
+Write a function, bucketOf(str), that takes a string and determines what will be dumped on your head. If you haven't said anything you shouldn't have, the bucket should be filled with "air". The words should be tested regardless of case.
+
+Examples:
+
+```javascript
+bucketOf("What is that, WATER?!?") -> "water"
+bucketOf("I don't know if I'm doing this right.") -> "slime"
+bucketOf("You won't get me!") -> "air"
+```
+
+My answer:
+```
+function bucketOf(str) {
+  const strLowerCase = str.toLowerCase()
+  const wetDict = ["water", "wet", "wash", "washing", "watered"]
+  const slimeDict = ["i don't know", "slime"]
+  let wetCheck = false, slimeCheck = false
+  
+  for(let i = 0; i < wetDict.length; i++){
+    if(strLowerCase.includes(wetDict[i])){
+      wetCheck = true
+      break
+    }    
+  }
+  for(let i = 0; i < slimeDict.length; i++){
+    if(strLowerCase.includes(slimeDict[i])){
+      slimeCheck = true
+      break
+    }    
+  }
+  
+  return wetCheck && slimeCheck ? "sludge" :
+    wetCheck ? "water" :
+    slimeCheck  ? "slime" : "air"
+  
+}
+
+// Make str lowercase
+// Define dictionary for wet and slime
+// Loop over entirety of str using .includes() for each value of wet and dict
+// Break loop early if true and set wetTrue / slimeTrue 
+// Return wetTrue/slimeTrue with ternary to return the correct value
+
+```
+
+A more efficient answer using array.some():
+```
+function bucketOf(str) {
+  const lowerStr = str.toLowerCase();
+  const hasWater = ["water", "wet", "wash", "washing", "watered"].some(w => lowerStr.includes(w));
+  const hasSlime = ["i don't know", "slime"].some(s => lowerStr.includes(s));
+  
+  return hasWater && hasSlime ? "sludge" :
+         hasWater ? "water" :
+         hasSlime ? "slime" : "air";
+}
+```
+
+Array.some() checks an array, testing for a function passed to it. Returns true/false based upon the testing function. 
+
+# Multiplication table for number (8kyu)
+Your goal is to return multiplication table for `number` that is always an integer from 1 to 10.
+
+For example, a multiplication table (string) for `number == 5` looks like below:
+
+```
+1 * 5 = 5
+2 * 5 = 10
+3 * 5 = 15
+4 * 5 = 20
+5 * 5 = 25
+6 * 5 = 30
+7 * 5 = 35
+8 * 5 = 40
+9 * 5 = 45
+10 * 5 = 50
+```
+
+My answer:
+```
+function multiTable(number) {
+  return Array.from({length: 10}).map((_,idx) => {
+    return `${idx+1} * ${number} = ${(idx+1) * number}`
+  }).join('\n')
+}
+```
+# Email Address Obfuscator (7kyu)
+Many people choose to obfuscate their email address when displaying it on the Web. One common way of doing this is by substituting the `@` and `.` characters for their literal equivalents in brackets.
+
+Example 1:
+
+```
+user_name@example.com
+=> user_name [at] example [dot] com
+```
+
+Example 2:
+
+```
+af5134@borchmore.edu
+=> af5134 [at] borchmore [dot] edu
+```
+
+Example 3:
+
+```
+jim.kuback@ennerman-hatano.com
+=> jim [dot] kuback [at] ennerman-hatano [dot] com
+```
+
+Using the examples above as a guide, write a function that takes an email address string and returns the obfuscated version as a string that replaces the characters `@` and `.` with `[at]` and `[dot]`, respectively.
+
+> Notes
+
+> - Input (`email`) will always be a string object. Your function should return a string.
+
+> - Change only the `@` and `.` characters.
+
+> - Email addresses may contain more than one `.` character.
+
+> - Note the additional whitespace around the bracketed literals in the examples!
+
+My answer:
+```
+function obsfuscate(email) {
+  let obsEmail = email.split('')
+  for(let i = 0; i < obsEmail.length; i++){
+    if(obsEmail[i] === '@') obsEmail[i] = " [at] "
+    if(obsEmail[i] === '.') obsEmail[i] = " [dot] "
+  }
+  return obsEmail.join('')
+}
+```
+
+Another answer using regex:
+```
+const obfuscate = email =>
+  email.replace(`@`, ` [at] `).replace(/\./g, ` [dot] `);
+```
+
+# Scrolling Text (7kyu)
+Your task is to complete the function which takes a string, and returns an array with all possible rotations of the given string, **in uppercase**.
+
+### Example
+
+`scrollingText("codewars")` should return:
+
+```javascript
+[ "CODEWARS",
+  "ODEWARSC",
+  "DEWARSCO",
+  "EWARSCOD",
+  "WARSCODE",
+  "ARSCODEW"
+  "RSCODEWA",
+  "SCODEWAR" ]
+```
+
+My answer:
+```
+function scrollingText(text){
+  const textArr = Array.from({length: text.length}).fill(text.toUpperCase().repeat(2))
+  return textArr.map((word,idx) => word.substring(idx, text.length+idx))
+}
+          
+//given str, return arr
+// convert to uppercase, then turn into arr of duplicated strings
+//[CODEWARSCODEWARS, CODEWARSCODEWARS, CODEWARSCODEWARS, CODEWARSCODEWARS, CODEWARSCODEWARS, CODEWARSCODEWARS, CODEWARSCODEWARS, CODEWARSCODEWARS]
+// text = substring(idx, text.length + idx)
+```
+Create an array from the text length and then fill it with the doubled string (hi -> hihi).
+Call map onto the new array of doubled strings, taking a substring of the index to the length of the original text (2), not to be confused with the length of the doubled string (4). 
