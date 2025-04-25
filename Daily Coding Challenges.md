@@ -6475,5 +6475,7 @@ Given a non-negative integer, `3` for example, return a string with a murmur: `"
 
 My answer:
 ```
-
+var countSheep = function (num){
+  return [...Array(num)].map( (_, idx) => `${idx+1} sheep...`).join('')
+}
 ```
