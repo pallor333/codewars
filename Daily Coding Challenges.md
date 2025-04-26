@@ -6479,3 +6479,10 @@ var countSheep = function (num){
   return [...Array(num)].map( (_, idx) => `${idx+1} sheep...`).join('')
 }
 ```
+
+Alternate answer using Array.from():
+```
+const countSheep = length =>
+  Array.from({ length }, (_, i) => ++i + ' sheep...').join('')
+```
+Array.from() can take in a second argument which is a map function. If you try to call .map() on Array.from like I did in the spread operator answer above, it will not work, you must use this syntax.
