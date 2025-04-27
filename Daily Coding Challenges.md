@@ -6486,3 +6486,38 @@ const countSheep = length =>
   Array.from({ length }, (_, i) => ++i + ' sheep...').join('')
 ```
 Array.from() can take in a second argument which is a map function. If you try to call .map() on Array.from like I did in the spread operator answer above, it will not work, you must use this syntax.
+
+# Binary to Text (ASCII) Conversion (6kyu)
+Write a function that takes in a binary string and returns the equivalent decoded text (the text is ASCII encoded).
+
+Each 8 bits on the binary string represent 1 character on the ASCII table.
+
+The input string will always be a valid binary string.
+
+Characters can be in the range from "00000000" to "11111111" (inclusive)
+
+Note: In the case of an empty binary string your function should return an empty string.
+
+My answer:
+```
+function binaryToString(binary) {
+  let binArr = Array.from( {length: binary.length / 8}, (_, i) => binary.slice(i * 8, (i+1) * 8) )
+  console.log(binArr)
+  
+  return binArr.map(b => String.fromCharCode(parseInt(b, 2)) ).join('')
+}
+
+//we take in a binary string and return a string of character values
+//psuedocode: split() binary into 8 char chunks, then run parseInt on each element of the resulting array
+// return the values and join()
+```
+
+Refactored:
+```
+function binaryToString(binary) {
+  return Array
+          .from( {length: binary.length / 8 }, (_, i) => binary.slice( i * 8, (i + 1) * 8) )
+          .map(b => String.fromCharCode(parseInt(b, 2)) )
+          .join('')
+}
+```
