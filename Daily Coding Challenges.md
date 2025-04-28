@@ -6511,6 +6511,9 @@ function binaryToString(binary) {
 //psuedocode: split() binary into 8 char chunks, then run parseInt on each element of the resulting array
 // return the values and join()
 ```
+binary.slice(i * 8, (i+1) * 8) -> (0, 8), (8, 16), (16, 24) etc. A way of jumping 8 each iteration.
+parseInt(b, 2) takes '01100001' and turns it into '75'. 
+String.fromCharCode takes '75' and turns it into 'a'. 
 
 Refactored:
 ```
