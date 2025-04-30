@@ -6547,7 +6547,162 @@ As an example, here is how a string looks before and after the characters are fi
 
 My answer:
 ```
+const code = {
+  '0': 'O', 'O': '0', 
+  '1': 'I', 'I': '1', 
+  '2': 'Z', 'Z': '2', 
+  '3': 'E', 'E': '3', 
+  '4': 'h', 'h': '4', 
+  '5': 'S', 'S': '5', 
+  '6': 'G', 'G': '6', 
+  '7': 'L', 'L': '7', 
+  '8': 'B', 'B': '8', 
+  '9': 'q', 'q': '9'
+}
 function unscramble(msg){
-	
+	return msg.split('').map(char => code[char] || char).join('')
+}
+```
+Create a dictionary object. Split string into array, then iterate over it using map(), calling the dictionary on each array element. If the element doesn't exist in the dictionary then just return the character. Join it back into a string before returning it. 
+
+# String Week D2: String Manipulation
+[! manipulate this string]- 
+```"af)|Cz>:CGAHY1_2+(OHYYTM!2vka,&yAlWJ3.r&ZVs4F5&bEa<1r1_nlsR!eA-dOUmgwd2=CE7?ynnl+KQf8lW8u4/Nh1|D7SK2uYz-Y $YD)q.VmLD-&P(lL=:HDMA1!?_R#P,V3bKLqUp_t.X:_dM<Mr9zQ~fKJOBDF&Qjen=d ZAR8ze5g-gj@aZ/I:M:!.IBXLq@vN&8L7oH, /0RFtH+.7%eXtM/mxV7*%0Hj.?FSm.Kh8=@jlUJ_S.ApQzye-xB7ZVA2AwEaxTa_snPX?>D5th&Ag/9)7%#uMN=J<h!#prB=:CI;U_.T5*#rb)9q<ht~W<BOmQlmy.<8EqIlR(Gh~~$zmW;Y$7dn-$bW1jf%PL),krpzE LQwsG;EQ;l:Z;+6#.3)KDA+s#k#YMmUhm% 2KB)GqR U@4B>+A9Vh62@:&SNKVas5%&N6Oz!s/%7(Pd1xWy#Kv>uqyX=VEyHbe-64|ex^& 2W(gD=>FT*?tMZO$(+B8uTj,DU2~QST(B|xls=9kzN|:4hXt~:R4|nir,6RN8fg~3!3!^!yWZ)bE@SI.zV5Z%V9Qf_^ 4az$?wqtWrRu+1aS9<%I=!xW.:ps f).($Qz9s;8:uxVqJN9K$42NG(0=j)wZ&U1oB?v^7WVP6QE6-?L;^aglPd5dHO(L2TT5+$NeK-P;js-UAiWCI7>Yr&8|md-X)U=%IpuY)9iymv~ _S^ ,&0|(22&(mIcux_4a196w^FN78kz2kX1k&Psc53d ctbl?Eek!kX7Ii.QR~M11<T!,w^xHVn4^Q=HH4#)=AevEek!ux_4a196w^FN7Eek!8kz2kX1k&Psc53d ctbl?kX7Ii.QR~M11<T!,w^xHVn4^Q=HH4#)=AEek!Eek!cvEek!MABf|bEek!dPLpPhh=>%UH<%/^H;8gSAkhmUCu:K?*jzEek!LYC/:E*RU=|s7jWDf8z7-zFqS<Ntoav?m8<Q(1ur3Dpd)(XjY1pE)but>eG@QfEek!$Wx8NRZgmQ5t2 kJd,?_R@%muEJBTdQ0-%mHHW20i8wqMK~Co^w?34ag9idsTeXgfqy4IEek!z7Q?Q)nG~5@~ieY_B=6! sVk~=Ts3T>j/ZAS)AKX3zOocGL icK#-x0Eek!yE+2*fz.4&%<>:RHx/B+IFRG*AK1Hn*PQZpEek!v;ZUzWcJC%lym^:+;GcC!qt@nS5SQEek!ikESbYI#-A.Sv .ksat s'worrEek!Eek!omot Eek!rof rebmeEek!merEek! Eek!ot deeEek!n uoy tahw si enEek!o tsrif siht sedisEek!eb gnirtsbus hcae ni retEek!carahc tsrifEek! eEek!Eek!hT .'V' *esaEek!crewEek!ol* nEek!Eek!o pu Eek!gnirts Eek!siEek!ht tilpEek!S"
+
+```
+
+- **Remove everything up to and including that first lowercase 'c'** we'll be at a great starting point! Go ahead and scrap all that cat scratch from the string below.
+- You'll want to **remove all the instances of the word 'Eek!'** in the remaining string please (case sensitive, of course).
+- Oh, I also forgot that I accidentally **reversed the whole string** too. Flip it back around after you've dealt with the 'Eek!'s, if you will.
+- I left the **instructions for what to do now at the start of the remaining string**. Do what it says and save the answer somewhere safe for tomorrow's challenge - it's key info.
+
+My answer: 
+```
+function decode(str){
+	//let removeBeforeC = str.slice(str.indexOf('c')+1)
+	//let removeEek = removeBeforeC.replaceAll('Eek!', '')
+	//let reverseStr = removeEek.split('').reverse().join('')
+
+	return str
+			.slice(str.indexOf('c')+1)
+			.replaceAll('Eek!', '')
+			.split('').reverse().join('')
+			.split('v').slice(1).map(str => str[0])
+}
+```
+- indexOf() takes the value of 'c' and returns the first occurrence, allowing us to slice everything before the 'c'. Adding one allows us to remove the c as well.
+- replaceAll(pattern, replacement) -> replaces all instances of 'Eek!' with nothing, effectively removing it
+- reverseStr splits the string into an array, reverses it and joins it back into an array.
+- Upon doing the first three actions, the instructions are:  `"Split this string up on *lowercase* 'V'. The first character in each substring besides this first one is what you need to remember for tomorrow's task.`
+- Split based on lowercase v -> .split('v'), call .slice(1) to remove the first element and then map(str => str[0]) to only return the first character of each element. => ["S", "p", "a", "c", "e"]
+
+# String Week D3: Give it Some Space
+
+Create a function that will **replace any instances of any of the key characters in a given string with an empty space (' ')**. See below for an example with an example set of key characters.
+
+**Remember to keep your code somewhere safe, as you'll need it to decrypt this week's message!**
+
+```
+example key characters -> 'A','_','K','E','Y','!'
+
+'AyouEcould!thinkKthisAisYhard_toYreadKbeforeYreplacingEthe_keyYcharacters'
+// implement key replacement function
+' you could think this is hard to read before replacing the key characters'
+```
+
+My answer:
+```
+function replaceKey(str){
+	return str.split('').map(char => key.includes(char) ? ' ' : char).join('')
+}
+```
+Split the string into an array turning each char into an element, and then call map on each element, using the key from D2 (in array form) to call includes() on each char in the array. We are checking to see if the character exists inside of the key array. If it is, then we return a space, otherwise we return the character. The final and most important step - join() the array back into a string before returning in.
+
+# String Week D4: Side Quest
+Today is simple! **Given a string, reverse it.** Any details like whitespace, letter casing, or punctuation should be preserved and flipped along with the rest of the string. For example:
+```
+"   The white space at the beginning of this string doesn't match the whitespace at the end. "
+// reverse it
+" .dne eht ta ecapsetihw eht hctam t'nseod gnirts siht fo gninnigeb eht ta ecaps etihw ehT   "
+
+```
+
+Answer:
+```
+function reverse(str){
+	return str.split('').reverse().join('')
+}
+```
+
+If you haven't yet, use the 4 functions you have so far (in order, Calculator fix -> Use the Day 2 key to add spaces -> Reverse the string), on our [secret message](https://twitter.com/huntoberTweets/status/1576251846603071488?s=20&t=7DbIxmHG-tlCU98q_0qLhg). Compare your answer so far with others! Secret msg = "e!!Igv)t5lltBcvbdeDH3dVw!OOtI#Aa.ZMDu7WYpP^VVjDc4I50iv#ylhgmQfs"
+
+```
+const key = ["S", "p", "a", "c", "e"]
+
+// Step-by-step decoding
+const unscrambled = unscramble(str);
+console.log("Unscrambled:", unscrambled);
+//- "Unscrambled:", "e!!1gv)tSllt8cvbdeDHEdVw!00t1#Aa.2MDuLWYpP^VVjDch1SOiv#yl4gmQfs"
+
+const keyReplaced = replaceKey(unscrambled);
+console.log("Key Replaced:", keyReplaced);
+//- "Key Replaced:", " !!1gv)t llt8 vbd DHEdVw!00t1#A .2MDuLWY P^VVjD h1 Oiv#yl4gmQfs"
+
+const reversed = reverse(keyReplaced)
+console.log("Reversed:", reversed);
+//- "Reversed:", "sfQmg4ly#viO 1h DjVV^P YWLuDM2. A#1t00!wVdEHD dbv 8tll t)vg1!! "
+```
+
+# String Week D5: Cat-astrophic Overcommitment
+
+Given a list of cat-themed pun TV show titles:
+```
+"The Pawshank Redemption,Caturday Night Live,Only Meworders in the Building,I Love Mewcy, Mewsummer Meowders,The Golden Purrs, Purrlandia ,Meowpardy, Meowstery Science Theater: Purrthousand, Amewican Idol,Dog City,Doctor Mew , The Meowing Fed,Mew Peter,The Vicar of Dogley, Kittens,Meownton Abbey,Pets and the Kitty,Dogis and Bonehead,Pawlty Meowers ,The Meowpet Show,Barkos,The Catbert Purrport,The Pawffice,The Dogford Files, Battlestar Catlactica,Catlumbo,SpongeDog Squarepants,NYPD Mew ,Fluffy the Meowpire Purrer,The Inbemewners,Meowder She Wrote,Paw & Order,30 Dog, Pawvatar: The Last Meowbender,The Pawnight Show,Arrested Dogvelopment,Furiends,Mewie,Curb Your Dogthusiasm,Teenage Mewtant Ninja Turtles,Phineas and Purrb,Paw Trek, Paw Trek: The Next Mewination, Twin Mewks, *C*A*T*S*,DogTales, Game of Bones, House of the Meowgon,The Purrlight Zone,Breaking Bone,The Meowre,The Dogpranos,The Rings of Meower, The KIT Crowd,Strangepaw Things ,Catman: The Animeowted Series,Meowter Call Saul,Mewgerton ,Obark,Mewphoria,La Casa de Pawpel,Rick & Meowty,Amewican Purror Story, Mewcifer,PawndaVision,Dogxter,The Meowndalorian, Dog Lasso,Bark,Meowdern Pawmily , Meowtlander,Bone Mirror,Barks and Recreation,How to Get Away with Meowder,Boneland ,Meowther Ted,Mewtopia,Mewey,The Mewkie Meowse Doghouse,Mewster Rogers' Neighborhood"
+```
+Determine which of these are valid entries into a contest. The rules are as follows:
+- No empty spaces at the start or end of the submission _(my friend can't stand when people don't follow directions)_
+- Cannot contain 'dog', 'bark', or 'bone' in any combination of upper or lower case _(canine trolling can't be stopped)_
+- Total length of pun cannot be a multiple of 5 _(this includes spaces and punctuation)_
+- The sum of the charCodes of the 1st and last characters must be odd _(my friend's a bit of a character, but she's great once you get to know her)_
+- Character directly after the middle of the string may not be 'e' _(For example the character to check in even-length string `center` is `t`, for odd an example would be `weird` -> 'r')_
+- Must have an even number of lowercase letters (do not count punctuation or spaces as letters)
+- Must have at least 2 capital letters _(honestly, I'm a little worried these requirements are too strict)_
+- Must not contain a capital 'S' _(definitely too strict. What does S even have to do with cat puns?)_
+
+My answer:
+```
+//helper functions
+const noWhiteSpace = (str) => str.trim() === str
+const noDogTrolling = (str) => !['dog', 'bark', 'bone'].some(w => w str.toLowerCase().includes(w))
+const notMultipleOfFive = (str) => str.length % 5 !== 0
+const ischarCodeSumOdd = (str) => str.charCodeAt(0) + str.charCodeAt(str.length-1) % 2 !== 0
+const middleNotE = (str) => str[Math.ceil(str.length / 2)] !== 'e'
+const evenLowercaseLetters = (str) => str.split('').reduce((total, c) => {
+  const code = c.charCodeAt(0)
+  if(code >= 97 && code <= 122) total++
+  return total
+}, 0) % 2 === 0
+const minTwoCapital = (str) => str.split('').reduce((total, c) => {
+  const code = c.charCodeAt(0)
+  if(code >= 65 && code <= 90) total++
+  return total
+}, 0) >= 0
+const noCapitalS = (str) => !str.includes('S')
+
+function punFilter(str){
+	const arr = str.split(','), finalArr = []
+	for(const i = 0; i < arr.length; i++){
+		if(noWhiteSpace(i) && 
+			noDogTrolling(i) && 
+			notMultipleOfFive(i) &&
+			isCharCodeSumOdd(i) &&
+			middleNotE(i) &&
+			evenLowercaseLetters(i) &&
+			minTwoCapital(i) &&
+			noCapitalS(i)){
+				finalArr.push(i)
+		}
+	}
+	return finalArr
 }
 ```
