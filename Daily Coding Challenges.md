@@ -6673,9 +6673,9 @@ My answer:
 ```
 //helper functions
 const noWhiteSpace = (str) => str.trim() === str
-const noDogTrolling = (str) => !['dog', 'bark', 'bone'].some(w => w str.toLowerCase().includes(w))
+const noDogTrolling = (str) => !['dog', 'bark', 'bone'].some(w => str.toLowerCase().includes(w))
 const notMultipleOfFive = (str) => str.length % 5 !== 0
-const ischarCodeSumOdd = (str) => str.charCodeAt(0) + str.charCodeAt(str.length-1) % 2 !== 0
+const isCharCodeSumOdd = (str) => (str.charCodeAt(0) + str.charCodeAt(str.length-1)) % 2 !== 0
 const middleNotE = (str) => str[Math.ceil(str.length / 2)] !== 'e'
 const evenLowercaseLetters = (str) => str.split('').reduce((total, c) => {
   const code = c.charCodeAt(0)
@@ -6686,23 +6686,54 @@ const minTwoCapital = (str) => str.split('').reduce((total, c) => {
   const code = c.charCodeAt(0)
   if(code >= 65 && code <= 90) total++
   return total
-}, 0) >= 0
+}, 0) >= 2
 const noCapitalS = (str) => !str.includes('S')
 
 function punFilter(str){
 	const arr = str.split(','), finalArr = []
 	for(const i = 0; i < arr.length; i++){
-		if(noWhiteSpace(i) && 
-			noDogTrolling(i) && 
-			notMultipleOfFive(i) &&
-			isCharCodeSumOdd(i) &&
-			middleNotE(i) &&
-			evenLowercaseLetters(i) &&
-			minTwoCapital(i) &&
-			noCapitalS(i)){
-				finalArr.push(i)
+		if(noWhiteSpace(arr[i]) && 
+			noDogTrolling(arr[i]) && 
+			notMultipleOfFive(arr[i]) &&
+			isCharCodeSumOdd(arr[i]) &&
+			middleNotE(arr[i]) &&
+			evenLowercaseLetters(arr[i]) &&
+			minTwoCapital(arr[i]) &&
+			noCapitalS(arr[i])){
+				finalArr.push(arr[i])
 		}
 	}
 	return finalArr
+}
+```
+
+After running my code the answer I got was [Teenage Mewtant Ninja Turtles" "Rick & Meowty"]
+
+# String Week D6: Clearing the Clutter
+**Write a function that, when given a non-empty string, and positive integer X, removes every Xth character from the string**. Counting should begin from the first element in the string and should continue in that pattern until the end of the string.
+
+For example:
+
+```
+// For the string below and 4
+"Thies its H alltowe!en!? Th#is Tis GHalolowmeen$!"
+// remove decoy strings
+"This is Halloween! This is Halloween!"
+
+// For the string below and 5
+"The LBachyelor^ is ma tehrrib le tpelev!isioOn sh8ow."
+// remove decoy strings and preach 🙌
+"The Bachelor is a terrible television show."
+```
+
+Encrypted code for tomorrow:
+```
+const encryptedMsg = "e!!Igv)t5lltBcvbdeDH3dVw!OOtI#Aa.ZMDu7WYpP^VVjDc4I50iv#ylhgmQfs"
+```
+
+My answer:
+```
+function removeXthChar(str, n){
+	
 }
 ```
