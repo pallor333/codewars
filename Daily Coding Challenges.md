@@ -6530,23 +6530,46 @@ Given a string containing a list of integers separated by commas, write the func
 
 Please note that there can be one or more consecutive commas whithout numbers, like so:
 
-```
+```javascript
 "-1,-2,,,,,,3,4,5,,6"
 ```
 
 For example
 
-```
+```javascript
 "-1,-2,3,-4,-5"   --> [-1,-2,3,-4,-5]
 "1,2,3,,,4,,5,,," --> [1,2,3,4,5]
 ",,,,,,,"         --> []
 ```
 
 My ans:
-```
+```javascript
 function stringToIntArray(s){
   return s.split(',')
     .filter(ch => ch !== '')
     .map(ch => Number(ch))
 }
+```
+
+Best answer:
+```javascript
+function stringToIntArray(s) {
+  return s.split(',').filter(Boolean).map(Number)
+}
+```
+- JavaScript functions are first-class objects, meaning they can be passed around like any other value.
+- `Boolean` and `Number` are functions, so they can be used directly as callbacks.
+- Equivalent to:
+```javascript
+.filter(x => Boolean(x))
+.map(x => Number(x))
+```
+1) `s.split(',')` splits the string into an array, including empty strings if there are consecutive commas (e.g., `"1,,2"` becomes `["1", "", "2"]`).
+2) `.filter(Boolean)` removes all falsy values (including empty strings `""`), so `["1", "", "2"]` becomes `["1", "2"]`.
+3) `.map(Number)` converts the remaining strings to numbers.
+```javascript
+stringToIntArray("1,,2,3,abc,,"); 
+// -> ["1", "", "2", "3", "abc", "", ""] (after split)
+// -> ["1", "2", "3", "abc"] (after filter)
+// -> [1, 2, 3, NaN] (after map)
 ```
