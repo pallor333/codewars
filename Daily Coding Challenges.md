@@ -6574,4 +6574,71 @@ stringToIntArray("1,,2,3,abc,,");
 // -> [1, 2, 3, NaN] (after map)
 ```
 
-#
+# Difference of Volumes of Cuboids (8kyu)
+In this simple exercise, you will create a program that will take two lists of integers, `a` and `b`. Each list will consist of 3 positive integers above 0, representing the dimensions of cuboids `a` and `b`. You must find the difference of the cuboids' volumes regardless of which is bigger.
+
+For example, if the parameters passed are `([2, 2, 3], [5, 4, 1])`, the volume of `a` is 12 and the volume of `b` is 20. Therefore, the function should return 8.
+
+Your function will be tested with pre-made examples as well as random ones.
+
+**If you can, try writing it in one line of code.**
+
+My answer:
+``` javascript
+function findDifference(a, b) {
+  return Math.abs(a.reduce((total, n) => total * n,1) - b.reduce((total, n) => total * n,1))
+}
+```
+
+# The Feast of Many Beasts (8kyu)
+All of the animals are having a feast! Each animal is bringing one dish. There is just one rule: the dish must start and end with the same letters as the animal's name. For example, the great blue heron is bringing garlic naan and the chickadee is bringing chocolate cake.
+
+Write a function `feast` that takes the animal's name and dish as arguments and returns true or false to indicate whether the beast is allowed to bring the dish to the feast.
+
+Assume that `beast` and `dish` are always lowercase strings, and that each has at least two letters. `beast` and `dish` may contain hyphens and spaces, but these will not appear at the beginning or end of the string. They will not contain numerals.
+
+My ans:
+``` javascript
+function feast(beast, dish) {
+  return beast.slice(0,1) === dish.slice(0,1) && beast.slice(-1) === dish.slice(-1)
+}
+```
+
+# A wolf in sheep's clothing (8kyu)
+Wolves have been reintroduced to Great Britain. You are a sheep farmer, and are now plagued by wolves which pretend to be sheep. Fortunately, you are good at spotting them.
+
+Warn the sheep in front of the wolf that it is about to be eaten. Remember that you are standing **at the front of the queue** which is at the end of the array:
+
+```
+[sheep, sheep, sheep, sheep, sheep, wolf, sheep, sheep]      (YOU ARE HERE AT THE FRONT OF THE QUEUE)
+   7      6      5      4      3            2      1
+```
+
+If the wolf is the closest animal to you, return `"Pls go away and stop eating my sheep"`. Otherwise, return `"Oi! Sheep number N! You are about to be eaten by a wolf!"` where `N` is the sheep's position in the queue.
+
+**Note:** there will always be exactly one wolf in the array.
+
+### Examples
+
+Input: `["sheep", "sheep", "sheep", "wolf", "sheep"]`  
+Output: `"Oi! Sheep number 1! You are about to be eaten by a wolf!"`
+
+Input: `["sheep", "sheep", "wolf"]`  
+Output: `"Pls go away and stop eating my sheep"`
+
+My answer:
+``` javascript
+function warnTheSheep(queue) {
+  return queue.slice(-1) == "wolf" ? "Pls go away and stop eating my sheep" 
+          : `Oi! Sheep number ${queue.reverse().indexOf('wolf')}! You are about to be eaten by a wolf!`
+}
+```
+Hacky solution. Double == because .slice(-1) on a single element array still returns an array and technically ['wolf'] !== 'wolf'. Then since we're at the start of the queue (or the end of the array), call reverse() on queue before looking up the index of 'wolf'. 
+
+Another answer:
+```javascript
+const warnTheSheep = queue =>
+  (val => val ? `Oi! Sheep number ${val}! You are about to be eaten by a wolf!` : `Pls go away and stop eating my sheep`)
+  (queue.reverse().indexOf('wolf'));
+```
+Uses IIFE
