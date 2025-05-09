@@ -6658,5 +6658,28 @@ ball2.ballType     //=> "super"
 
 My answer:
 ```javascript
+// var Ball = function(ballType) {
+// //   return ballType ? ballType : "regular"
+// };
 
+// const Ball = (ballType = "regular") => ballType;
+
+function Ball(ballType) {
+  this.ballType = ballType !== undefined ? ballType : "regular";
+}
+
+class Ball{
+  constructor(ballType = "regular"){
+    this.ballType = ballType
+  }
+}
 ```
+//Parameters: string, can be empty
+//Returns: string
+//Examples: ball1 = new Ball("soccer") >>> console.log(ball1.ballType) // "soccer"
+// ball2 = new Ball('') >>> console.log(ball2.ballType) // "regular"
+//Pseudocode: 
+
+The first function does not work because 'undefined' is defined as a truthy string, returning undefined instead of the default of 'regular'. 
+The second function does not work with the keyword 'new'. 
+The third function works but the four function is best practice when defining a Class.  We pass "regular" as the default value and then define ballType as whatever is passed in. 
