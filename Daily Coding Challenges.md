@@ -6642,3 +6642,21 @@ const warnTheSheep = queue =>
   (queue.reverse().indexOf('wolf'));
 ```
 Uses IIFE
+
+# Regular Ball Super Ball (8kyu)
+Create a class `Ball`. Ball objects should accept one argument for "ball type" when instantiated.
+
+If no arguments are given, ball objects should instantiate with a "ball type" of "regular."
+
+```javascript
+ball1 = new Ball();
+ball2 = new Ball("super");
+
+ball1.ballType     //=> "regular"
+ball2.ballType     //=> "super"
+```
+
+My answer:
+```javascript
+
+```
