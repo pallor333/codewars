@@ -6683,3 +6683,23 @@ class Ball{
 The first function does not work because 'undefined' is defined as a truthy string, returning undefined instead of the default of 'regular'. 
 The second function does not work with the keyword 'new'. 
 The third function works but the four function is best practice when defining a Class.  We pass "regular" as the default value and then define ballType as whatever is passed in. 
+# Cuckoo Clock (6kyu)
+The cuckoo bird pops out of the cuckoo clock and chimes once on the quarter hour, half hour, and three-quarter hour. At the beginning of each hour (1-12), it chimes out the hour. Given the current time and a number _n_, determine the time when the cuckoo bird has chimed _n_  times.
+
+Input Parameters:  
+_initial_time_ - a string in the format "HH:MM", where 1 ≤ HH ≤ 12 and 0 ≤ MM ≤ 59, with leading 0’s if necessary.  
+_n_ - an integer representing the target number of chimes, with 1 <= _n_ <= 200.
+
+Return Value: The time when the cuckoo bird has chimed _n_  times - a string in the same format as _initial_time_.
+
+If the cuckoo bird chimes at _initial_time_, include those chimes in the count. If the _n_th chime is reached on the hour, report the time at the start of that hour (i.e. assume the cuckoo finishes chiming before the minute is up).
+
+Example: _"03:38", 19_   should return _"06:00"_.  
+Explanation: It chimes once at _"03:45"_, 4 times at _"04:00"_, once each at _"04:15", "04:30", "04:45"_, 5 times at _"05:00"_, and once each at _"05:15", "05:30", "05:45"_. At this point it has chimed 16 times, so the 19th chime occurs when it chimes 6 times at _"06:00"_.
+
+Source: International Collegiate Programming Contest, North Central North American Regional, 2023.
+
+My answer:
+```javascript
+
+```
