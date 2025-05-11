@@ -6701,5 +6701,58 @@ Source: International Collegiate Programming Contest, North Central North Americ
 
 My answer:
 ```javascript
+function cuckooClock(inputTime, chimes) {
+    const [hours, minutes] = inputTime.split(":")
+    let currentTime = new Date()
+    currentTime.setHours(hours, minutes, 0, 0)
+    while(chimes > 0){
+      let currentMinutes = currentTime.getMinutes()
+      let nextMinutes = currentMinutes + 15
+      currentTime.setMinutes(nextMinutes)
+      nextMinutes === 60 ? chimes -= currentTime.getHours() : chimes--
+      }
+  
+    return currentTime.toLocaleTimeString() //inputTime
+}
 
+//Chimes at 0:25, 0:30, 0:45 and 1:00. At the top of the hour it chimes as many times as the hour, 
+//so "04:00" would chime 4 times
+//Parameters: String of input time wof HH:MM, 1<=HH<=-12 and 0<=NN<=59, Number of chimes 1<=n<=200
+//Returns: A time string of HH:MM
+//Examples: 
+// console.log(cuckooClock("07:32", 1), "7:30")  // "07:30"
+// console.log(cuckooClock("03:38", 19), "6:00") // "06:00"
+//3:45 -> 1 (1)
+//4:00 -> 4 (5)
+//4:25 -> 1 (6)
+//4:30 -> 1 (7)
+//4:45 -> 1 (8)
+//5:00 -> 5 (13)
+//5:25 -> 1 (14)
+//5:30 -> 1 (15)
+//5:45 -> 1 (16)
+//6:00 -> 6 (22)
+//Psuedocode:
+// Formula for chimes = 4*hour + hour
+//Start with the hour, adding 15 minute increments each loop
+//Subtract 1 from the count n. 
+//Check if n is 0, if it is then return the current time. 
+
+/*
+const timeString = "15:30"; // 3:30 PM in 24-hour format
+
+// Split into hours and minutes
+const [hours, minutes] = timeString.split(':').map(Number);
+
+// Create a Date object (using today's date)
+const dateObj = new Date();
+dateObj.setHours(hours, minutes, 0, 0); // Set time (seconds & ms = 0)
+
+console.log(dateObj); // Output: e.g., "2023-11-15T15:30:00.000Z"
+console.log(dateObj.toLocaleTimeString()); // "3:30:00 PM" (local format)
+*/
+
+// const now = new Date(); // Current time
+// now.setMinutes(now.getMinutes() + 15);
+// console.log(now.toLocaleTimeString()); // e.g., "3:45:00 PM"
 ```
