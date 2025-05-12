@@ -6702,17 +6702,39 @@ Source: International Collegiate Programming Contest, North Central North Americ
 My answer:
 ```javascript
 function cuckooClock(inputTime, chimes) {
-    const [hours, minutes] = inputTime.split(":")
-    let currentTime = new Date()
-    currentTime.setHours(hours, minutes, 0, 0)
-    while(chimes > 0){
-      let currentMinutes = currentTime.getMinutes()
-      let nextMinutes = currentMinutes + 15
-      currentTime.setMinutes(nextMinutes)
-      nextMinutes === 60 ? chimes -= currentTime.getHours() : chimes--
+    let [hours, minutes] = inputTime.split(":").map(Number)
+    let totalChimes = 0
+    
+    const quarterHourCheck = minutes%15===0
+    if(!quarterHourCheck){
+      minutes = 15 * Math.ceil(minutes/15) //Round to nearest 15
+      if(minutes === 60){
+        minutes = 0
+        hours++
+        if(hours > 12) hours = 1
       }
-  
-    return currentTime.toLocaleTimeString() //inputTime
+    }
+    
+    while(true){
+      let currentChimes
+      //Chime based on the hour or just once
+      currentChimes = minutes===0 ? hours : 1
+      
+      //Check if chimes parameter is satisfied
+      if(totalChimes + currentChimes >= chimes){
+        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}` 
+      }
+      
+      totalChimes += currentChimes
+      
+      minutes += 15
+      if(minutes===60){
+        minutes = 0
+        hours++
+        if(hours > 12) hours = 1
+      }
+    }
+    
 }
 
 //Chimes at 0:25, 0:30, 0:45 and 1:00. At the top of the hour it chimes as many times as the hour, 
@@ -6724,11 +6746,11 @@ function cuckooClock(inputTime, chimes) {
 // console.log(cuckooClock("03:38", 19), "6:00") // "06:00"
 //3:45 -> 1 (1)
 //4:00 -> 4 (5)
-//4:25 -> 1 (6)
+//4:15 -> 1 (6)
 //4:30 -> 1 (7)
 //4:45 -> 1 (8)
 //5:00 -> 5 (13)
-//5:25 -> 1 (14)
+//5:15 -> 1 (14)
 //5:30 -> 1 (15)
 //5:45 -> 1 (16)
 //6:00 -> 6 (22)
