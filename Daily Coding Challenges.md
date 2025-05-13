@@ -6778,3 +6778,34 @@ console.log(dateObj.toLocaleTimeString()); // "3:30:00 PM" (local format)
 // now.setMinutes(now.getMinutes() + 15);
 // console.log(now.toLocaleTimeString()); // e.g., "3:45:00 PM"
 ```
+
+Another answer:
+```javascript
+const cuckooClock = (inputTime, chimes) => {
+  let [hh, mm] = inputTime.split`:`.map(Number);
+  
+  mm % 15 || (chimes -= !!mm || hh);
+  chimes %= 114; //optimization to simplify chimes
+  mm -= mm % 15; //round down to nearest 15 min mark
+  
+  while (chimes > 0) {
+    (mm = (mm + 15) % 60) || (hh = hh % 12 + 1);
+    chimes -= !!mm || hh;
+  }
+  
+  return [hh, mm].map(val => `${val}`.padStart(2, '0')).join`:`;
+}
+```
+The line `mm % 15 || (chimes -= !!mm || hh);` is a compact way of saying **"If we're on a quarter hour, subtract either 1 chime (for 15/30/45) or the hour count (for 00)"**
+- `mm % 15` checks if minutes are on a quarter hour (0, 15, 30, 45), if so it equals 0 (falsy) else it's non-zero (truthy). **FirstConditional || SecondConditional** -> Evaluate **First Conditional** if left side is **truthy**. If the left side is **falsy** then it evaluates and **returns the Second Conditional**. 
+- Thus, if `mm % 15` is falsy, then it evaluates `(chimes -= !!mm || hh)`.
+- !mm converts mm to a boolean and negates it (not mm) => 0 -> !0 -> true
+- !!mm converts mm to boolean and second ! negates it back to original boolean equiv => 0 -> !0 -> true (second !)=> !true -> false. `chimes -=` will convert 'true' into 1. (numeric context)
+The line `chimes % 114` means 'keep only the remainder after diving by 114'. This reduces large chimes values down to their equivalent in one 12-hour cycle and works because a pattern repeats every 12 hours: 3 quarter hours(15, 30, 45) = 36 + full hour mark variable chimes (1-12) = 78 => 114 total chimes.
+While loop continues until chimes is <= 0:
+- mm = (mm+15) % 60 // [0, 15, 30, 45, 60] becomes [15, 30, 45, 0, 15]
+- hh = hh % 12 + 1 // [10, 11, 12] becomes [11, 12, 1]
+ 
+Time efficiency is O(1) after modulo reduction. Very compact, using clever boolean logic and modulo magic. 
+
+# 
