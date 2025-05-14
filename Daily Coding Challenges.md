@@ -6808,4 +6808,35 @@ While loop continues until chimes is <= 0:
  
 Time efficiency is O(1) after modulo reduction. Very compact, using clever boolean logic and modulo magic. 
 
-# 
+# Format to the 2nd (7kyu)
+Given some positive integers, I wish to print the integers such that all take up the same width by adding a minimum number of leading zeroes. No leading zeroes shall be added to the largest integer.
+
+For example, given `1, 23, 2, 17, 102`, I wish to print out these numbers as follows:
+
+```
+001
+023
+002
+017
+102
+```
+
+Write a function that takes a variable number of integers and returns the string to be printed out.
+
+My ans:
+```javascript
+function printNums(...args) {
+  if(!args) return ''
+  const maxLength = Math.max(...args.map(n => n.toString().length))
+  return args.map(n => n.toString().padStart(maxLength, "0") ).join('\n')
+}
+```
+
+Slightly more efficient answer:
+```javascript
+function printNums(...args) {
+  let maxLength = Math.max(...args).toString().length;
+  return args.map((num) => num.toString().padStart(maxLength, "0")).join("\n");
+}
+```
+Getting the max value of args and then casting it to a string and getting the length is far better than calling another map function and calling toString() and .length on each individual element. 
