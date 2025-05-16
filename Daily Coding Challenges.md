@@ -6840,3 +6840,37 @@ function printNums(...args) {
 }
 ```
 Getting the max value of args and then casting it to a string and getting the length is far better than calling another map function and calling toString() and .length on each individual element. 
+
+# Highest and Lowest (7kyu)
+In this little assignment you are given a string of space separated numbers, and have to return the highest and lowest number.
+
+### Examples
+
+```javascript
+highAndLow("1 2 3 4 5"); // return "5 1"
+highAndLow("1 2 -3 4 5"); // return "5 -3"
+highAndLow("1 9 3 4 -5"); // return "9 -5"
+```
+
+### Notes
+
+- All numbers are valid `Int32`, no _need_ to validate them.
+- There will always be at least one number in the input string.
+- Output string must be two numbers separated by a single space, and highest number is first.
+
+My answer:
+```javascript
+function highAndLow(numbers){
+  const arr = numbers.split(' ')
+  let max = Math.max(...arr), min = Math.min(...arr)
+  return `${max} ${min}`
+}
+```
+
+A better answer:
+```javascript
+function highAndLow(numbers){
+  const numbers = numbers.split(' ');
+  return `${Math.max(...numbers)} ${Math.min(...numbers)}`;
+}
+```
