@@ -6858,7 +6858,7 @@ highAndLow("1 9 3 4 -5"); // return "9 -5"
 - There will always be at least one number in the input string.
 - Output string must be two numbers separated by a single space, and highest number is first.
 
-My answer:
+My ans:
 ```javascript
 function highAndLow(numbers){
   const arr = numbers.split(' ')
