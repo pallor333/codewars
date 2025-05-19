@@ -6893,10 +6893,16 @@ Given a list of unique `numbers` sorted in ascending order, return a new list so
 `Input: 1,3,5,6,7,8` `Output: 1,2,3,4,5,6,7,8`
 
 My answer:
-```
+```javascript
 function pipeFix(numbers){
   return Array(numbers[numbers.length-1] - numbers[0] + 1)
         .fill(numbers[0])
         .map((n, idx) => n+idx)
 }
+```
+
+Another answer:
+```javascript
+const pipeFix = (numbers) =>
+  [...Array(numbers[numbers.length - 1] - numbers[0] + 1)].map((_, idx) => numbers[0] + idx);
 ```
