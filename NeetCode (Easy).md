@@ -93,3 +93,58 @@ Output: false
 >[!Text]- Hint 3
 >We can just consider maintaining the frequency of each character. We can do this by having two separate hash tables for the two strings. Then, we can check whether the frequency of each character in string `s` is equal to that in string `t` and vice versa.
 
+My answer:
+```
+class Solution {
+
+    /**
+     * @param {string} s
+     * @param {string} t
+     * @return {boolean}
+     */
+
+    isAnagram(s, t) {
+        if(s.length != t.length) return false
+
+        const stringHash1 = {}, stringHash2 = {}
+        s.split('').forEach(ch => stringHash1[ch] = (stringHash1[ch] || 0 ) + 1)
+        t.split('').forEach(ch => stringHash2[ch] = (stringHash2[ch] || 0 ) + 1)
+  
+        const keys1 = Object.keys(stringHash1);
+        const keys2 = Object.keys(stringHash2);
+        for(const key of keys1){
+            if(stringHash1[key] !== stringHash2[key]){
+                return false
+            }
+        }
+        return true
+    }
+}
+```
+Time Complexity: O(n+m)
+Space Complexity: O()
+
+A more efficient answer:
+```
+class Solution {
+    /**
+     * @param {string} s
+     * @param {string} t
+     * @return {boolean}
+     */
+    isAnagram(s, t) {
+        if (s.length !== t.length) {
+            return false;
+        }
+
+        const count = new Array(26).fill(0);
+        for (let i = 0; i < s.length; i++) {
+            count[s.charCodeAt(i) - 'a'.charCodeAt(0)]++;
+            count[t.charCodeAt(i) - 'a'.charCodeAt(0)]--;
+        }
+        return count.every(val => val === 0);
+    }
+}
+```
+- Time complexity: O(n+m)O(n+m)
+- Space complexity: O(1)O(1) since we have at most 2626 different characters.
