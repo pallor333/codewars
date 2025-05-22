@@ -6923,3 +6923,34 @@ function domainName(url){
   return domain.startsWith("www.") ? domain.split(".")[1] : domain.split(".")[0]
 }
 ```
+Apparently my solution does not handle all possible cases. 
+
+A regex solution:
+```
+const domainName = url =>
+  url.replace(/.*\/\/|www.|\..*/g, ``);
+```
+
+Another solution:
+```
+function domainName(url) {
+  // Step 1: Remove protocol (http, https, ftp)
+  let domain = url;
+  if (domain.startsWith("http://")) {
+    domain = domain.substring(7);
+  } else if (domain.startsWith("https://")) {
+    domain = domain.substring(8);
+  } else if (domain.startsWith("ftp://")) {
+    domain = domain.substring(6);
+  }
+
+  // Step 2: Remove "www." if present
+  if (domain.startsWith("www.")) {
+    domain = domain.substring(4);
+  }
+
+  // Step 3: Split by '/' to remove paths, then by '.' to get the main domain
+  domain = domain.split('/')[0];  // Remove paths/query strings
+  return domain.split('.')[0];     // Get the main domain part
+}
+```
