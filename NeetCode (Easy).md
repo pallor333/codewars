@@ -94,7 +94,7 @@ Output: false
 >We can just consider maintaining the frequency of each character. We can do this by having two separate hash tables for the two strings. Then, we can check whether the frequency of each character in string `s` is equal to that in string `t` and vice versa.
 
 My answer:
-```
+```javascript
 class Solution {
 
     /**
@@ -122,10 +122,10 @@ class Solution {
 }
 ```
 Time Complexity: O(n+m)
-Space Complexity: O()
+Space Complexity: O(n+m)
 
 A more efficient answer:
-```
+```javascript
 class Solution {
     /**
      * @param {string} s
@@ -147,4 +147,71 @@ class Solution {
 }
 ```
 - Time complexity: O(n+m)O(n+m)
-- Space complexity: O(1)O(1) since we have at most 2626 different characters.
+- Space complexity: O(1)O(1) since we have at most 26 different characters.
+
+# Two Sum
+Given an array of integers `nums` and an integer `target`, return the indices `i` and `j` such that `nums[i] + nums[j] == target` and `i != j`.
+
+You may assume that _every_ input has exactly one pair of indices `i` and `j` that satisfy the condition.
+
+Return the answer with the smaller index first.
+
+**Example 1:**
+```javascript
+Input: 
+nums = [3,4,5,6], target = 7
+
+Output: [0,1]
+
+```
+Explanation: `nums[0] + nums[1] == 7`, so we return `[0, 1]`.
+
+**Example 2:**
+```javascript
+Input: nums = [4,5,6], target = 10
+
+Output: [0,2]
+```
+
+**Example 3:**
+```javascript
+Input: nums = [5,5], target = 10
+
+Output: [0,1]
+```
+
+**Constraints:**
+- `2 <= nums.length <= 1000`
+- `-10,000,000 <= nums[i] <= 10,000,000`
+- `-10,000,000 <= target <= 10,000,000`
+
+>[!Text]- Recommended Time & Space Complexity
+>You should aim for a solution with `O(n)` time and `O(n)` space, where n is the size of the input array.
+
+>[!Text]- Hint1
+>A brute force solution would be to check every pair of numbers in the array. This would be an `O(n^2)` solution. Can you think of a better way? Maybe in terms of mathematical equation?
+
+>[!Text]- Hint2
+>Given, We need to find indices `i` and `j` such that `i != j` and `nums[i] + nums[j] == target`. Can you rearrange the equation and try to fix any index to iterate on?
+
+>[!Text]- Hint3
+>we can iterate through nums with index `i`. Let `difference = target - nums[i]` and check if `difference` exists in the hash map as we iterate through the array, else store the current element in the hashmap with its index and continue. We use a hashmap for `O(1)` lookups.
+
+My answer: 
+```javascript
+function twoSum(nums, target) {
+    const hash = {};
+    for (let i = 0; i < nums.length; i++) {
+        const temp = target - nums[i];
+        if (temp in hash) {
+            return [hash[temp], i];
+        }
+        hash[nums[i]] = i; // Store the number and its index
+    }
+}
+```
+twoSum([1, 3, 4, 2], 6)
+Create hash table to hold previous values. Loop over nums array defining the target as the target subtracted by the current element (6-1 = 5). Then check if hash[target] exists, if it does then we can return the indexes of the two nums that add up to the sum, if it doesn't then we add a new value to our array. 
+In essence, we loop over our array in one direction while adding to our hash with trailing values, looking backwards in order to see if some value satisfies our target. 
+Time efficiency: O(n)
+Space efficiency: O(n)
