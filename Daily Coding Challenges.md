@@ -405,7 +405,7 @@ twoSum([3, 2, 4], 6) // returns [1, 2] or [2, 1]
 ```
 
 My Answer:
-```
+```javascript
 function twoSum(numbers, target) {
     for(let i = 0; i < numbers.length-1; i++){
       for(let j = i+1; j < numbers.length; j++){
@@ -419,7 +419,7 @@ function twoSum(numbers, target) {
 Not very efficient. O(n^2) run time.
 
 **A better answer using Map():**
-```
+```javascript
 function twoSum(numbers, target) {
   let seen = new Map();
   for (let i = 0; i < numbers.length; i++) {
@@ -435,7 +435,7 @@ A Map allows for faster lookups and insertions. We can check if a number has bee
 The genius lies in the searching for a complement. For example, given [3, 2, 4] with 6 being the target. The first element 3 is added to the map. Then we move onto 2. Quick maffs: 6 - 2 = 4, which is not found in the map. Then we move onto 4. Subtracting 4 from 6 yields two, which we look for in the map. It's there, along with the correct index which is promptly returned with the current index: [2, 1]. This solution is O(n) runtime, a much more efficient solution than my double loop O(n^2 solution.)
 
 A better answer using Hashing:
-```
+```javascript
 function twoSum(numbers, target) {
   var tmp, hash = {};
   numbers.forEach(function(a, i){ hash[a] = i; })
@@ -447,11 +447,13 @@ function twoSum(numbers, target) {
 }
 ```
 A hashtable object is created to hold key-pair values of 'element: index'. This looks something like:  
-```
-{ 2: 0, // index 0, value 2 
-7: 1, // index 1, value 7 
-11: 2, // index 2, value 11 
-15: 3 // index 3, value 15 }
+```javascript
+{ 
+	2: 0, // index 0, value 2 
+	7: 1, // index 1, value 7 
+	11: 2, // index 2, value 11 
+	15: 3 // index 3, value 15 
+}
 ```
 Once that's out of the way, we loop over the number array, defining the complement - the total sum minus the current element - as 'tmp'. We look for tmp in the hashtable, returning the index of the current element and the index in the hashtable if a match is found. 
 
