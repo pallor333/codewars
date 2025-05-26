@@ -6970,5 +6970,29 @@ NOTE: All numbers will be whole numbers greater than 0.
 
 My answer:
 ```
+function expandedForm(num) {
+  let arr = num.toString().split('')
+  return arr
+    .map((n, idx) => n.concat("0".repeat(arr.length - idx - 1)) )
+    .filter(n => Number(n) !== 0 )
+    .join(" + ")
+}
 
+//split str into array
+//add (str.length - index - 1) zeros to each index
+//loop over array, casting each element to Num, if num != 0, then add to new string
+//return new string
 ```
+This answer uses string manipulation, converting the number into a string before splitting and making use of the .repeat() string method to add zeroes before casting it back to a num to filter and then joining.
+
+A more efficient answer:
+```
+const expandedForm = n => n.toString()
+                            .split("")
+                            .reverse()
+                            .map( (a, i) => a * Math.pow(10, i))
+                            .filter(a => a > 0)
+                            .reverse()
+                            .join(" + ");
+```
+This solution minimizes the str -> num -> str conversions, manipulating the given numbers using Math.pow. Doing this enables us to not have to worry about converting back into a number, instead the logic is simple: filter numbers greater than zero. Only on the final step do we cast it into a string, joining it with " + ". 
