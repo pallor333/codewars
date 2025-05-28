@@ -7014,5 +7014,15 @@ If **begin** value is greater than the **end**, your function should return **0*
 ```
 
 My answer:
-```
+```javascript
+const sequenceSum = (begin, end, step) => {
+  if(begin > end) return 0
+  
+  const arr = []
+  for(let i = begin; i <= end; i += step){
+    arr.push(i)
+  }
+  
+  return arr.reduce((total, n) => total + n, 0)
+};
 ```
