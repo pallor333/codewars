@@ -7026,3 +7026,17 @@ const sequenceSum = (begin, end, step) => {
   return arr.reduce((total, n) => total + n, 0)
 };
 ```
+I didn't need to reduce at all. A more efficient solution would simply declare an integer and then add to it during the for loop. 
+
+A more efficient answer:
+```javascript
+const sequenceSum = (begin, end, step) => {
+  let sum = 0
+  for(let i = begin; i <= end; i += step){
+    sum += i
+  }
+  
+  return sum
+};
+```
+This solution doesn't even need a check for begin > end. If(begin > end), it will just return 0. Elegant.
