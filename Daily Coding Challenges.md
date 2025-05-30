@@ -7252,3 +7252,15 @@ Take a look on the test cases.
 Please keep in mind that the test cases ensure that the number of people in the bus is always >= 0. So the returned integer can't be negative.
 
 The second value in the first pair in the array is 0, since the bus is empty in the first bus stop.
+
+My answer:
+```javascript
+var number = function(busStops){
+  return busStops.reduce((total, stop) => total += stop[0] - stop[1], 0)
+}
+```
+
+Use destructuring to unpack [a,b] = [10, 0] for readability:
+```
+const number = (busStops) => busStops.reduce((rem, [on, off]) => rem + on - off, 0);
+```
