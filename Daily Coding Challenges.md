@@ -7095,5 +7095,16 @@ If you are given an array with multiple answers, return the lowest correct index
 
 My answer:
 ```javascript
+function findEvenIndex(arr){
+  const totalSum = arr.reduce((sum, n) => sum + n, 0)
+  let leftSum = 0 
+      
+  for(let i = 0; i < arr.length; i++){
+    const rightSum = totalSum - leftSum - arr[i]
+    if(leftSum === rightSum) return i
+    leftSum += arr[i]
+  }
 
+  return -1 
+}
 ```
