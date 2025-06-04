@@ -7109,30 +7109,66 @@ function findEvenIndex(arr){
 }
 ```
 
-# Integers: Recreation One (5kyu)
-`1, 246, 2, 123, 3, 82, 6, 41` are the divisors of number `246`.
+# Sum of Pairs (5kyu)
+Given a list of integers and a single sum value, return the first two values (parse from the left please) in order of appearance that add up to form the sum.
 
-Squaring these divisors we get: `1, 60516, 4, 15129, 9, 6724, 36, 1681`.
+If there are two or more pairs with the required sum, the pair whose second element has the smallest index is the solution.
 
-The sum of these squares is `84100` which is `290 * 290`.
+```python
+sum_pairs([11, 3, 7, 5],         10)
+#              ^--^      3 + 7 = 10
+== [3, 7]
 
-### Task
+sum_pairs([4, 3, 2, 3, 4],         6)
+#          ^-----^         4 + 2 = 6, indices: 0, 2 *
+#             ^-----^      3 + 3 = 6, indices: 1, 3
+#                ^-----^   2 + 4 = 6, indices: 2, 4
+#  * the correct answer is the pair whose second value has the smallest index
+== [4, 2]
 
-Find all integers between `m` and `n` (m and n are integers with 1 <= m <= n) such that the sum of their squared divisors is itself a square.
+sum_pairs([0, 0, -2, 3], 2)
+#  there are no pairs of values that can be added to produce 2.
+== None/nil/undefined/Nothing (Based on the language)
 
-We will return an array of subarrays or of tuples (in C an array of Pair) or a string.
-
-The subarrays (or tuples or Pairs) will have two elements: first the number the squared divisors of which is a square and then the sum of the squared divisors.
-
-### Example:
-
+sum_pairs([10, 5, 2, 3, 7, 5],         10)
+#              ^-----------^   5 + 5 = 10, indices: 1, 5
+#                    ^--^      3 + 7 = 10, indices: 3, 4 *
+#  * the correct answer is the pair whose second value has the smallest index
+== [3, 7]
 ```
-m =  1, n = 250 --> [[1, 1], [42, 2500], [246, 84100]]
-m = 42, n = 250 --> [[42, 2500], [246, 84100]]
+
+Negative numbers and duplicate numbers can and will appear.
+
+**NOTE:** There will also be lists tested of lengths upwards of 10,000,000 elements. Be sure your code doesn't time out.
+
+My answer: 
+```javascript
+function sumPairs(ints, s) {
+  let sumPairs = { }, min = undefined
+  ints.forEach((num, i) => 
+    ints.slice(i + 1).forEach((secondNum,idx) => {
+      if(num + secondNum === s && (min === undefined || idx < min)){
+        sumPairs[idx] = [num, secondNum]
+        min = idx
+      }
+    })
+  )
+//   console.log(sumPairs, min)
+  return sumPairs[min] || undefined 
+}
+```
+O(n^2) solution since it loops twice over the same array. Not very efficient. 
+
+O(n) solution uses a Set to store numbers as you iterate:
+```javascript
+function sumPairs(arr, s){
+  let set = new Set()
+  for(const num of arr){
+    const complement = s - num
+    if(set.has(complement)) return [complement, num]
+    set.add(num)
+  }
+  return undefined
+}
 ```
 
-The form of the examples may change according to the language, see "Sample Tests".
-
-### Note
-
-In Fortran - as in any other language - the returned string is not permitted to contain any redundant trailing whitespace: you can use dynamically allocated character strings.
