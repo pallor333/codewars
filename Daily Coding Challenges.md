@@ -7207,6 +7207,14 @@ Complete the method which accepts such an array, and returns that single differe
 ```
 
 My answer:
+```javascript
+function stray(numbers) {
+  const count = {}
+  numbers.forEach(n => count[n] ? count[n] += 1 : count[n] = 1)
+  for (const [key, value] of Object.entries(count)) {
+    if(value===1) return +key
+  }
+}
 ```
-
-```
+Time complexity: O(n) + 2 = O(n), iterate over array and then over 2 values in Object.
+Space complexity O(2) = O(1), store 2 values in Object. 
