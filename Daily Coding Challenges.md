@@ -7284,3 +7284,10 @@ If the input string is empty or the removal of the first and last items would ca
 "1,2"  =>  NULL
 ```
 
+My answer:
+```javascript
+function array(string) {
+  let arr = string.split(',')
+  return arr.length <= 2 ?  null : arr.slice(1, arr.length-1).join(' ')
+}
+```
