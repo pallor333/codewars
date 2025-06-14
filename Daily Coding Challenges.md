@@ -7291,3 +7291,46 @@ function array(string) {
   return arr.length <= 2 ?  null : arr.slice(1, arr.length-1).join(' ')
 }
 ```
+
+One liner:
+```javascript
+function array(arr){
+  return arr.split(",").slice(1,-1).join(" ") || null;
+}
+```
+
+# Remove First and Last Character (8kyu)
+It's pretty straightforward. Your goal is to create a function that removes the first and last characters of a string. You're given one parameter, the original string. You don't have to worry about strings with less than two characters.
+
+My answer: 
+```
+function removeChar(str){
+  return str.split('').slice(1, -1).join('')
+}
+```
+
+Simpler:
+```
+function removeChar(str) {
+  return str.slice(1, -1);
+}
+```
+
+# Welcome to the City (8kyu)
+Create a method that takes as input a name, city, and state to welcome a person. Note that `name` will be an array consisting of one or more values that should be joined together with one space between each, and the length of the `name` array in test cases will vary.
+
+Example:
+
+```
+['John', 'Smith'], 'Phoenix', 'Arizona'
+```
+
+This example will return the string `Hello, John Smith! Welcome to Phoenix, Arizona!`
+
+My ans:
+```javascript
+function sayHello( name, city, state ) {
+   return `Hello, ${name.join(" ")}! Welcome to ${city}, ${state}!`
+}
+
+```
