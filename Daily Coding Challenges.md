@@ -7334,3 +7334,30 @@ function sayHello( name, city, state ) {
 }
 
 ```
+
+# Find the capitals (7kyu)
+# Instructions
+
+Write a function that takes a single non-empty string of only lowercase and uppercase ascii letters (`word`) as its argument, and returns an ordered list containing the indices of all capital (uppercase) letters in the string.
+
+# Example (Input --> Output)
+
+```
+"CodEWaRs" --> [0,3,4,6]
+```
+
+My answer:
+```javascript
+var capitals = function (word) {
+  return word.split('').reduce((arr, ch, i) => {
+    if(ch === ch.toUpperCase() ) arr.push(i)
+    return arr
+  },[])
+};
+```
+
+Another ans:
+```javascript
+const capitals = word =>
+  [...word].reduce((pre, val, idx) => /[A-Z]/.test(val)? [...pre, idx] : pre, []);
+```
