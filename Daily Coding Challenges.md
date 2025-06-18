@@ -7336,11 +7336,11 @@ function sayHello( name, city, state ) {
 ```
 
 # Find the capitals (7kyu)
-# Instructions
+## Instructions
 
 Write a function that takes a single non-empty string of only lowercase and uppercase ascii letters (`word`) as its argument, and returns an ordered list containing the indices of all capital (uppercase) letters in the string.
 
-# Example (Input --> Output)
+## Example (Input --> Output)
 
 ```
 "CodEWaRs" --> [0,3,4,6]
@@ -7385,6 +7385,48 @@ So the result of function `meeting(s)` will be:
 It can happen that in two distinct families with the same family name two people have the same first name too.
 
 My answer:
+```javascript
+function meeting(s) {
+  const alpha = new Array(26).fill().map(() => [])
+  let finalStr = []
+  
+  s.toUpperCase().split(';').forEach(name => {
+      const [firstName, lastName] = name.split(':')
+      const slot = lastName.charCodeAt(0) - 'A'.charCodeAt(0)
+      alpha[slot].push(`${lastName}, ${firstName}`)
+    })
+
+  alpha.forEach(slot => {
+    if(slot.length > 0){
+      slot.sort()
+      finalStr.push(...slot)
+    }
+  })
+  
+	return `(${finalStr.join(')(')})`
+}
 ```
 
+A far more efficient/simplified function:
+```javascript
+function meeting(s) {
+  let string = s.toUpperCase().split(';')
+                .map(x => x.split(':').reverse().join(', '))
+                .sort()
+                .join(')(')
+  return '(' + string + ')'
+}
 ```
+
+# Find the odd int (6kyu)
+Given an array of integers, find the one that appears an odd number of times.
+
+There will always be only one integer that appears an odd number of times.
+
+### Examples
+
+`[7]` should return `7`, because it occurs 1 time (which is odd).  
+`[0]` should return `0`, because it occurs 1 time (which is odd).  
+`[1,1,2]` should return `2`, because it occurs 1 time (which is odd).  
+`[0,1,0,1,0]` should return `0`, because it occurs 3 times (which is odd).  
+`[1,2,2,3,3,3,4,3,3,3,2,2,1]` should return `4`, because it appears 1 time (which is odd).
