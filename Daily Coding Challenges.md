@@ -7430,3 +7430,20 @@ There will always be only one integer that appears an odd number of times.
 `[1,1,2]` should return `2`, because it occurs 1 time (which is odd).  
 `[0,1,0,1,0]` should return `0`, because it occurs 3 times (which is odd).  
 `[1,2,2,3,3,3,4,3,3,3,2,2,1]` should return `4`, because it appears 1 time (which is odd).
+
+My answer:
+```javascript
+function findOdd(A) {
+  return +Object.entries(A
+      .reduce((obj, n) => {
+        obj[n] =  (obj[n] || 0) + 1
+        return obj
+      }, {})
+     )          
+    .find( ([key, value]) => value % 2 !==0)?.[0]
+}
+```
+1) Loop over each number, either creating a value in the object or incrementing it by one. 
+2) Use Object.entries() to convert to array.
+3) .find() searches for the first value that is odd, using optional chaining to grab the key.
+4) Cast it to a num before returning
