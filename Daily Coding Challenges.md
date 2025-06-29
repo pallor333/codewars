@@ -7420,9 +7420,7 @@ function meeting(s) {
 
 # Find the odd int (6kyu)
 Given an array of integers, find the one that appears an odd number of times.
-
 There will always be only one integer that appears an odd number of times.
-
 ### Examples
 
 `[7]` should return `7`, because it occurs 1 time (which is odd).  
@@ -7447,3 +7445,124 @@ function findOdd(A) {
 2) Use Object.entries() to convert to array.
 3) .find() searches for the first value that is odd, using optional chaining to grab the key.
 4) Cast it to a num before returning
+Time Complexity: O(3n) = O(n)
+Space complexity: O(n) 
+
+A better and more succinct answer:
+```javascript
+const findOdd = (xs) => xs.reduce((a, b) => a ^ b);
+```
+XOR operator returns 1 if the bits are different, 0 if they are the same. e.g. 5 ^ 5 = 0, 7 ^ 0 = 7
+XOR-ing all numbers:
+
+- Pairs of identical numbers cancel out (`n ^ n = 0`)
+- `0 ^ oddNumber = oddNumber`
+
+So by the end, you're left with only the number that appears an odd number of times.
+```
+Given [1, 1, 2, 2, 3, 3, 5]: 
+a = 0 initially (default reduce accumulator)
+0 ^ 1 = 1
+1 ^ 1 = 0
+0 ^ 2 = 2
+2 ^ 2 = 0
+0 ^ 3 = 3
+3 ^ 3 = 0
+0 ^ 5 = 5 ✅
+```
+
+# What's the real floor (8kyu)
+Americans are odd people: in their buildings, the first floor is actually the ground floor and there is no 13th floor (due to superstition).
+
+Write a function that given a floor in the american system returns the floor in the european system.
+
+With the 1st floor being replaced by the ground floor and the 13th floor being removed, the numbers move down to take their place. In case of above 13, they move down by two because there are two omitted numbers below them.
+
+Basements (negatives) stay the same as the universal level.
+
+[More information here](https://en.wikipedia.org/wiki/Storey#European_scheme)
+
+## Examples
+
+```
+1  =>  0 
+0  =>  0
+5  =>  4
+15  =>  13
+-3  =>  -3
+```
+
+My ans:
+```javascript
+function getRealFloor(n) {
+  return n <= 0 
+          ? n  : n <= 13 
+          ? n - 1 : n - 2
+}
+```
+
+# The 'if' function (8kyu)
+Create a function called `_if` which takes 3 arguments: a value `bool` and 2 functions (which do not take any parameters): `func1` and `func2`
+
+When `bool` is truthy, `func1` should be called, otherwise call the `func2`.
+
+### Example:
+
+```javascript
+_if(true, function(){console.log("True")}, function(){console.log("false")})
+// Logs 'True' to the console.
+```
+
+My answer:
+```javascript
+function _if(bool, func1, func2) {
+  return bool ? func1() : func2()
+}
+```
+
+# Bin to Decimal (8kyu)
+Complete the function which converts a binary number (given as a string) to a decimal number.
+
+ANSWER:
+```javascript
+function binToDec(bin){
+  return parseInt(bin,2);
+}
+```
+
+# Check the exam (7kyu)
+The first input array is the key to the correct answers to an exam, like `["a", "a", "b", "d"]`. The second one contains a student's submitted answers.
+
+The two arrays are not empty and are the same length. Return the score for this array of answers, giving `+4` for each correct answer, `-1` for each incorrect answer, and `+0` for each blank answer, represented as an empty string (in C the space character is used).
+
+If the score < 0, return `0`.
+
+For example:
+
+```
+    Correct answer    |    Student's answer   |   Result         
+ ---------------------|-----------------------|-----------
+ ["a", "a", "b", "b"]   ["a", "c", "b", "d"]  →     6
+ ["a", "a", "c", "b"]   ["a", "a", "b", "" ]  →     7
+ ["a", "a", "b", "c"]   ["a", "a", "b", "c"]  →     16
+ ["b", "c", "b", "a"]   ["" , "a", "a", "c"]  →     0
+```
+
+My answer:
+```javascript
+function checkExam(array1, array2) {
+  return Math.max(
+    array1.reduce((total, answer, i) => {
+      answer === "" || array2[i] === "" ? total += 0 :
+      answer === array2[i] ? total += 4 : total -= 1
+      return total
+      }, 0)
+    , 0)
+}
+```
+
+Another answer:
+```javascript
+const checkExam = (array1, array2) =>
+  Math.max(array2.reduce((pre, val, idx) => val ? val === array1[idx] ? pre + 4 : --pre : pre, 0), 0);
+```
