@@ -7899,7 +7899,7 @@ var isAnagram = function(test, original) {
 
 ```
 
-Another ans:
+Another answer:
 ```javascript
 const isAnagram = (test, original) =>
   (fn => fn(test) === fn(original))
