@@ -7596,3 +7596,15 @@ function evaporator(content, evapPerDay, threshold) {
   return count
 }
 ```
+
+Slightly better:
+```javascript
+const evaporator = (content, evap_per_day, threshold) => {
+  let day = 0;
+  for (let vol = 100; vol >= threshold; vol *= 1 - evap_per_day / 100) {
+    day++;
+  }
+  
+  return day;
+}
+```
