@@ -7642,3 +7642,14 @@ function stairsIn20(s){
   return total * 20 
 }
 ```
+
+# Training JS #7: if..else and ternary operator
+Complete function `saleHotdogs`/, function accepts 1 parameter:`n`, n is the number of hotdogs a customer will buy, different numbers have different prices (refer to the following table), return how much money will the customer spend to buy that number of hotdogs.
+
+My answer:
+```javascript
+function saleHotdogs(n){
+  return (n < 5) ? 100 * n :
+    (n >= 5 && n < 10) ? 95 * n : 90 * n
+}
+```
