@@ -7653,3 +7653,15 @@ function saleHotdogs(n){
     (n >= 5 && n < 10) ? 95 * n : 90 * n
 }
 ```
+
+# Reversed Sequences (8kyu)
+Build a function that returns an array of integers from n to 1 where `n>0`.
+
+Example : `n=5` --> `[5,4,3,2,1]`
+
+My answer:
+```javascript
+const reverseSeq = n => {
+  return Array.from({length: n}, (v, i) => i + 1).reverse()
+};
+```
