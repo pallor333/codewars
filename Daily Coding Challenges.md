@@ -7740,3 +7740,4 @@ function twoDecimalPlaces(n) {
   return +n.toFixed(2)
 }
 ```
+# Factorial (7kyu)
