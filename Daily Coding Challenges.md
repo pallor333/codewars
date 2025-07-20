@@ -7775,3 +7775,16 @@ gimme([5, 10, 14]) => 1
 ```
 
 _10_ is the number that fits between _5_ and _14_ and the index of _10_ in the input array is _1_.
+
+My answer:
+```javascript
+function gimme (triplet) {
+  const max = Math.max(...triplet), min = Math.min(...triplet)
+  let index
+  for(let i = 0; i < triplet.length; i++){
+    if(triplet[i] !== max && triplet[i] !== min) index = i
+  }
+  return index
+}
+```
+
