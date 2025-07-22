@@ -7788,3 +7788,11 @@ function gimme (triplet) {
 }
 ```
 
+Another answer:
+```javascript
+function gimme(a) {
+  return a.indexOf(a.slice().sort(function(a, b) { return a - b })[1])
+}
+```
+slice() duplicates the array so sort will not modify the original
+# 
