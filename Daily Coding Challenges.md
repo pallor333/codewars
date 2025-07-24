@@ -7810,3 +7810,19 @@ If the input string is empty, return an empty string. The words in the input Str
 ""  -->  ""
 ```
 
+My answer:
+```javascript
+function order(words){
+  //split into arr, wordArr
+  //new array, orderedArr
+  //loop over wordArr, pushing to index
+  //return joined orderedArr
+  const wordArr = words.split(' ')
+  const orderedArr = new Array(wordArr.length)
+  wordArr.forEach(w => {
+    let idx = Number(w.split('').filter(ch => !isNaN(ch)))
+    orderedArr[idx - 1] = w
+  })
+  return orderedArr.join(' ')
+}
+```
