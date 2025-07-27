@@ -7826,3 +7826,13 @@ function order(words){
   return orderedArr.join(' ')
 }
 ```
+
+# Hex to Decimal (8 kyu)
+Complete the function which converts hex number (given as a string) to a decimal number.
+
+My answer:
+```javascript
+function hexToDec(hexString){
+  return parseInt(hexString, 16)
+}
+```
