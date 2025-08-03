@@ -7860,5 +7860,7 @@ n = 11 should return 1011
 
 My answer:
 ```javascript
-
+function toBinary(n){
+  return +n.toString(2);
+}
 ```
