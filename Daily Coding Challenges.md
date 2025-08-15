@@ -7958,3 +7958,5 @@ function getAge(inputString){
   return +inputString[0] 
 }
 ```
+
+# Count the divisors of a number (7kyu)
