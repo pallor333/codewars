@@ -7975,3 +7975,7 @@ Count the number of divisors of a positive integer `n`.
 
 Note you should only return a number, the count of divisors. The numbers between parentheses are shown only for you to see which numbers are counted in each case.
 
+My answer:
+```javascript
+
+```
