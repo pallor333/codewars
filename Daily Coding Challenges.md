@@ -8008,3 +8008,19 @@ function getDivisorsCnt(n) {
 }
 ```
 O(sqroot(n)) Divisors come in pairs.  Example: For `36`, divisors are `(1, 36), (2, 18), (3, 12), (4, 9), (6, 6)`. You only need to loop up to `√n`, because if `i` divides `n`, then `n / i` is also a divisor.
+
+# Find the position! (8kyu)
+When provided with a letter, return its position in the alphabet.
+
+Input :: "a"
+
+Output :: "Position of alphabet: 1"
+
+**Note: Only lowercased English letters are tested**
+
+My answer: 
+```javascript
+function position(letter){
+  return `Position of alphabet: ${letter.charCodeAt(0) - 'a'.charCodeAt(0) + 1}`
+}
+```
