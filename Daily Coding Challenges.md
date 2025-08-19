@@ -7977,5 +7977,34 @@ Note you should only return a number, the count of divisors. The numbers between
 
 My answer:
 ```javascript
-
+function getDivisorsCnt(n){
+  if(n===1) return 1
+  let count = 0;
+  for(let i = 1; i <= n; i++){
+      if(n % i === 0){ count++ }
+  }
+  return count
+}
 ```
+Too inefficient. Times out on Codewars. 
+
+```javascript
+function getDivisorsCnt(n) {
+  if (n === 1) return 1;
+  let count = 0;
+  
+  for (let i = 1; i * i <= n; i++) {
+    if (n % i === 0) {
+      // If divisors are equal (perfect square), count only once
+      if (i * i === n) {
+        count += 1;
+      } else {
+        count += 2; // i and n/i
+      }
+    }
+  }
+  
+  return count;
+}
+```
+O(sqroot(n)) Divisors come in pairs.  Example: For `36`, divisors are `(1, 36), (2, 18), (3, 12), (4, 9), (6, 6)`. You only need to loop up to `√n`, because if `i` divides `n`, then `n / i` is also a divisor.
