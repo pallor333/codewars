@@ -8024,3 +8024,10 @@ function position(letter){
   return `Position of alphabet: ${letter.charCodeAt(0) - 'a'.charCodeAt(0) + 1}`
 }
 ```
+
+# 5 without numbers !! (8kyu)
+```javascript
+function unusualFive() {
+  return "hello".length
+}
+```
