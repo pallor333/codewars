@@ -8057,3 +8057,10 @@ function getGrade (s1, s2, s3) {
   : avg >= 60 ? 'D' : 'F'
 }
 ```
+
+Another answer using an IIFE: 
+```javascript
+const getGrade = (s1, s2, s3) =>
+  (val => val < 60 ? `F` : val < 70 ? `D` : val < 80 ? `C` : val < 90 ? `B` : `A`)
+  ((s1 + s2 + s3) / 3);
+```
