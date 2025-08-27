@@ -8096,3 +8096,10 @@ function roundToNext5(n){
   return n
 }
 ```
+
+O(1) answer:
+```javascript
+function roundToNext5(n){
+  return Math.ceil(n/5)*5;
+}
+```
