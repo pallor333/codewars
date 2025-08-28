@@ -8105,3 +8105,35 @@ function roundToNext5(n){
 ```
 
 # Printing Array elements with Comma delimiters (8kyu)
+Input: Array of elements
+
+["h","o","l","a"]
+
+Output: String with comma delimited elements of the array in th same order.
+
+"h,o,l,a"
+
+```javascript
+function printArray(array){
+  return array.join(',')
+}
+```
+
+# Grasshopper - Terminal game combat function (8kyu)
+
+Create a combat function that takes the player's current health and the amount of damage received, and returns the player's new health. Health can't be less than **0**.****
+
+My ans:
+```javascript
+function combat(health, damage) {
+  const total = health - damage
+  return total < 0 ? 0 : total
+}
+```
+
+Another ans:
+```javascript
+function combat(health, damage) {
+  return Math.max(health - damage, 0);
+}
+```
