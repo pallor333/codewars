@@ -8254,3 +8254,17 @@ Define `String.prototype.toAlternatingCase` (or a similar function/method _such 
 
 As usual, your function/method should be pure, i.e. it should **not** mutate the original string.
 
+My answer
+```javascript
+String.prototype.toAlternatingCase = function () {
+  const uppercaseMin = 65, uppercaseMax = 90, lowercaseMin = 97, lowercaseMax = 122
+  let str = this.split('').map(c => {
+    return (c.charCodeAt(0) >= uppercaseMin && c.charCodeAt(0) <= uppercaseMax) 
+      ? String.fromCharCode(c.charCodeAt(0) + 32)
+      : (c.charCodeAt(0) >= lowercaseMin && c.charCodeAt(0) <= lowercaseMax) 
+        ? String.fromCharCode(c.charCodeAt(0) - 32)
+        : c
+  }).join('')
+  return str
+}
+```
