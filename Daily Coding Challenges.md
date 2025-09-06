@@ -8275,4 +8275,28 @@ String.prototype.toAlternatingCase = function () {
 }
 ```
 
-# 
+# Convert an array of strings to array of numbers (7kyu)
+Some really funny web dev gave you a _sequence of numbers_ from his API response as an _sequence of strings_!
+
+You need to cast the whole array to the correct type.
+
+Create the function that takes as a parameter a sequence of numbers represented as strings and outputs a sequence of numbers.
+
+ie:`["1", "2", "3"]` to `[1, 2, 3]`
+
+Note that you can receive floats as well.
+
+My answer:
+```javascript
+function toNumberArray(stringarray){
+  return stringarray.map(n => +n)
+}
+```
+
+# Switcheroo (7kyu)
+Given a string made up of letters a, b, and/or c, switch the position of letters a and b (change a to b and vice versa). Leave any incidence of c untouched.
+
+Example:
+
+'acb' --> 'bca'  
+'aabacbaa' --> 'bbabcabb
