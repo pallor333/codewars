@@ -8300,3 +8300,8 @@ Example:
 
 'acb' --> 'bca'  
 'aabacbaa' --> 'bbabcabb
+
+My answer:
+```javascript
+
+```
