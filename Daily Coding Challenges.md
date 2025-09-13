@@ -8328,5 +8328,31 @@ solve("coDE") = "code". Upper == lowercase. Change all to lowercase.
 
 My answer:
 ```javascript
-
+function solve(s){
+  const strArr = s.split('')
+  const convertLower = strArr.filter(c => {
+        const letter = c.charCodeAt(0)
+        return letter >= 'a'.charCodeAt(0) && letter <= 'z'.charCodeAt(0) 
+      })
+    .length >= s.length / 2
+  
+  return strArr.map(c => {
+    const letter = c.charCodeAt(0)
+    return convertLower ? (letter < 97 ? String.fromCodePoint(c.charCodeAt(0) + 32) : c)
+                        : (letter > 96 ? String.fromCodePoint(c.charCodeAt(0) - 32) : c)
+  }).join('')
+  
+}
+```
+My answer simplified:
+```javascript
+function solve(s){
+  const convertLower = s.split('').filter(c => {
+        const letter = c.charCodeAt(0)
+        return letter >= 'a'.charCodeAt(0) && letter <= 'z'.charCodeAt(0) 
+      })
+    .length >= s.length / 2
+  
+  return convertLower ? s.toLowerCase() : s.toUpperCase()
+}
 ```
