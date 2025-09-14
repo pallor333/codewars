@@ -8379,3 +8379,10 @@ function cubeChecker(volume, side){
   return side ** 3 === volume
 };
 ```
+
+More succinct answer:
+``` javascript
+var cubeChecker = function(v, s){
+  return s>0&&v==s*s*s;
+};
+```
