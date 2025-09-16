@@ -5076,7 +5076,7 @@ Easy case is when the list is made up of only positive numbers and the maximum s
 Empty list is considered to have zero greatest sum. Note that the empty list or array is also a valid sublist/subarray.
 
 An answer:
-```
+```javascript
 function maxSequence(arr) {
     // Edge cases: empty array or all negative numbers
     if (!arr.length || arr.every(x => x < 0)) {
@@ -5098,7 +5098,7 @@ function maxSequence(arr) {
 ```
 
 Another answer:
-```
+```javascript
 var maxSequence = function(arr) {
   let min = 0, ans = 0, i, sum = 0;
   for (i = 0; i < arr.length; ++i) {
