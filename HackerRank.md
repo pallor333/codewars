@@ -1,3 +1,60 @@
+# Staircase (Easy)
+Its base and height are both equal to
+
+. It is drawn using `#` symbols and spaces. **The last line is not preceded by any spaces.**
+
+Write a program that prints a staircase of size n.
+
+**Function Description**
+Complete the staircase function with the following parameter(s):
+- int n: an integer
+
+**Print**
+Print a staircase as described above. No value should be returned.  
+**Note**: The last line is not preceded by spaces. All lines are right-aligned.
+
+**Input Format**
+A single integer, n, denoting the size of the staircase.
+
+**Constraints**
+0 < n <= 100
+
+**Sample Input**
+6
+Sample output
+```
+-      #
+-     ##
+-    ###
+-   ####
+-  #####
+- ######
+```
+**Explanation**
+
+The staircase is right-aligned, composed of `#` symbols and spaces, and has a height and width of n = 6.
+
+My answer:
+```javascript
+//Outer loop prints vertically
+//Inner loop prints horizontally
+// 0 -> 5 spaces, 1#
+// 1 -> 4 spaces, 2#
+// 2 -> 3 spaces, 3#
+// 3 -> 2 spaces, 4#
+// 4 -> 1 space, 5#
+// 5 -> 0 space, 6#
+
+function staircase(n) {
+    for(let i = 0; i < n; i++){
+        let space = ' '.repeat(n - i - 1)
+        let stair = '#'.repeat(i + 1)
+        console.log(space + stair)
+    }
+}
+```
+
+
 
 # Counting Sort 1 (Easy)
 **Comparison Sorting**  
@@ -62,6 +119,4 @@ Each of the next n lines contains an integer arr[i] where 0 <= i < n.
 
 **Explanation**
 
-Each of the resulting values
-
-represents the number of times appeared in .
+Each of the resulting values result[i] represents the number of times i appeared in arr.
