@@ -215,3 +215,51 @@ Create hash table to hold previous values. Loop over nums array defining the tar
 In essence, we loop over our array in one direction while adding to our hash with trailing values, looking backwards in order to see if some value satisfies our target. 
 Time efficiency: O(n)
 Space efficiency: O(n)
+
+# Valid Palindrome
+Given a string `s`, return `true` if it is a **palindrome**, otherwise return `false`.
+
+A **palindrome** is a string that reads the same forward and backward. It is also case-insensitive and ignores all non-alphanumeric characters.
+
+**Note:** Alphanumeric characters consist of letters `(A-Z, a-z)` and numbers `(0-9)`.
+
+**Example 1:**
+
+```java
+Input: s = "Was it a car or a cat I saw?"
+
+Output: true
+```
+
+Explanation: After considering only alphanumerical characters we have "wasitacaroracatisaw", which is a palindrome.
+
+**Example 2:**
+
+```java
+Input: s = "tab a cat"
+
+Output: false
+```
+
+Explanation: "tabacat" is not a palindrome.
+
+**Constraints:**
+
+- `1 <= s.length <= 1000`
+- `s` is made up of only printable ASCII characters.
+
+  
+  
+>[!Text]- Recommended Time & Space Complexity
+>You should aim for a solution with `O(n)` time and `O(n)` space, where n is the size of the input array.
+  
+>[!Text]- Hint 1
+>A brute force solution would be to create a copy of the string, reverse it, and then check for equality. This would be an `O(n)` solution with extra space. Can you think of a way to do this without `O(n)` space?
+  
+>[!Text]- Hint 2
+>Can you find the logic by observing the definition of pallindrome or from the brute force solution?
+  
+>[!Text]- Hint 3
+>A palindrome string is a string that is read the same from the start as well as from the end. This means the character at the start should match the character at the end at the same index. We can use the two pointer algorithm to do this efficiently.
+
+My answer:
