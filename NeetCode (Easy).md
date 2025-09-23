@@ -263,3 +263,43 @@ Explanation: "tabacat" is not a palindrome.
 >A palindrome string is a string that is read the same from the start as well as from the end. This means the character at the start should match the character at the end at the same index. We can use the two pointer algorithm to do this efficiently.
 
 My answer:
+```javascript
+class Solution {
+    /**
+     * @param {string} s
+     * @return {boolean}
+     */
+    isAlphanumeric(c){
+        return (
+            c >= 'a' && c <= 'z' ||
+            c >= 'A' && c <= 'Z' ||
+            c >= '0' && c <= '9'
+        )
+    }
+
+    isLetter(c){
+        return (
+            c >= 'a' && c <= 'z' ||
+            c >= 'A' && c <= 'Z'
+        )
+    }
+    //Loop over s with two pointers: starting at 0 and length-1
+    //if(!isAlphanumeric(c)) l++ or r--
+    isPalindrome(s) {
+        let l = 0, r = s.length-1
+        while(l < r){
+            while(l < r && !this.isAlphanumeric(s[l])){ l++ }
+            while(l < r && !this.isAlphanumeric(s[r])){ r-- }
+  
+            let forward = s[l], backward = s[r]
+            if(this.isLetter(forward)) { forward = forward.toLowerCase() }
+            if(this.isLetter(backward)) { backward = backward.toLowerCase() }
+            if(forward !== backward) return false
+            l++
+            r--
+        }
+        return true
+    }
+
+}
+```
