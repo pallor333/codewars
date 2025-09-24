@@ -240,3 +240,104 @@ var twoSum = function(nums, target) {
 //loop over nothing found -> return false
 ```
 Remember to use for loops instead of forEach() if you want to 'return' inside of the loop. 
+
+# Merge Sorted Array
+You are given two integer arrays `nums1` and `nums2`, sorted in **non-decreasing order**, and two integers `m` and `n`, representing the number of elements in `nums1` and `nums2` respectively.
+
+**Merge** `nums1` and `nums2` into a single array sorted in **non-decreasing order**.
+
+The final sorted array should not be returned by the function, but instead be _stored inside the array_ `nums1`. To accommodate this, `nums1` has a length of `m + n`, where the first `m` elements denote the elements that should be merged, and the last `n` elements are set to `0` and should be ignored. `nums2` has a length of `n`.
+
+**Example 1:**
+
+**Input:** nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+**Output:** [1,2,2,3,5,6]
+**Explanation:** The arrays we are merging are [1,2,3] and [2,5,6].
+The result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.
+
+**Example 2:**
+
+**Input:** nums1 = [1], m = 1, nums2 = [], n = 0
+**Output:** [1]
+**Explanation:** The arrays we are merging are [1] and [].
+The result of the merge is [1].
+
+**Example 3:**
+
+**Input:** nums1 = [0], m = 0, nums2 = [1], n = 1
+**Output:** [1]
+**Explanation:** The arrays we are merging are [] and [1].
+The result of the merge is [1].
+Note that because m = 0, there are no elements in nums1. The 0 is only there to ensure the merge result can fit in nums1.
+
+**Constraints:**
+
+- `nums1.length == m + n`
+- `nums2.length == n`
+- `0 <= m, n <= 200`
+- `1 <= m + n <= 200`
+- `-109 <= nums1[i], nums2[j] <= 109`
+
+**Follow up:** Can you come up with an algorithm that runs in `O(m + n)` time?
+
+My answer:
+```javascript
+/**
+ * @param {number[]} nums1
+ * @param {number} m
+ * @param {number[]} nums2
+ * @param {number} n
+ * @return {void} Do not return anything, modify nums1 in-place instead.
+ */
+
+var merge = function(nums1, m, nums2, n) {
+    let firstPointer = m - 1, secondPointer = n - 1
+    let i = m + n - 1
+
+    // Merge while both arrays have elements left
+    while(i >= 0 && firstPointer >= 0 && secondPointer >= 0){
+        if(nums1[firstPointer] > nums2[secondPointer]){
+            nums1[i] = nums1[firstPointer]
+            firstPointer--
+        }else{
+            nums1[i] = nums2[secondPointer]
+            secondPointer--
+        }
+        i--
+    }
+    
+    // Copy any leftovers from nums2
+    while (secondPointer >= 0) {
+        nums1[i] = nums2[secondPointer];
+        secondPointer--;
+        i--;
+    }
+};
+```
+Use two pointer: we start at the end of the array using two pointers for each array as well as a third pointer to keep track of where we are in nums1. If nums1 = [1, 2, 3, 0, 0, 0] then we have a pointer at the 3 and the last 0. Each loop we compare a real element of nums1 (not the 0 placeholder) and nums2, adding whichever is greater. 
+The while loop lasts until i, firstPointer or secondPointer goes below zero. We still may run into issues where the second array isn't totally added to the array. Therefore we do another loop, copying any leftovers from nums2 into num1s. 
+
+Another solution:
+```javascript
+var merge = function(nums1, m, nums2, n) {
+    let firstPointer = m - 1, secondPointer = n - 1, current = m + n - 1
+
+    while(secondPointer >= 0){
+        if(firstPointer >= 0 && nums1[firstPointer] > nums2[secondPointer]){
+            nums1[current] = nums1[firstPointer]
+            firstPointer--
+        }else{
+            nums1[current] = nums2[secondPointer]
+            secondPointer--
+        }
+        current--
+    }
+};
+```
+This solution only requires one loop, using the secondPointer or nums2 as an end condition. The idea is that we loop until the second array is completely empty but with more streamlined logic. The first conditional checks if firstPointer >= 0 and if nums1 > nums2, adding nums1 to the array if true. The idea is that if firstPointer drops below 0, then all we have to do is add elements from num2. 
+Step by step algo:
+1) Initialize Pointers: firstPointer -> points to last element of nums1, secondPOinter -> points to last element of nums2, current -> points to last index of nums1
+2) Iterate while secondPointer is non-negative: Loop continues until all elements from nums2 have been merged into nums1
+3) Compare Elements and Merge: If firstPointer is non-negative and the element at nums1 > nums2 then place nums1 at the current index and decrement firstPointer. OTHERWISE place nums2 at the current index and decrement secondPointer
+4) Move current index to the left. 
+5) Loop ends when all elements from num2 have been placed in nums1. 
