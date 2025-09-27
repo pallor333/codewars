@@ -8387,23 +8387,20 @@ var cubeChecker = function(v, s){
 };
 ```
 
-# The old switcheroo (7kyu)
-Write a function
+# Tree Depth (7kyu)
+Write a method that takes a nested hash (object in javascript) as input and returns that hash with added "depth" keys. So, for example, the following input:
 
 ```javascript
-vowel2index(str)
+{ a: 1, b: 2, c: { d: { e: 3 } } }
 ```
 
-that takes in a string and replaces all the vowels [a,e,i,o,u] with their respective positions within that string.  
-E.g:  
+would yield the following return value:
 
 ```javascript
-vowel2index('this is my string') == 'th3s 6s my str15ng'
-vowel2index('Codewars is the best site in the world') == 'C2d4w6rs 10s th15 b18st s23t25 27n th32 w35rld'
-vowel2index('') == ''
+{ a: 1, b: 2, c: { d: { e: 3, depth: 2 }, depth: 1 }, depth: 0 }
 ```
 
-**Your function should be case insensitive to the vowels.**
+For Ruby, if the input is not a hash, then the function should return nil. For JavaScript, if the input is not an object (including an array), the function should return `null`.
 
 My answer:
 ```javascript
