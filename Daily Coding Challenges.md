@@ -8402,6 +8402,14 @@ would yield the following return value:
 
 For Ruby, if the input is not a hash, then the function should return nil. For JavaScript, if the input is not an object (including an array), the function should return `null`.
 
-My answer:
+The answer:
 ```javascript
+function recordDepth(tree, depth=0) {
+  if(!tree || tree.constructor !== Object)
+    return null;
+  tree.depth = depth;
+  for(let i in tree)
+      recordDepth(tree[i], depth+1);
+  return tree;
+}
 ```
