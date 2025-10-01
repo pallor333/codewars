@@ -8551,3 +8551,20 @@ function flip(stack) {
   return flips
 }
 ```
+
+Better answer:
+```javascript
+function flip(stack) {
+  if (stack.length < 2) return []
+  
+  const max = Math.max(...stack)
+  
+  if (stack[stack.length - 1] === max) {
+    return flip(stack.slice(0, stack.length - 1))  
+  }
+  
+  const i = stack.indexOf(max)
+  
+  return [i, stack.length - 1, ...flip(stack.slice(i+1).reverse().concat(stack.slice(0, i)))].filter(x => x);
+}
+```
