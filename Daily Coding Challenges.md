@@ -8642,6 +8642,6 @@ It is guaranteed that there will always be a unique valid answer. More precisely
 - there will be no arrays with less than 2 elements
 - there will be no arrays where all elements are equal
   
-My answer:
+My answer
 ```javascript
 ```
