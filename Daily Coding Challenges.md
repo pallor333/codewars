@@ -8644,4 +8644,44 @@ It is guaranteed that there will always be a unique valid answer. More precisely
   
 My answer
 ```javascript
+function isSortedAndHow(array) {
+  let ascendingFlag = true, descendingFlag = true
+  for(let i = 1; i < array.length; i++){
+    if(array[i] > array[i-1]) { descendingFlag = false }
+    if(array[i] < array[i-1]) { ascendingFlag = false }
+  }
+  
+  return ascendingFlag ? "yes, ascending" : 
+    descendingFlag ? "yes, descending" 
+    : "no"
+}
+```
+
+# Sum of Multiples (8kyu)
+Find the sum of all multiples of `n` below `m`
+
+## Keep in Mind
+
+- `n` and `m` are natural numbers (positive integers)
+- `m` is **excluded** from the multiples
+
+## Examples
+
+```javascript
+sumMul(2, 9)   ==> 2 + 4 + 6 + 8 = 20
+sumMul(3, 13)  ==> 3 + 6 + 9 + 12 = 30
+sumMul(4, 123) ==> 4 + 8 + 12 + ... = 1860
+sumMul(4, -7)  ==> "INVALID"
+```
+
+My answer:
+```javascript
+function sumMul(n,m){
+  let multiples = []
+  for(let i = 1; i < m; i++){
+    if(i % n === 0) multiples.push(i)
+  }
+  
+  return multiples.length === 0 ? "INVALID" : multiples.reduce((total, n) => total + n, 0) 
+}
 ```
