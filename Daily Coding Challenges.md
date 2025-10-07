@@ -8685,3 +8685,16 @@ function sumMul(n,m){
   return multiples.length === 0 ? "INVALID" : multiples.reduce((total, n) => total + n, 0) 
 }
 ```
+
+Better answer:
+```javascript
+function sumMul(n,m){
+  if (n >= m) return "INVALID";
+
+var sum = 0;
+  for (var i = n; i < m; i+=n) {
+    sum += i;
+  }
+  return sum;
+}
+```
