@@ -9841,4 +9841,24 @@ drawRace([3, 7, -2], 12)
 
 My answer:
 ```javascript
+function drawRace(indices, length) {
+  let lines = []
+  for(let i = 0; i < indices.length; i++){
+    const reindeer = indices[i], startSpaces = " ".repeat(indices.length-1-i)
+    let line = ""
+    if(reindeer > 0){
+      line = `${startSpaces}${"~".repeat(reindeer)}r${"~".repeat(length-reindeer-1)} /${i+1}`
+    }else if (reindeer < 0){
+      const before ="~".repeat(length- reindeer*-1)
+      line = `${startSpaces}${before}r${"~".repeat(length-before.length-1)} /${i+1}`
+    }
+    else{
+      line = `${startSpaces}${"~".repeat(length)} /${i+1}`
+    }
+    lines.push(line)
+
+  }
+
+  return lines.join('\n')
+}
 ```
