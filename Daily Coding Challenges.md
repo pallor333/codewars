@@ -8701,3 +8701,10 @@ var sum = 0;
 
 # Sum of angles (7kyu)
 Find the total sum of internal angles (in degrees) in an n-sided simple polygon. N will be greater than 2.
+
+My answer:
+```javascript
+function angle(n) {
+  return (n-2) * 180
+}
+```
