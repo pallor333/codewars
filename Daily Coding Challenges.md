@@ -8852,6 +8852,17 @@ Even indices 0, 2, 4, 6, so we have `"CdWr"` as the first group.
 Odd indices are 1, 3, 5, 7, so the second group is `"oeas"`.  
 And the final string to return is `"Cdwr oeas"`.
 
-### Notes
+Notes: Tested strings are at least 8 characters long.
 
-Tested strings are at least 8 characters long.
+My answer:
+```javascript
+function sortMyString(S) {
+    let even = "", odd = ""
+    for(let i = 0; i < S.length; i++){
+      i % 2 === 0 ? even += S[i] : odd += S[i] 
+    }
+    return `${even} ${odd}`;
+}
+```
+
+# Parts of a list (7kyu)
