@@ -8866,3 +8866,40 @@ function sortMyString(S) {
 ```
 
 # Parts of a list (7kyu)
+Write a function `partlist` that gives all the ways to divide a list (an array) of at least two elements into two non-empty parts.
+
+- Each two non empty parts will be in a pair (or an array for languages without tuples or a `struct`)
+- Each part will be in a string
+- Elements of a pair must be in the same order as in the original array.
+Example:
+```javascript
+a = ["az", "toto", "picaro", "zone", "kiwi"] -->
+[["az", "toto picaro zone kiwi"], ["az toto", "picaro zone kiwi"], ["az toto picaro", "zone kiwi"], ["az toto picaro zone", "kiwi"]] 
+```
+
+My answer:
+```javascript
+function partlist(arr) {
+  const combinations = []
+  for(let i = 0; i < arr.length - 1; i++){
+    combinations.push( 
+	    [arr.slice(0, i+1).join(' '), (arr.slice(i+1).join(' '))]
+	)
+  }
+  
+  return combinations
+}
+//I wish I hadn't come -> ["I", "wish", "I", "hadn't", "come"], length = 5
+//[0, 1-4], [0-1, 2-4], [0-2, 3-4], [0-3, 4]
+```
+
+A more functional approach:
+```javascript
+function partlist(arr) {
+  return arr.slice(0, -1).map((_, i) => [
+    arr.slice(0, i + 1).join(' '),
+    arr.slice(i + 1).join(' ')
+  ])
+}
+
+```
