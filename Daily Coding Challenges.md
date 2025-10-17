@@ -8903,3 +8903,41 @@ function partlist(arr) {
 }
 
 ```
+
+# Bumps in the Road (7kyu)
+Your car is old, it breaks easily. The shock absorbers are gone and you think it can handle about 15 more bumps before it dies totally.
+
+Unfortunately for you, your drive is very bumpy! Given a string showing either flat road (`_`) or bumps (`n`). If you are able to reach home safely by encountering `15 bumps or less`, return `Woohoo!`, otherwise return `Car Dead`
+
+My answer:
+```javascript
+function bump(x){
+  const bumps = x
+    .split('')
+    .reduce((total, n) =>{
+      if(n === "n"){ total += 1 }
+      return total
+    }, 0) 
+    <= 15 ? "Woohoo!" : "Car Dead"
+}
+```
+
+Better:
+```javascript
+function bump(x) {
+  const bumps = x
+    .split('')
+    .reduce((count, char) => char === 'n' ? count + 1 : count, 0);
+
+  return bumps <= 15 ? "Woohoo!" : "Car Dead";
+}
+```
+
+Best:
+```javascript
+function bump(x) {
+  return x.split('').filter(c => c === 'n').length <= 15
+    ? "Woohoo!"
+    : "Car Dead";
+}
+```
