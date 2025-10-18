@@ -8941,3 +8941,85 @@ function bump(x) {
     : "Car Dead";
 }
 ```
+
+# Consonant value (6kyu)
+Given a lowercase string that has alphabetic characters only and no spaces, return the highest value of consonant substrings. Consonants are any letters of the alphabet except `"aeiou"`.
+
+We shall assign the following values: `a = 1, b = 2, c = 3, .... z = 26`.
+
+For example, for the word "zodiac", let's cross out the vowels. We get: "z **~~o~~** d **~~ia~~** c"
+
+```
+"zodiac" -> 26
+```
+
+The consonant substrings are: `"z"`, `"d"` and `"c"` with values `"z"` = 26, `"d"` = 4 and `"c"` = 3. The highest is 26.
+
+```
+"strength" -> 57
+```
+
+The consonant substrings are: `"str"` and `"ngth"` with values `"str"` = 19 + 20 + 18 = 57 and `"ngth"` = 14 + 7 + 20 + 8 = 49. The highest is 57.
+
+My answer:
+```javascript
+function solve(s) {
+  const vowel = new Set("aeiou")
+  let arr = [], notVowel = ""
+  let maxStr = 0
+  
+  for(let i = 0; i < s.length; i++){
+    if(!vowel.has(s[i])){
+      notVowel += s[i]
+    }else{
+      if(notVowel.length > 0){
+        arr.push(notVowel)
+        notVowel = ""
+      }
+    }
+
+    if(i === s.length - 1){
+      arr.push(notVowel)
+    }
+  }
+  
+  arr.forEach(word => {
+    let score = word.split('').reduce((total,c) => total += c.charCodeAt(0) - 96, 0)
+    maxStr = Math.max(maxStr, score)
+  })
+  
+  return maxStr;
+};
+
+//"strength"
+//define variable maxStr = 0
+//split on vowels -> ['str', 'ngth']
+//iterate over elements, scoring and updating maxStr
+//return maxStr
+```
+Time complexity: O(n)
+Space complexity: O(n)
+
+A better answer:
+```javascript
+function solve(s) {
+  const vowels = new Set("aeiou");
+  let maxStr = 0;
+  let currentScore = 0;
+
+  for (const ch of s) {
+    if (!vowels.has(ch)) {
+      currentScore += ch.charCodeAt(0) - 96;
+    } else {
+      maxStr = Math.max(maxStr, currentScore);
+      currentScore = 0;
+    }
+  }
+
+  // handle case if string ends with consonants
+  maxStr = Math.max(maxStr, currentScore);
+
+  return maxStr;
+}
+```
+Time Complexity: O(n), Space Complexity: O(1)
