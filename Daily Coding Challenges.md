@@ -9046,3 +9046,14 @@ function squareDigits(num){
 //convert to num, square then back to str -> ["81", "1"]
 //concat -> 811
 ```
+
+Cleaner and slightly faster:
+```javascript
+function squareDigits(num) {
+  return +num
+    .toString()
+    .split('')
+    .map(d => d * d)
+    .join('');
+}
+```
