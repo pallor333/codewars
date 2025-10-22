@@ -9094,4 +9094,8 @@ Total cost ==> 30
 
 My answer: 
 ```javascript
+function mango(quantity, price){
+  const discount = Math.floor(quantity / 3)
+  return price * (quantity - discount)
+}
 ```
