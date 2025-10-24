@@ -9122,3 +9122,10 @@ function xor(a, b) {
   return (a || b) && !(a && b)
 }
 ```
+
+Better answer:
+```javascript
+function xor(a, b) {
+  return a != b;
+}
+```
