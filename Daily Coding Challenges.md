@@ -9129,3 +9129,14 @@ function xor(a, b) {
   return a != b;
 }
 ```
+
+# Calculate average (8kyu)
+Write a function which calculates the average of the numbers in a given array.
+**Note:** Empty arrays should return 0.
+
+My answer:
+```javascript
+function findAverage(array) {
+  return array.length === 0 ? 0 : array.reduce((tot, n) => tot += n, 0) / array.length
+}
+```
