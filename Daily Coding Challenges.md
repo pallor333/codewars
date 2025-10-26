@@ -9140,3 +9140,25 @@ function findAverage(array) {
   return array.length === 0 ? 0 : array.reduce((tot, n) => tot += n, 0) / array.length
 }
 ```
+# Duck Duck Goose (8kyu)
+Given an array of Player objects and a position (first position is 1), return the name of the chosen Player.
+name is a property of Player objects, e.g Player.name
+
+Example:
+
+duck_duck_goose([a, b, c, d], 1) should return a.name
+duck_duck_goose([a, b, c, d], 5) should return a.name
+duck_duck_goose([a, b, c, d], 4) should return d.name
+
+Random input limits:
+
+    6≤Players≤506 \le \text{Players} \le 506≤Players≤50
+    5000≤Position≤500005000 \le \text{Position} \le 500005000≤Position≤50000
+
+My answer:
+```javascript
+function duckDuckGoose(players, goose) {
+  let correctIdx = ((goose - 1) % players.length)
+  return players[correctIdx].name
+}
+```
