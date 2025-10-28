@@ -9207,5 +9207,17 @@ b = [121, 14641, 20736, 36100, 25921, 361, 20736, 361]
 
 My answer:
 ```javascript
-
+function comp(array1, array2){
+  if (!array1 || !array2 || array1.length !== array2.length) return false;
+  if(array1.length === 0)  return true 
+  
+  const sortedArr1 = array1.sort((a, b) => a - b)
+  const sortedArr2 = array2.sort((a, b) => a - b)
+  
+  for(let i = 0; i < array1.length; i++){
+    if(array1[i]**2 !== array2[i]) return false
+  }
+  
+  return true
+}
 ```
