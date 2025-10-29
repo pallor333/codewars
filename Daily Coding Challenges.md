@@ -9220,4 +9220,39 @@ function comp(array1, array2){
   
   return true
 }
+``` 
+
+More readable:
+```javascript
+function comp(array1, array2) {
+  if(array1 == null || array2 == null) return false;
+  array1.sort((a, b) => a - b); array2.sort((a, b) => a - b);
+  return array1.map(v => v * v).every((v, i) => v == array2[i]);
+}
+```
+
+# Sum of Minimums!(7kyu)
+Given a 2D ( nested ) list ( array, vector, .. ) of size `m * n`, your task is to find the sum of the minimum values in each row.
+
+For Example:
+
+```text
+[ [ 1, 2, 3, 4, 5 ]        #  minimum value of row is 1
+, [ 5, 6, 7, 8, 9 ]        #  minimum value of row is 5
+, [ 20, 21, 34, 56, 100 ]  #  minimum value of row is 20
+]
+```
+
+So the function should return `26` because the sum of the minimums is `1 + 5 + 20 = 26`.
+
+Note: You will always be given a non-empty list containing positive values.
+
+My answer:
+```javascript
+function sumOfMinimums(arr) {
+  return arr.reduce((total, n) => {
+    total += Math.min(...n)
+    return total
+  }, 0)
+}
 ```
