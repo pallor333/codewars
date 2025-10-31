@@ -9262,3 +9262,187 @@ function sumOfMinimums(arr) {
   return arr.reduce((p, c) => p + Math.min(...c), 0);
 }
 ```
+
+# Buying a car (6kyu)
+A man has a rather old car being worth $2000. He saw a secondhand car being worth $8000. He wants to keep his old car until he can buy the secondhand one.
+
+He thinks he can save $1000 each month but the prices of his old car and of the new one decrease of 1.5 percent per month. Furthermore this percent of loss increases of `0.5` percent at the end of every two months. Our man finds it difficult to make all these calculations.
+
+**Can you help him?**
+
+How many months will it take him to save up enough money to buy the car he wants, and how much money will he have left over?
+
+**Parameters and return of function:**
+
+```
+parameter (positive int or float, guaranteed) start_price_old (Old car price)
+parameter (positive int or float, guaranteed) start_price_new (New car price)
+parameter (positive int or float, guaranteed) saving_per_month 
+parameter (positive float or int, guaranteed) percent_loss_by_month
+
+nbMonths(2000, 8000, 1000, 1.5) should return [6, 766] or (6, 766)
+```
+
+#### Detail of the above example:
+
+```
+end month 1: percent_loss 1.5 available -4910.0
+end month 2: percent_loss 2.0 available -3791.7999...
+end month 3: percent_loss 2.0 available -2675.964
+end month 4: percent_loss 2.5 available -1534.06489...
+end month 5: percent_loss 2.5 available -395.71327...
+end month 6: percent_loss 3.0 available 766.158120825...
+return [6, 766] or (6, 766)
+```
+
+where `6` is the number of months at **the end of which** he can buy the new car and `766` is the nearest integer to `766.158...` (rounding `766.158` gives `766`).
+
+**Note:**
+
+Selling, buying and saving are normally done at end of month. Calculations are processed at the end of each considered month but if, by chance from the start, the value of the old car is bigger than the value of the new one or equal there is no saving to be made, no need to wait so he can at the beginning of the month buy the new car:
+
+```
+nbMonths(12000, 8000, 1000, 1.5) should return [0, 4000]
+nbMonths(8000, 8000, 1000, 1.5) should return [0, 0]
+```
+
+My answer:
+```javascript
+	function nbMonths(startPriceOld, startPriceNew, savingperMonth, percentLossByMonth){
+  let [monthsRequired, moneyLeftOver] = [0, 0]
+  let savings = 0, monthCount = 0
+  
+  while(startPriceNew > startPriceOld+savings){
+    //tracking monthly loss
+    monthCount++
+    if(monthCount===2){
+      percentLossByMonth += 0.5
+      monthCount = 0
+    }
+    
+    //increment savings & decrement prices
+    savings += savingperMonth
+    startPriceOld = startPriceOld * (1 - (percentLossByMonth/100))
+    startPriceNew = startPriceNew * (1 - (percentLossByMonth/100))
+    
+    monthsRequired++
+  }
+  moneyLeftOver = startPriceNew - (startPriceOld+savings)
+  
+  return [ monthsRequired, Math.round(Math.abs(moneyLeftOver)) ]
+}
+//Each month: +1000 in savings, old car -1.5%, new car -1.5%, every 2 months the loss increases +0.5%
+//start: old car: 2k, newcar: 8k
+//1: old: 2000*(100-1.5), new: 8000*(100-1.5), savings += 1000. savings+old >= new ? false
+```
+
+# Challenge #4: Decorating the Christmas Tree
+**It's time to put up the Christmas tree at home!** 🎄 But this year we want it to be special. We're going to create a function that receives the height of the tree (a positive integer between 1 and 100) and a special character to decorate it.
+
+The function should return a string that represents the Christmas tree, constructed as follows:
+
+- The tree is made up of triangles of special characters.
+- The spaces on the sides of the tree are represented with underscores _.
+- All trees have a trunk of two lines, represented by the # character.
+- The tree should always have the same length on each side.
+- You must ensure the tree has the correct shape using line breaks \n for each line.
+
+Examples:
+
+```javascript
+const tree = createXmasTree(5, '*')
+console.log(tree)
+/*
+____*____
+___***___
+__*****__
+_*******_
+*********
+____#____
+____#____
+*/
+
+const tree2 = createXmasTree(3, '+')
+console.log(tree2)
+/*
+__+__
+_+++_
++++++
+__#__
+__#__
+*/
+
+const tree3 = createXmasTree(6, '@')
+console.log(tree3)
+/*
+_____@_____
+____@@@____
+___@@@@@___
+__@@@@@@@__
+_@@@@@@@@@_
+@@@@@@@@@@@
+_____#_____
+_____#_____
+*/
+```
+
+Make sure to use line breaks \n at the end of each line, **except for the last one.**
+
+My answer:
+```javascript
+/**
+
+ * @param {number} height - Height of the tree
+ * @param {string} ornament - Symbol to draw
+ * @returns {string} Drawn tree
+ */
+
+function createXmasTree(height, ornament) {
+  const sides = "_", length = height * 2 - 1
+  let tree = [], midpoint = Math.floor(length/2)
+  
+  //tree actual
+  for(let i = 0; i < height; i++){
+    let [midStart, midEnd] = [midpoint - i, midpoint + i]
+    for(let j = 0; j < length; j++){
+      (j >= midStart && j <= midEnd) ? tree.push(ornament) : tree.push(sides)
+    }
+    tree.push("\n")
+  }
+
+  //trunk of tree
+  for(let i = 0; i < 2; i++){
+    for(let j = 0; j < length; j++){
+      j === midpoint ? tree.push("#") : tree.push(sides)
+    }
+    if(i === 0) tree.push("\n")
+  }
+  
+  return tree.join('')
+}
+```
+
+More efficient version:
+```javascript
+function createXmasTree(height, ornament) {
+  const side = "_", length = height * 2 - 1
+  let tree = [], midpoint = Math.floor(length/2)
+
+  //tree actual
+  for(let i = 0; i < height; i++){
+    let spaces = midpoint - i
+    const line = side.repeat(spaces) +
+      ornament.repeat(2 * i + 1) +
+      side.repeat(spaces)
+    tree.push(line + "\n")
+  }
+
+
+  //trunk of tree
+  const trunk = side.repeat(height-1) + "#" + side.repeat(height-1)
+  tree.push(trunk + "\n")
+  tree.push(trunk)
+
+  return tree.join('')
+}
+```
