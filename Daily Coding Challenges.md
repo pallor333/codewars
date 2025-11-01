@@ -9446,3 +9446,108 @@ function createXmasTree(height, ornament) {
   return tree.join('')
 }
 ```
+
+# Shoe Pairing
+**Santa Claus's elves 🧝🧝‍♂️** have found a bunch of mismatched magic boots in the workshop. Each boot is described by two values:
+
+- `type` indicates if it's a left boot (I) or a right boot (R).
+- `size` indicates the size of the boot.
+
+Your task is to help the elves pair all the boots of the same size having a left and a right one. To do this, you should return a list of the available boots after pairing them.
+
+**Note:** You can have more than one pair of boots of the same size!
+
+```javascript
+const shoes = [
+  { type: 'I', size: 38 },
+  { type: 'R', size: 38 },
+  { type: 'R', size: 42 },
+  { type: 'I', size: 41 },
+  { type: 'I', size: 42 }
+]
+
+organizeShoes(shoes)
+// [38, 42]
+
+const shoes2 = [
+  { type: 'I', size: 38 },
+  { type: 'R', size: 38 },
+  { type: 'I', size: 38 },
+  { type: 'I', size: 38 },
+  { type: 'R', size: 38 }
+]
+// [38, 38]
+
+const shoes3 = [
+  { type: 'I', size: 38 },
+  { type: 'R', size: 36 },
+  { type: 'R', size: 42 },
+  { type: 'I', size: 41 },
+  { type: 'I', size: 43 }
+]
+
+organizeShoes(shoes3)
+// []
+```
+
+My answer:
+```javascript
+/**
+ * @param {{ type: 'I' | 'R', size: number }[]} shoes
+ * @returns {number[]} Available shoes
+ */
+
+function organizeShoes(shoes) {
+  const shoeRack = {}
+  const availableShoes = []
+  
+  shoes.forEach(entry => {
+    if(!shoeRack[entry.size]){
+      shoeRack[entry.size] = {"I": 0, "R": 0}
+    }
+    shoeRack[entry.size][entry.type]++
+  })
+
+  
+  for(let key in shoeRack){
+    while(shoeRack[key]["I"] !== 0 && shoeRack[key]["R"] !== 0){
+      availableShoes.push(+key)
+      shoeRack[key]["I"]--
+      shoeRack[key]["R"]--
+    }
+  }
+
+  return availableShoes
+}
+```
+Time complexity: O(n+m) -> O(n)
+Space Complexity: O(n + m) -> O(n)
+
+Better version:
+```javascript
+function organizeShoes(shoes) {
+  const unmatched = new Map()
+  const pairs = []
+
+  for (const { type, size } of shoes) {
+    // Get current counts for this size (default to { I: 0, R: 0 })
+    const current = unmatched.get(size) || { I: 0, R: 0 }
+
+    // Try to pair immediately
+    if (type === 'I' && current.R > 0) {
+      current.R--
+      pairs.push(size)
+    } else if (type === 'R' && current.I > 0) {
+      current.I--
+      pairs.push(size)
+    } else {
+      current[type]++
+    }
+
+    unmatched.set(size, current)
+  }
+
+  return pairs
+}
+
+```
