@@ -9572,3 +9572,50 @@ function billboard(name, price = 30) {
   return name.split('').reduce((sum, letter) => sum + price, 0); 
 }
 ```
+
+# Is the gift inside the box? 
+We have already wrapped hundreds of presents 🎁… but an elf forgot to check if the present, represented by an asterisk `*`, is inside the box.
+
+The box has a present (`*`) and counts as _"inside the box"_ if:
+
+- It is completely surrounded by `#` on the box's edges.
+- The `*` is not on the box's edges.
+
+Keep in mind that the `*` can be inside, outside, or may not even be there. We must return `true` if the `*` is inside the box and `false` otherwise.
+
+**Examples:**
+
+```javascript
+inBox([
+  "###",
+  "#*#",
+  "###"
+]) // ➞ true
+
+inBox([
+  "####",
+  "#* #",
+  "#  #",
+  "####"
+]) // ➞ true
+
+inBox([
+  "#####",
+  "#   #",
+  "#  #*",
+  "#####"
+]) // ➞ false
+
+inBox([
+  "#####",
+  "#   #",
+  "#   #",
+  "#   #",
+  "#####"
+]) // ➞ false
+```
+
+My answer: 
+```javascript
+
+```
