@@ -9617,5 +9617,63 @@ inBox([
 
 My answer: 
 ```javascript
+function inBox(box) {
+  let present = false
+  const lastIdx = box.length - 1
+
+  
+  for(let i = 0; i < box.length; i++){
+    const line = box[i]
+  
+    if(i === 0 || i === lastIdx){
+      let octothropeCount = line
+          .split('')
+          .reduce((total, n) => total + (n === "#" ? 1 : 0),0)
+      if(octothropeCount !== line.length) return false
+    }else{
+      for(let j = 0; j < line.length; j++){
+        if((j === 0 || j === line.length-1) && line[j] !== "#") { return false }
+        if(line[j] === "*") { present = true}
+      }
+    }
+  }
+
+  return present
+}
+//1st and last lines check for all "#", if not return false
+//check middle for first/last chars === "#" if not return false
+//check middle for "*"
+```
+- **Time:** O(n × m) (n lines, m characters per line)
+- **Space:** O(m) (due to temporary arrays from `.split()`)
+
+```javascript
+function inBox(box) {
+  const last = box.length - 1
+  let hasPresent = false
+
+  for (let i = 0; i < box.length; i++) {
+    const line = box[i]
+    const len = line.length
+
+    // Top/bottom rows
+    if (i === 0 || i === last) {
+      for (let j = 0; j < len; j++) {
+        if (line[j] !== '#') return false
+      }
+      continue
+    }
+
+    // Check borders
+    if (line[0] !== '#' || line[len - 1] !== '#') return false
+
+    // Check for present
+    for (let j = 1; j < len - 1; j++) {
+      if (line[j] === '*') hasPresent = true
+    }
+  }
+
+  return hasPresent
+}
 
 ```
