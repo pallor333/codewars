@@ -9715,3 +9715,79 @@ class Man extends Human{}
 class Woman extends Human{}
 ```
 
+# The Grinch's attack
+The grinch 👹 has passed through Santa Claus's workshop! And what a mess he has made. He has changed the order of some packages, so shipments cannot be made.
+
+Luckily, the elf Pheralb has detected the pattern the grinch followed to jumble them. He has written the rules that we must follow to reorder the packages. The instructions are as follows:
+
+    You will receive a string containing letters and parentheses.
+    Every time you find a pair of parentheses, you need to reverse the content within them.
+    If there are nested parentheses, solve the innermost ones first.
+    Return the resulting string with parentheses removed, but with the content correctly reversed.
+
+He left us some examples:
+
+fixPackages('a(cb)de')
+// ➞ "abcde"
+// We reverse "cb" inside the parentheses
+
+fixPackages('a(bc(def)g)h')
+// ➞ "agdefcbh"
+// 1st we reverse "def" → "fed", then we reverse "bcfedg" → "gdefcb"
+
+fixPackages('abc(def(gh)i)jk')
+// ➞ "abcighfedjk"
+// 1st we reverse "gh" → "hg", then "defhgi" → "ighfed"
+
+fixPackages('a(b(c))e')
+// ➞ "acbe"
+// 1st we reverse "c" → "c", then "bc" → "cb"
+
+My answer:
+```javascript
+function fixPackages(packages) {
+  let stack = [], currentStr = ""
+
+  for(let i = 0; i < packages.length; i++){
+    //check for letter
+    if(packages.charCodeAt(i) >= 97 && packages.charCodeAt(i) <= 122){
+      currentStr += packages[i]
+    }
+    if(packages[i] === "("){
+      stack.push(currentStr)
+      currentStr = ""
+    }
+    if(packages[i] === ")"){
+      currentStr = stack.pop() + currentStr.split('').reverse().join('')
+    }
+    // console.log(stack, currentStr)
+  
+  }
+  return currentStr
+}
+```
+- When you see a normal letter, append it to the current string.
+- When you see an open parenthesis (, push the current string onto a stack, then start a new empty string.
+- When you see a close parenthesis ), reverse the current string, pop the last saved string from the stack, and concatenate them.
+
+More readable version:
+```javascript
+function fixPackages(packages) {
+  const stack = [];
+  let currentStr = '';
+
+  for (const ch of packages) {
+    if (ch === '(') {
+      stack.push(currentStr);
+      currentStr = '';
+    } else if (ch === ')') {
+      currentStr = stack.pop() + [...currentStr].reverse().join('');
+    } else {
+      currentStr += ch;
+    }
+  }
+
+  return currentStr;
+}
+
+```
