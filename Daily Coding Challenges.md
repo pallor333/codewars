@@ -9874,3 +9874,12 @@ Input will always be a string, e.g., "Friday May 2, 7pm".
 Output will be the shortened string, e.g., "Friday May 2".
 
 My answer
+```javascript
+function shortenToDate(longDate) {
+  return longDate.split(',')[0]
+}
+```
+
+# esreveR (7kyu)
+Write a function `reverse` which reverses a list (or in clojure's case, any list-like data structure)
+(the dedicated builtin(s) functionalities are deactivated)
