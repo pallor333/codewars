@@ -9838,3 +9838,7 @@ drawRace([3, 7, -2], 12)
 ~~~~~~~~~~r~ /3
 */
 ```
+
+My answer:
+```javascript
+```
