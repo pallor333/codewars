@@ -303,3 +303,110 @@ class Solution {
 
 }
 ```
+# Best Time to Buy and Sell Stock
+You are given an integer array `prices` where `prices[i]` is the price of NeetCoin on the `ith` day.
+
+You may choose a **single day** to buy one NeetCoin and choose a **different day in the future** to sell it.
+
+Return the maximum profit you can achieve. You may choose to **not make any transactions**, in which case the profit would be `0`.
+
+**Example 1:**
+
+```java
+Input: prices = [10,1,5,6,7,1]
+
+Output: 6
+```
+
+Explanation: Buy `prices[1]` and sell `prices[4]`, `profit = 7 - 1 = 6`.
+
+**Example 2:**
+
+```java
+Input: prices = [10,8,7,5,2]
+
+Output: 0
+```
+
+Explanation: No profitable transactions can be made, thus the max profit is 0.
+
+**Constraints:**
+
+- `1 <= prices.length <= 100`
+
+My answer:
+```javascript
+class Solution {
+    /**
+     * @param {number[]} prices
+     * @return {number}
+     */
+
+    maxProfit(prices) {
+        let min = prices[0], maxProfit = 0
+        for(let price of prices){
+            min = Math.min(min, price)
+            maxProfit = Math.max(maxProfit, price - min)
+        }
+
+        return maxProfit
+    }
+}
+
+//input: array of numbers, output: one number of max profit
+//loop over arr
+//keep track of min
+//keep track of current - min => max
+//return max or 0
+```
+# Linked List Cycle Detection
+Given the beginning of a linked list `head`, return `true` if there is a cycle in the linked list. Otherwise, return `false`.
+
+There is a cycle in a linked list if at least one node in the list can be visited again by following the `next` pointer.
+
+Internally, `index` determines the index of the beginning of the cycle, if it exists. The tail node of the list will set it's `next` pointer to the `index-th` node. If `index = -1`, then the tail node points to `null` and no cycle exists.
+
+**Note:** `index` is **not** given to you as a parameter.
+
+**Example 1:**
+```javascript
+Input: head = [1,2,3,4], index = 1
+Output: true
+```
+Explanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).
+
+**Example 2:**
+```javascript
+Input: head = [1,2], index = -1
+Output: false
+```
+
+**Constraints:**
+- `1 <= Length of the list <= 1000`.
+- `-1000 <= Node.val <= 1000`
+- `index` is `-1` or a valid index in the linked list.
+
+My answer:
+```javascript
+class Solution {
+    /**
+     * @param {ListNode} head
+     * @return {boolean}
+     */
+    hasCycle(head) {
+        if(!head) return false
+        let slow = head, fast = head
+        while(fast && fast.next){
+            slow = slow.next
+            fast = fast.next.next
+            if(slow === fast) return true
+        }
+        return false
+    }
+}
+//input: head, output: true/false
+//two pointers at head, slow and fast
+//while(fast != null), set slow to next and fast to next+next
+//if slow is ever === fast, return false
+//outside of while loop return true
+```
