@@ -9933,3 +9933,49 @@ function sortGiftCode(code){
   return sortedStr
 }
 ```
+Time complexity: O(n): Loop over the string twice O(2n) simplifies to O(n)
+Space complexity: O(n): O(n) + O(26) simplifies to O(n)
+
+More efficient solution:
+```js
+function countingBuf(code){
+  const cnt = new Uint8Array(26);
+  for(let i=0;i<code.length;++i) cnt[code.charCodeAt(i)-97]++;
+  const out = new Uint8Array(code.length);
+  let pos = 0;
+  for(let c=0;c<26;++c){
+    const ch = c+97;
+    for(let n=cnt[c];n-- >0;) out[pos++] = ch; //check n>0 before decrement
+  }
+  return String.fromCharCode(...out);
+}
+```
+Optimizations:
+- Uint8Array is a typed array that JavaScript gives us for raw bytes. Every element is an unsigned 8-bit integer (0-255). Stored in contiguous native memory, so reading/writing is much faster than a normal Array of “JavaScript numbers”. You can turn it straight back into a string with `String.fromCharCode(...array)`.
+- Allocate **exactly** `code.length` bytes. 
+- Builds result without slow string concatenation.
+
+We require the pointer ```pos``` because we are not writing at the same index as the letter ```c```. Without it, we would rewrite if we had duplicate letters. If there were no dupes we could just write 
+```js
+out[c] = ch;   // only valid when cnt[c] ≤ 1
+```
+
+
+Using built-in sort:
+```js
+function splitSort(code){
+  return code.split('').sort().join('');
+}
+```
+
+**Typical results on Node 20, Apple M1 (times in micro-seconds per call):**
+--- 1 000 000 runs on "abcdefghijklmnopqrstuvwxyz" (26 chars) ---
+countingStr    0.18 µs per call
+countingBuf    0.07 µs per call
+splitSort      0.11 µs per call
+--- 100 000 runs on 1000-char string ---
+countingStr    6.40 µs per call
+countingBuf    1.90 µs per call
+splitSort     11.30 µs per call
+
+# 
