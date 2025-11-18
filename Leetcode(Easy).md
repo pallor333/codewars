@@ -487,6 +487,24 @@ var maxProfit = function(prices) {
 ```
 Using greedy algo. Create two variables, one to keep track of the lowest price and one to keep track of the max profit. Scan from left to right, updating both lowest price seen and maximum profit gained from selling. 
 
+```javascript
+maxProfit(prices) {
+	let min = prices[0], maxProfit = 0
+	for(let price of prices){
+		min = Math.min(min, price)
+		maxProfit = Math.max(maxProfit, price - min)
+	}
+
+	return maxProfit
+}
+    
+//input: array of numbers, output: one number of max profit
+//loop over arr
+//keep track of min
+//keep track of current - min => max
+//return max or 0
+```
+
 # Palindrome Number
 Given an integer `x`, return `true` _if_ `x` _is a palindrome_, and_ `false` _otherwise_.
 
