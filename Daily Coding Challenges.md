@@ -10005,5 +10005,13 @@ Find the sum of the odd numbers within an array, after cubing the initial intege
 
 My answer: 
 ```js
+function cubeOdd(arr) {
+  let sum  = 0
+  for(n of arr){
+    if(!Number.isInteger(n)) return undefined
+    if( n ** 3 % 2 !== 0 ){ sum += n ** 3}
+  }
 
+  return sum
+}
 ```
