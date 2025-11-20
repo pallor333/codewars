@@ -10036,3 +10036,24 @@ function addLength(str) {
 return str.split(' ').map(word => `${word} ${word.length}`)  
 }  
 ```
+
+# Is there a vowel in there? (8kyu)
+Given an array of numbers, check if any of the numbers are the character codes for lower case vowels (`a, e, i, o, u`).
+
+If they are, change the array value to a string of that vowel.
+
+`input [100,100,116,105,117,121]=>[100,100,116,"i","u",121] output` Return the resulting array.
+
+My answer
+```js
+function isVow(a){
+  const vowels = new Set(['a','e','i','o','u'])
+  return a.map(el => {
+    if(vowels.has( String.fromCodePoint(el) )){
+      return String.fromCodePoint(el)
+    }else{
+      return el
+    } 
+  })
+}
+```
