@@ -10144,7 +10144,7 @@ If the array is invalid (empty, or contains negative integers or integers with m
 - `[]` is invalid because it is empty
 - `[1, -9]` is invalid because `-9` is **not a non-negative integer**
 - `[1, 2, 33]` is invalid because `33` is **not a single-digit integer**
-My answer:
+My (nonworking) answer:
 ```js
 function upArray(arr){
   if(!arr) return undefined
@@ -10161,3 +10161,40 @@ function upArray(arr){
   return plusOneArr
 }
 ```
+
+My (working) answer:
+```js
+function upArray(arr){
+  if(!arr || arr.length === 0) return null
+  
+  for(let num of arr){
+    if(num < 0 || num > 9) return null
+  }
+  
+  arr[arr.length - 1]++
+  let tenFlag = false
+  
+  for(let i = arr.length -1 ; i >= 0; i--){
+    if(tenFlag === true){
+      arr[i]++
+      tenFlag = false
+    }
+    
+    if(arr[i] === 10){ 
+      tenFlag = true
+      arr[i] = 0
+      if(i === 0){ arr.unshift(1) }
+    }
+  }
+  
+  return arr
+}
+
+// Try incrementing the array digit-by-digit, starting from the end — the same way you add 1 by hand.
+// Start from the last index.
+// Add 1.
+// If a digit becomes 10, turn it into 0 and carry to the next.
+// If you carry past index 0, prepend 1.
+```
+Time complexity: O(n)
+Space complexity: O(1)
