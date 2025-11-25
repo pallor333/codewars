@@ -10146,5 +10146,18 @@ If the array is invalid (empty, or contains negative integers or integers with m
 - `[1, 2, 33]` is invalid because `33` is **not a single-digit integer**
 My answer:
 ```js
+function upArray(arr){
+  if(!arr) return undefined
+  
+  for(let num of arr){
+    if(num < 0 || num > 9) return undefined
+  }
+  
+  const arrStr = arr.join('')
+  const arrStrPlusOne = +arrStr + 1
+  const plusOneArr = arrStrPlusOne.toString().split('').map(c => +c)
+  console.log(arrStr, arrStrPlusOne, plusOneArr)
 
+  return plusOneArr
+}
 ```
