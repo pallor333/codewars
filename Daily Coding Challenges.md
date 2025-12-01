@@ -10460,3 +10460,59 @@ function updateLight(current) {
          }[current]
 }
 ```
+
+# Color Ghost (8kyu)
+Create a class Ghost
+
+Ghost objects are instantiated without any arguments.
+
+Ghost objects are given a random color attribute of "white" or "yellow" or "purple" or "red" when instantiated
+
+```javascript
+ghost = new Ghost();
+ghost.color //=> "white" or "yellow" or "purple" or "red"
+```
+
+Answer:
+```js
+var Ghost = function() {
+  var colors = ["white", "yellow", "purple", "red"];
+  var colorIndex = Math.floor(Math.random() * (colors.length));
+  this.color = colors[colorIndex];
+};
+```
+
+Better:
+```js
+class Ghost {
+  constructor() {
+    this.color = [`red`, `yellow`, `purple`, `white`][Math.random() * 4 ^ 0];
+  }
+}
+```
+
+Following format of given answer:
+```js
+var Ghost = function() {
+  this.color = ["white","yellow","purple","red"][Math.floor(Math.random() * 4)];
+};
+```
+
+# Exclamation marks series #2: Remove all exclamation marks from the end of sentence (8kyu)
+Remove all exclamation marks from the end of sentence.
+
+### Examples
+
+```
+"Hi!"     ---> "Hi"
+"Hi!!!"   ---> "Hi"
+"!Hi"     ---> "!Hi"
+"!Hi!"    ---> "!Hi"
+"Hi! Hi!" ---> "Hi! Hi"
+"Hi"      ---> "Hi"
+```
+
+My answer:
+```js
+
+```
