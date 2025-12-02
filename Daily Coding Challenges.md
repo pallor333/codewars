@@ -10514,5 +10514,15 @@ Remove all exclamation marks from the end of sentence.
 
 My answer:
 ```js
-
+function remove(string) {  
+  let lastCharIdx = 0
+  for(let i = 0; i < string.length; i++){
+    let c = string.charCodeAt(i)
+    if( (c >= 97 && c <= 122) || (c >= 65 && c <= 90) ){
+      lastCharIdx = i
+    }
+  }
+  
+  return string.slice(0, lastCharIdx+1)
+}
 ```
