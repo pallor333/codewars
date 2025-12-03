@@ -10526,3 +10526,13 @@ function remove(string) {
   return string.slice(0, lastCharIdx+1)
 }
 ```
+
+Answer using regex:
+```js
+const remove = s => s.replace(/!+$/, '');
+```
+
+# Classy Classes (8kyu)
+Your task is to complete this Class, the Person class has been created. You must fill in the Constructor method to accept a name as string and an age as number, complete the get Info property and getInfo method/Info getter which should return `johns age is 34`
+
+Reference: [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
